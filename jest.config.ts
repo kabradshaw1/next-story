@@ -6,6 +6,6 @@ const config: Config.InitialOptions = {
 };
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'ts-node', // Use 'jsdom' for browser-like environments
+  testEnvironment: 'node', // Use 'jsdom' for browser-like environments
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'], // Jest setup file
 };
