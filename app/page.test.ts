@@ -10,6 +10,8 @@ describe('page', () => {
       );
     }),
   );  
+  beforeAll(() => server.listen());
+  
   it('should test the page', async () => {
     const value = 1;
     expect(value).toBe(1);

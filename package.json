@@ -10,9 +10,17 @@
     "test": "NODE_ENV=test jest --config jest.config.ts"
   },
   "dependencies": {
+    "@apollo/client": "^3.9.10",
+    "@reduxjs/toolkit": "^2.2.3",
+    "jwt-decode": "^4.0.0",
     "next": "14.1.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.2",
+    "react-icon": "^1.0.0",
+    "react-redux": "^9.1.0",
+    "redux-persist": "^6.0.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@testing-library/react": "^14.2.2",
