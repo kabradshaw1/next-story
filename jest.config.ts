@@ -1,16 +1,24 @@
-import { Config } from '@jest/types';
+// jest.config.ts
+import nextJest from 'next/jest';
 
-const config: Config.InitialOptions = {
-  roots: ['<rootDir>'],
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom', // Changed to 'jsdom' for frontend tests
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'], // Jest setup file
-  moduleNameMapper: {
-    '^@components/(.*)$': '<rootDir>/components/$1',
-  },
+const createJestConfig = nextJest({
+  dir: './',
+});
+
+const customJestConfig = {
+  moduleDirectories: ['node_modules', '<rootDir>/'],
+  testEnvironment: 'jest-environment-jsdom',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/cypress/'],
   transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.test.json'
+    }
   },
 };
 
-export default config;
+export default createJestConfig(customJestConfig);
