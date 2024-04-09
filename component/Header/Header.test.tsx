@@ -1,15 +1,21 @@
+import { render } from "@testing-library/react";
+import Header from "./Header";
+
 describe('Header', () => {
+  beforeEach(() => {
+    render(<Header />);
+  });
   describe('Contents', () => {
-    describe('drop downs', () => {
-      describe('account', () => {
-        it('given_when_then', () => {
+    describe('Drop Downs', () => {
+      describe('Account Dropdown', () => {
+        it('given_whenLoggedIn_thenShowUsernameInDropdown', () => {
           // given
           
           // when
           
           // then
         });
-        it('given_when_then', () => {
+        it('given_whenMouseOver_thenShowAccount', () => {
           // given
           
           // when
