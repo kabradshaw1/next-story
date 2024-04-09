@@ -65,5 +65,34 @@ describe('login', () => {
         expect(screen.getByText(/this password is too short/i)).toBeInTheDocument();
       });
     });
+
+    it('givenValidForm_whenCheckingSubmitButton_thenButtonShouldBeEnabled', async () => {
+      // given
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/password/i);
+      await fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+      await fireEvent.change(passwordInput, { target: { value: 'password123' } });
+
+      // when
+      const submitButton = screen.getByRole('button', { name: /submit form/i });
+
+      // then
+      expect(submitButton).not.toBeDisabled();
+    });
+  });
+  describe('form submission', () => {
+    describe('failed sumbission', () => {
+      it('givenError_whenFormSubmit_thenDisplayErrorMessage', async () => {});
+      
+    });
+    
+
+  });
+  it('giveImage_whenPageLoads_thenDisplayImage', async () => {
+    // given
+    const image = screen.getByAltText(/Logo Image/i);
+    
+    // then
+    expect(image).toBeInTheDocument();
   });
 });

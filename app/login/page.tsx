@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Logo from '../component/Logo';
 
 interface LoginProps {
   email: string;
@@ -12,6 +13,7 @@ export default function Login() {
     email: Yup.string().required('Email is required').email('This email is not a valid format'),
     password: Yup.string().required('Password is required').min(6, 'This password is too short'),
   });
+
   const { register, handleSubmit, formState:{errors}, trigger } = useForm<LoginProps>(
     {resolver: yupResolver(validationSchema)}
   );
@@ -44,7 +46,7 @@ export default function Login() {
     </div>
     <div className="w-full max-w-xs">
       <div className="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-        place holder for image
+        <Logo/>
       </div>
     </div>
   </div>
