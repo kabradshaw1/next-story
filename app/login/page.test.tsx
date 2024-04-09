@@ -83,16 +83,15 @@ describe('login', () => {
   describe('form submission', () => {
     describe('failed sumbission', () => {
       it('givenError_whenFormSubmit_thenDisplayErrorMessage', async () => {});
-      
+
     });
     
 
   });
   it('giveImage_whenPageLoads_thenDisplayImage', async () => {
-    // given
+    
     const image = screen.getByAltText(/Logo Image/i);
     
-    // then
     expect(image).toBeInTheDocument();
   });
 });

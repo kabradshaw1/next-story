@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Logo from '../component/Logo';
+import Logo from '../component/Logo/Logo';
 
 interface LoginProps {
   email: string;
