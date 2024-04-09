@@ -5,6 +5,7 @@ describe('Logo', () => {
   beforeEach(() => {
     render(<Logo />);
   });
+  
   it('given_whenRendered_thenImageLoads', async () => {
     // given
 

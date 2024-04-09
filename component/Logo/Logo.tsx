@@ -12,7 +12,7 @@ const Logo: React.FC = () => {
   </div>
  )
 }
-{/* <img
+/* <img
 src={`/images/LOGO.PNG`}
 alt="Logo"
 style={{
@@ -24,5 +24,5 @@ style={{
   top: '50%',
   transform: 'translate(-50%, -50%)'
 }}
-/> */}
+/> */
 export default Logo;
