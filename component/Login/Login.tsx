@@ -1,4 +1,4 @@
-'use-client'
+'user client';
 import React from 'react';
 import * as Yup from 'yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -10,7 +10,7 @@ interface LoginProps {
   password: string;
 }
 
-export default function Login() {
+export default function LoginComponent() {
   const validationSchema = Yup.object().shape({
     email: Yup.string().required('Email is required').email('This email is not a valid format'),
     password: Yup.string().required('Password is required').min(6, 'This password is too short'),
