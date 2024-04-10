@@ -1,7 +1,7 @@
 describe('Footer', () => {
   describe('contents', () => {
     describe('cookies policy', () => {
-      it('given_when_then', () => {
+      it('given_whenMouseOver_thenDisplayMessage', () => {
         // given
         
         // when
