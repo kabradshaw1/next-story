@@ -20,17 +20,5 @@ const Logo: React.FC = () => {
   </div>
  )
 }
-/* <img
-src={`/images/LOGO.PNG`}
-alt="Logo"
-style={{
-  position: 'absolute',
-  width: '100%',
-  height: '100%',
-  objectFit: 'contain',
-  left: '50%',
-  top: '50%',
-  transform: 'translate(-50%, -50%)'
-}}
-/> */
+
 export default Logo; 

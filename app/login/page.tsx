@@ -1,3 +1,5 @@
+'use-client'
+import React from 'react';
 import * as Yup from 'yup';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -19,7 +21,7 @@ export default function Login() {
   );
 
   return (
-    <div className="flex flex-wrap justify-center items-center h-screen bg-dark-gray">
+    <main className="flex flex-wrap justify-center items-center h-screen bg-dark-gray">
       <div className="w-full max-w-lg">
         <form noValidate className="bg-gray-800 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
@@ -49,6 +51,6 @@ export default function Login() {
           <Logo/>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
