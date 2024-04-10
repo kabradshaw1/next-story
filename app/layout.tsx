@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { ApolloProvider } from '@apollo/client';
 import client from "../utils/client";
 import "./globals.css";
+import Header from "@/component/Header/Header";
+import Footer from "@/component/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +20,11 @@ export default function RootLayout({
 }>) {
   return (
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <Header />
+          {children}
+          <Footer />
+        </body>
       </html>
   );
 }

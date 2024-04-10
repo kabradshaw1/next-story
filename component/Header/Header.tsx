@@ -1,7 +1,8 @@
-const Header: React.FC = () => {
+export default function Header() {
   return (
-    <p>Header</p>
-  );
-};
-
-export default Header;
+    <div>
+      <h1>Header</h1>
+      <p>Header here</p>
+    </div>
+  )
+}
