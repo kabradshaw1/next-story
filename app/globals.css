@@ -1,7 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
+
+
+html, body {
+  font-family: 'Orbitron', sans-serif;
+}
 
 .btn {
   @apply bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-md;
@@ -16,5 +21,5 @@
 }
 
 .label {
-  @apply block text-custom-blue text-sm font-bold mb-2 font-orbitron;
+  @apply block text-custom-blue text-sm font-bold mb-2;
 }
