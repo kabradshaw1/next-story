@@ -1,4 +1,6 @@
-export default function ProductDetails( { params }: any) {
+import { notFound } from "next/navigation"
+export default function ProductDetails( { params }: { params: { productId: string } } ) {
+  
   return (
     <div>
       <h1>Product Details</h1>
