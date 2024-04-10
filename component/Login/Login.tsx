@@ -1,4 +1,4 @@
-'user client';
+'use client';
 import React from 'react';
 import * as Yup from 'yup';
 import { useForm, SubmitHandler } from 'react-hook-form';

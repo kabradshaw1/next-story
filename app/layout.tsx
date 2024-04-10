@@ -6,10 +6,13 @@ import "./globals.css";
 import Header from "@/component/Header/Header";
 import Footer from "@/component/Footer/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Galaxy Voyagers",
+  title: {
+    default: "Galaxy Voyagers",
+    template: ""
+  },
   description: "A fleet of spaceships embark on a journey to reach another habitalable planet.",
 };
 
@@ -20,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
       <html lang="en">
-        <body className={inter.className}>
+        <body>
           <Header />
           {children}
           <Footer />
