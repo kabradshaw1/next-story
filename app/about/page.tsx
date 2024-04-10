@@ -1,5 +1,7 @@
+import { Metadata } from "next"
+
 export const metadata = {
-  name: "About",
+  title: "About",
   description: "About page",
 }
 
