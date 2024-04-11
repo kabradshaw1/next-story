@@ -6,7 +6,3 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=production
-    networks:
-      - app-network
