@@ -2,9 +2,11 @@ import { render } from "@testing-library/react";
 import Header from "./Header";
 
 describe('Header', () => {
+  
   jest.mock('next/navigation', () => {
     usePathname: () => '/login'
   });
+
   beforeEach(() => {
     render(<Header />);
   });
