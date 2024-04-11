@@ -12,7 +12,6 @@ export default function Header() {
       <Link className={pathname.startsWith('/') ? 'font-bold custom-blue' : 'dark-gray'} href={"/"}>Galaxy Voyagers</Link>
       <Link className={pathname.startsWith('/login') ? 'font-bold custom-blue' : 'dark-gray'}href={"/login"}>Login</Link>
       <Link className={pathname.startsWith('/register') ? 'font-bold custom-blue' : 'dark-gray'} href={"/register"}>Register</Link>
-
     </header>
   )
 }
