@@ -1,4 +1,4 @@
-name: React Tests
+name: Next Tests
 
 on:
   push:
@@ -25,5 +25,5 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run React Tests
+      - name: Run Tests
         run: npm run test
