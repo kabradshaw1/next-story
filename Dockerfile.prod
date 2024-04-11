@@ -1,0 +1,2 @@
+# Define the base image
+FROM node:18.16-alpine3.17
