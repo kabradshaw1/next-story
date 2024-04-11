@@ -13,7 +13,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run deployment script
+      - name: SSH and Deploy to EC2
+        env:
+          EC2_SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          EC2_HOST: 52.71.151.164
+          EC2_USER: ec2-user
         run: |
-          chmod +x .github/scripts/build.sh
-          .github/scripts/build.sh
+          mkdir -p ~/.ssh
+          echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
+          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "$(cat next-story/.github/scripts/build.sh)"
+        
