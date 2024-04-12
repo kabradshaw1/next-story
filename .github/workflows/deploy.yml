@@ -1,4 +1,4 @@
-name: Next Tests
+name: Next Automated Deployment
 
 on:
   push:
