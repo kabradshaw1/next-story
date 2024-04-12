@@ -1,6 +1,8 @@
 #!/bin/bash
 set -xe
 
+  cd next-story
+  
   docker-compose -f docker-compose.prod.yml down
 
   git pull origin main
