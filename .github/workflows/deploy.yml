@@ -23,5 +23,5 @@ jobs:
           echo "$EC2_SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H "$EC2_HOST" >> ~/.ssh/known_hosts
-          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "$(cat next-story/.github/scripts/build.sh)"
+          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST "$(cat .github/scripts/build.sh)"
         
