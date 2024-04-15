@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "NODE_ENV=test jest --config jest.config.ts"
+    "test": "NODE_ENV=test jest --config jest.config.ts",
+    "watch:codegen": "graphql-codegen --config codegen.yml --watch",
+    "watch:server": "nodemon",
+    "dev:watch": "concurrently \"npm:watch:codegen\" \"npm:watch:server\""
   },
   "dependencies": {
     "@apollo/client": "^3.9.10",
