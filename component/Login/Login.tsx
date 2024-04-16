@@ -39,7 +39,7 @@ export default function LoginComponent() {
             <p className="error-message">{errors.password?.message}</p>
           </div>
           <div className="flex items-center justify-between">
-            <button type="submit" className="btn mt-2">
+            <button type="submit" className="btn">
               Submit Form
             </button>
             <p className="text-sm text-custom-blue">place holder message</p>
