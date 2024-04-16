@@ -4,5 +4,7 @@ services:
     build:
       context: .
     command: npm run dev:watch
+    volumes:
+      - ./:/app
     ports:
       - "3000:3000"

@@ -1,5 +1,5 @@
 {
-  "watch": ["graphql"],
+  "watch": ["*"],
   "ext": "graphql",
   "ignore": ["node_modules"],
   "exec": "npm run dev"
