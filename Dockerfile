@@ -11,6 +11,8 @@ COPY . .
 
 RUN npm run build
 
-RUN npm prune --omit=dev
+RUN npm prune --prduction 
+
+EXPOSE 3000
 
 CMD ["npm", "run", "start"]
