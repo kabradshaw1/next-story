@@ -9,12 +9,13 @@
       "runtimeArgs": ["--inspect"],
       "console" : "integratedTerminal",
       "skipFiles": ["<node_internals>/**"],
+      "remoteRoot": "/app",
       "serverReadyAction": {
         "action": "debugWithChrome",
         "killOnServerStop": true,
         "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
-        "webRoot": "${workspaceFolder}"
+        "webRoot": "${workspaceFolder}",
       }
     }
   ]

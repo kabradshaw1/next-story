@@ -23,3 +23,15 @@ html, body {
 .label {
   @apply block text-custom-blue text-sm font-bold mb-2;
 }
+
+.font-bold {
+  font-weight: bold;
+}
+
+.custom-blue {
+  color: #007bff; /* Specify the exact color you want */
+}
+
+.dark-gray {
+  color: #1a202c;
+}
