@@ -1,14 +1,12 @@
 "use client";
 import { useState } from "react";
-
-// This demonstrates that the layout will preserve state between navigation if it's children
-export default function AuthLayout({
+//this is similar to a layout, but the state will not be preserved between navigations
+export default function AuthTemplate({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const [input, setInput] = useState("");
-
   return (
     <div>
       <input

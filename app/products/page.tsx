@@ -8,5 +8,5 @@ export default function ProductList() {
         <li>Product 3</li>
       </ul>
     </div>
-  )
+  );
 }
