@@ -21,6 +21,8 @@
     "react/react-in-jsx-scope": "off", // Not necessary for Next.js since React 17+
     "react/prop-types": "off", // Not needed with TypeScript
     "import/no-unresolved": "error",
+    "semi": ["error", "always"],  // Enforces semicolons
+    "@typescript-eslint/semi": ["error", "always"],
     "import/order": [
       "error",
       {

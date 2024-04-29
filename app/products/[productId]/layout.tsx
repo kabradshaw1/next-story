@@ -8,5 +8,5 @@ export default function ProductLayout({
       {children}
       <h2>Featured Product</h2>
     </>
-  )
+  );
 }
