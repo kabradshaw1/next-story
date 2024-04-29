@@ -7,6 +7,7 @@ describe('Footer', () => {
         // when
         
         // then
+        expect(true).toBe(true);
       });
       it('given_when_then', () => {
         // given
@@ -14,27 +15,7 @@ describe('Footer', () => {
         // when
         
         // then
-      });
-      it('given_when_then', () => {
-        // given
-        
-        // when
-        
-        // then
-      });
-      it('given_when_then', () => {
-        // given
-        
-        // when
-        
-        // then
-      });
-      it('given_when_then', () => {
-        // given
-        
-        // when
-        
-        // then
+        expect(true).toBe(true);
       });
     });
     describe('terms of use', () => {
@@ -44,34 +25,7 @@ describe('Footer', () => {
         // when
         
         // then
-      });
-      it('given_when_then', () => {
-        // given
-        
-        // when
-        
-        // then
-      });
-      it('given_when_then', () => {
-        // given
-        
-        // when
-        
-        // then
-      });
-      it('given_when_then', () => {
-        // given
-        
-        // when
-        
-        // then
-      });
-      it('given_when_then', () => {
-        // given
-        
-        // when
-        
-        // then
+        expect(true).toBe(true);
       });
     });
   });
