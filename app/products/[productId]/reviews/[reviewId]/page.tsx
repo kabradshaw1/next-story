@@ -1,3 +1,4 @@
+"use cleint";
 import { notFound } from "next/navigation";
 
 function getRandomInt(count: number) {
