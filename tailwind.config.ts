@@ -9,11 +9,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'custom-blue': '#007bff',
-        'dark-gray': '#1a202c',
+        "custom-blue": "#007bff",
+        "dark-gray": "#1a202c",
       },
       fontFamily: {
-        'orbitron': ['Orbitron', 'sans-serif'],
+        orbitron: ["Orbitron", "sans-serif"],
       },
     },
   },

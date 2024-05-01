@@ -5,7 +5,8 @@ services:
       context: ..
       dockerfile: Dockerfile.dev
     volumes:
-      - ../:/app
+      - ../:/app:delegated
     ports:
       - "3000:3000"
       - "3001:3001"
+      - "9229:9229"
