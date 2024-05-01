@@ -1,27 +1,24 @@
 {
-	"name": "Nextjs App",
+  "name": "Nextjs App",
 
-	"dockerComposeFile": [
-		"docker-compose.yml"
-	],
+  "dockerComposeFile": ["docker-compose.yml"],
 
-	"service": "next",
+  "service": "next",
 
-	
-	"workspaceFolder": "/app",
-	
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"Orta.vscode-jest",
-				"mquandalle.graphql",
-				"dbaeumer.vscode-eslint",
-				"ms-azuretools.vscode-docker",
-				"rvest.vs-code-prettier-eslint"
-			]
-		}
-	}
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+  "workspaceFolder": "/app",
 
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Orta.vscode-jest",
+        "mquandalle.graphql",
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker",
+        "rvest.vs-code-prettier-eslint",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  }
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
 }
