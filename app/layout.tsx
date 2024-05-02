@@ -1,14 +1,7 @@
-import { ApolloProvider } from "@apollo/client";
 import type { Metadata } from "next";
-
 import "./globals.css";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-
-import client from "../utils/client"; // eslint-disable-line import/no-unresolved
 import Footer from "@/components/Footer/Footer";
 import Header from "@/components/Header/Header";
-import store, { persistor } from "@/store";
 
 export const metadata: Metadata = {
   title: {
@@ -26,19 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <ApolloProvider client={client}>
-            <body>
-              <Header />
-                <main>
-                  {children}
-                </main>
-              <Footer />
-            </body>
-          </ApolloProvider>
-        </PersistGate>
-      </Provider>
+      <body>
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

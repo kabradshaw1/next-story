@@ -16,7 +16,8 @@
         "ms-azuretools.vscode-docker",
         "rvest.vs-code-prettier-eslint",
         "bradlc.vscode-tailwindcss",
-        "rangav.vscode-thunder-client"
+        "rangav.vscode-thunder-client",
+        "Prisma.prisma"
       ]
     }
   }
