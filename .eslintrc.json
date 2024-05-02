@@ -9,17 +9,12 @@
     "plugin:import/typescript",
     "plugin:jest/recommended"
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "import",
-    "jest"
-  ],
+  "plugins": ["@typescript-eslint", "react", "import", "jest"],
   "rules": {
     "react/react-in-jsx-scope": "off", // Not necessary for Next.js since React 17+
     "react/prop-types": "off", // Not needed with TypeScript
     "import/no-unresolved": "error",
-    "semi": ["error", "always"],  // Enforces semicolons
+    "semi": ["error", "always"], // Enforces semicolons
     "@typescript-eslint/semi": ["error", "always"],
     "import/order": [
       "error",
@@ -40,13 +35,17 @@
         }
       }
     ],
-    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "ignoreRestSiblings": true }
+    ],
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error"
   },
+  "overrides": [],
   "settings": {
     "react": {
       "version": "detect"
