@@ -15,7 +15,8 @@
         "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
         "rvest.vs-code-prettier-eslint",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "rangav.vscode-thunder-client"
       ]
     }
   }
