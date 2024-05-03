@@ -7,11 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "NODE_ENV=test jest --config jest.config.ts",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "test": "NODE_ENV=test jest --config jest.config.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@prisma/client": "^5.13.0",
     "@reduxjs/toolkit": "^2.2.3",
     "client-only": "^0.0.1",
     "jwt-decode": "^4.0.0",
