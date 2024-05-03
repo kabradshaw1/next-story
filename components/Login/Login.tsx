@@ -35,7 +35,7 @@ export default function Login() {
         <div className="w-full max-w-lg">
           <form
             noValidate
-            className="bg-gray-800 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4"
+            className="card"
             onSubmit={handleSubmit((data) => console.log(data))}
           >
             <div className="mb-4">
@@ -75,7 +75,7 @@ export default function Login() {
           </form>
         </div>
         <div className="w-full max-w-xs">
-          <div className="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+          <div className="card">
             <Logo />
           </div>
         </div>
