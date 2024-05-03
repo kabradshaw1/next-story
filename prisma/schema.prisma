@@ -47,9 +47,10 @@ model Organization {
 
   fileNames FileName[]
 
-  location     Location[]
-  locationId   Int?
-  headquarters Location?  @relation(fields: [locationId], references: [id])
+  headquarters Location?  @relation("Headquarters", fields: [locationId], references: [id])
+  locations    Location[] @relation("ManyToMany")
+
+  locationId Int? @unique
 }
 
 model Location {
@@ -62,9 +63,11 @@ model Location {
   fileNames FileName[]
   scene     Scene[]
 
-  shipId       Int?
-  ship         Ship?          @relation(fields: [shipId], references: [id])
-  organization Organization[]
+  shipId Int?
+  ship   Ship? @relation(fields: [shipId], references: [id])
+
+  organizations  Organization[] @relation("ManyToMany")
+  headquartersOf Organization?  @relation("Headquarters")
 }
 
 model Ship {
