@@ -14,7 +14,99 @@ datasource db {
 }
 
 model Character {
-  id      Int       @id @default(autoincrement())
-  title   String
-  test    String
+  id        Int      @id @default(autoincrement())
+  title     String   @unique
+  text      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fileNames FileName[]
+  scene     Scene[]
+}
+
+model Scene {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique
+  text      String?
+  timeline  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fileNames  FileName[]
+  characters Character[]
+  location   Location[]
+  conflict   Conflict[]
+}
+
+model Organization {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique
+  text      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fileNames FileName[]
+
+  location     Location[]
+  locationId   Int?
+  headquarters Location?  @relation(fields: [locationId], references: [id])
+}
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique
+  text      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fileNames FileName[]
+  scene     Scene[]
+
+  shipId       Int?
+  ship         Ship?          @relation(fields: [shipId], references: [id])
+  organization Organization[]
+}
+
+model Ship {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique
+  text      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fileNames FileName[]
+  location  Location[]
+}
+
+model Conflict {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique
+  text      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fileNames FileName[]
+  scene     Scene[]
+}
+
+model FileName {
+  id             Int      @id @default(autoincrement())
+  fileName       String
+  characterId    Int?
+  sceneId        Int?
+  locationId     Int?
+  shipId         Int?
+  conflictId     Int?
+  organizationId Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  discriminator  String
+
+  // Relations
+  character    Character?    @relation(fields: [characterId], references: [id])
+  scene        Scene?        @relation(fields: [sceneId], references: [id])
+  location     Location?     @relation(fields: [locationId], references: [id])
+  ship         Ship?         @relation(fields: [shipId], references: [id])
+  conflict     Conflict?     @relation(fields: [conflictId], references: [id])
+  organization Organization? @relation(fields: [organizationId], references: [id])
 }
