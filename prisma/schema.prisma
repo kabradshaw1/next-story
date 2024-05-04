@@ -23,14 +23,14 @@ model Character {
   scene Scene[]
 
   fileNames FileName[]
+  Role      Role[]
 }
 
 model Scene {
-  id       Int     @id @default(autoincrement())
-  title    String  @unique
-  text     String?
-  timeline Int
-
+  id        Int      @id @default(autoincrement())
+  title     String   @unique
+  text      String?
+  timeline  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -41,6 +41,8 @@ model Scene {
   organization Organization[]
 
   fileNames FileName[]
+  startRole Role[]     @relation("StartScene")
+  endRole   Role[]     @relation("EndScene")
 }
 
 model Population {
@@ -60,7 +62,7 @@ model Organization {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  hierarchy Hierarchy?
+  roles Role[]
 
   conflicts    Conflict[]
   scene        Scene[]
@@ -70,11 +72,23 @@ model Organization {
   fileNames FileName[]
 }
 
-model Hierarchy {
-  id             Int          @id @default(autoincrement())
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId Int          @unique
-  structure      Json
+model Role {
+  id             Int      @id @default(autoincrement())
+  title          String
+  characterId    Int
+  organizationId Int
+  parentId       Int? // For hierarchical relationship
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  sceneStartId Int?         @unique
+  startScene   Scene?       @relation("StartScene", fields: [sceneStartId], references: [id])
+  sceneEndId   Int?         @unique
+  endScene     Scene?       @relation("EndScene", fields: [sceneEndId], references: [id])
+  character    Character    @relation(fields: [characterId], references: [id])
+  organization Organization @relation(fields: [organizationId], references: [id])
+  superior     Role?        @relation("RoleHierarchy", fields: [parentId], references: [id])
+  subordinates Role[]       @relation("RoleHierarchy")
 }
 
 model Location {

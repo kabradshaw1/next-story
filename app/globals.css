@@ -28,14 +28,6 @@ html, body {
   font-weight: bold;
 }
 
-.custom-blue {
-  color: #007bff; /* Specify the exact color you want */
-}
-
-.dark-gray {
-  color: #1a202c;
-}
-
 .card {
   @apply bg-gray-800 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4
 }

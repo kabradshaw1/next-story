@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "NODE_ENV=test jest --config jest.config.ts"
+    "test": "NODE_ENV=test jest --config jest.config.ts",
+    "db": "prisma studio"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -16,6 +17,7 @@
     "client-only": "^0.0.1",
     "jwt-decode": "^4.0.0",
     "next": "14.1.4",
+    "nodemon": "^3.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.2",
