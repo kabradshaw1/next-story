@@ -1,5 +1,3 @@
-import exp from "constants";
-
 import { Prisma } from "@prisma/client";
 
 import prisma from "../prismaClient";
@@ -48,6 +46,7 @@ describe("Character", () => {
       const input: Prisma.CharacterCreateInput = {
         title: "title",
         text: "text",
+        scene: { create: [{ title: "scene", timeline: 1 }] },
         fileNames: {
           create: [{ fileName: "example.png", discriminator: "character" }],
         },
@@ -72,6 +71,13 @@ describe("Character", () => {
       });
 
       // then
+      const organization = await prisma.organization.findFirst({
+        where: {
+          title: "New Organization",
+        },
+      });
+      const role = await prisma.role.findFirst({ where: { title: "role" } });
+      const scene = await prisma.scene.findFirst({ where: { title: "scene" } });
       expect(character).toBeDefined();
       expect(character.id).toBe(1);
       expect(character.title).toBe("title");
@@ -79,6 +85,13 @@ describe("Character", () => {
       expect(character.fileNames).toBeDefined();
       expect(character.fileNames[0].fileName).toBe("example.png");
       expect(character.createdAt).toBeInstanceOf(Date);
+      expect(organization).toBeDefined();
+      expect(role).toBeDefined();
+      expect(organization?.title).toBe("New Organization");
+      expect(role?.title).toBe("role");
+      expect(scene).toBeDefined();
+      expect(scene?.title).toBe("scene");
+      expect(scene?.timeline).toBe(1);
     });
   });
 });
