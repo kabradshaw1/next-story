@@ -23,7 +23,7 @@ model Character {
   scene Scene[]
 
   fileNames FileName[]
-  Role      Role[]
+  role      Role[]
 }
 
 model Scene {
@@ -137,7 +137,7 @@ model Conflict {
 
 model FileName {
   id             Int      @id @default(autoincrement())
-  fileName       String
+  fileName       String   @unique
   characterId    Int?
   sceneId        Int?
   locationId     Int?
