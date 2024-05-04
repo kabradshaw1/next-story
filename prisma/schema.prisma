@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -20,37 +20,61 @@ model Character {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  scene Scene[]
+
   fileNames FileName[]
-  scene     Scene[]
 }
 
 model Scene {
-  id        Int      @id @default(autoincrement())
-  title     String   @unique
-  text      String?
-  timeline  Int
+  id       Int     @id @default(autoincrement())
+  title    String  @unique
+  text     String?
+  timeline Int
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  fileNames  FileName[]
-  characters Character[]
-  location   Location[]
-  conflict   Conflict[]
+  characters   Character[]
+  location     Location[]
+  conflict     Conflict[]
+  population   Population[]
+  organization Organization[]
+
+  fileNames FileName[]
+}
+
+model Population {
+  id         Int   @id @default(autoincrement())
+  population Int
+  shipId     Int   @unique
+  ship       Ship  @relation(fields: [shipId], references: [id])
+  sceneId    Int   @unique
+  scene      Scene @relation(fields: [sceneId], references: [id])
 }
 
 model Organization {
-  id        Int      @id @default(autoincrement())
-  title     String   @unique
-  text      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  title      String   @unique
+  text       String?
+  locationId Int?     @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  fileNames FileName[]
+  hierarchy Hierarchy?
 
+  conflicts    Conflict[]
+  scene        Scene[]
   headquarters Location?  @relation("Headquarters", fields: [locationId], references: [id])
   locations    Location[] @relation("ManyToMany")
 
-  locationId Int? @unique
+  fileNames FileName[]
+}
+
+model Hierarchy {
+  id             Int          @id @default(autoincrement())
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId Int          @unique
+  structure      Json
 }
 
 model Location {
@@ -60,14 +84,15 @@ model Location {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  fileNames FileName[]
-  scene     Scene[]
+  scene Scene[]
 
   shipId Int?
   ship   Ship? @relation(fields: [shipId], references: [id])
 
   organizations  Organization[] @relation("ManyToMany")
   headquartersOf Organization?  @relation("Headquarters")
+
+  fileNames FileName[]
 }
 
 model Ship {
@@ -77,8 +102,10 @@ model Ship {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  population Population[]
+  location   Location[]
+
   fileNames FileName[]
-  location  Location[]
 }
 
 model Conflict {
@@ -88,8 +115,10 @@ model Conflict {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  scene        Scene[]
+  Organization Organization[]
+
   fileNames FileName[]
-  scene     Scene[]
 }
 
 model FileName {

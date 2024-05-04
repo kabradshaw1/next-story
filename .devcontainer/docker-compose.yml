@@ -10,3 +10,11 @@ services:
       - "3000:3000"
       - "3001:3001"
       - "9229:9229"
+  postgresql:
+    image: postgres:16.2
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: story_app
+    ports:
+      - "6000:5432"
