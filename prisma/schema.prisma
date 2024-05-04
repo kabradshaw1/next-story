@@ -65,7 +65,7 @@ model Organization {
   conflicts    Conflict[]
   scene        Scene[]
   headquarters Location?  @relation("Headquarters", fields: [locationId], references: [id])
-  locations    Location[] @relation("ManyToMany")
+  locations    Location[]
 
   fileNames FileName[]
 }
@@ -89,7 +89,7 @@ model Location {
   shipId Int?
   ship   Ship? @relation(fields: [shipId], references: [id])
 
-  organizations  Organization[] @relation("ManyToMany")
+  organizations  Organization[]
   headquartersOf Organization?  @relation("Headquarters")
 
   fileNames FileName[]

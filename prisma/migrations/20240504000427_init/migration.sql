@@ -122,7 +122,7 @@ CREATE TABLE "_LocationToScene" (
 );
 
 -- CreateTable
-CREATE TABLE "_ManyToMany" (
+CREATE TABLE "_LocationToOrganization" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
@@ -188,10 +188,10 @@ CREATE UNIQUE INDEX "_LocationToScene_AB_unique" ON "_LocationToScene"("A", "B")
 CREATE INDEX "_LocationToScene_B_index" ON "_LocationToScene"("B");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "_ManyToMany_AB_unique" ON "_ManyToMany"("A", "B");
+CREATE UNIQUE INDEX "_LocationToOrganization_AB_unique" ON "_LocationToOrganization"("A", "B");
 
 -- CreateIndex
-CREATE INDEX "_ManyToMany_B_index" ON "_ManyToMany"("B");
+CREATE INDEX "_LocationToOrganization_B_index" ON "_LocationToOrganization"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_ConflictToScene_AB_unique" ON "_ConflictToScene"("A", "B");
@@ -257,10 +257,10 @@ ALTER TABLE "_LocationToScene" ADD CONSTRAINT "_LocationToScene_A_fkey" FOREIGN 
 ALTER TABLE "_LocationToScene" ADD CONSTRAINT "_LocationToScene_B_fkey" FOREIGN KEY ("B") REFERENCES "Scene"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ManyToMany" ADD CONSTRAINT "_ManyToMany_A_fkey" FOREIGN KEY ("A") REFERENCES "Location"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_LocationToOrganization" ADD CONSTRAINT "_LocationToOrganization_A_fkey" FOREIGN KEY ("A") REFERENCES "Location"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_ManyToMany" ADD CONSTRAINT "_ManyToMany_B_fkey" FOREIGN KEY ("B") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_LocationToOrganization" ADD CONSTRAINT "_LocationToOrganization_B_fkey" FOREIGN KEY ("B") REFERENCES "Organization"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ConflictToScene" ADD CONSTRAINT "_ConflictToScene_A_fkey" FOREIGN KEY ("A") REFERENCES "Conflict"("id") ON DELETE CASCADE ON UPDATE CASCADE;
