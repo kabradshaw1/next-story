@@ -3,7 +3,9 @@ import prisma from "@/prisma/prismaClient";
 import Characters from "./Characters";
 
 export default async function CharactersPage() {
-  const characters = await prisma.character.findMany();
+  const characters = await prisma.character.findMany({
+    include: { fileNames: true },
+  });
   return (
     <div className="w-full max-w-lg">
       <div className="card">

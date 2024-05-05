@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
 
 export const makeStore = () => {
   return configureStore({
