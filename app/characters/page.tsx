@@ -1,9 +1,7 @@
 import React from "react";
 
-import prisma from "@/prisma/prismaClient";
-
 import Characters from "./Characters";
-
+import prisma from "@/prisma/prismaClient";
 
 const CharactersContainer: React.FC = async () => {
   const characters = await prisma.character.findMany({});
@@ -17,4 +15,6 @@ const CharactersContainer: React.FC = async () => {
   );
 };
 
-export default CharactersContainer;
+export default function CharactersPage() {
+  return <CharactersContainer />;
+}

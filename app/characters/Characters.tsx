@@ -1,17 +1,14 @@
+"use client";
 import React from "react"; // Ensure React is imported if using JSX
 
 import { Character } from "@prisma/client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface CharactersProps {
   characters: Character[];
 }
 
 const Characters: React.FC<CharactersProps> = ({ characters }) => {
-  const router = useRouter();
-  const route = (characterId: number) => () =>
-    router.push(`/character/${characterId}`);
-
   return (
     <>
       {characters.length > 0 ? (
@@ -19,9 +16,9 @@ const Characters: React.FC<CharactersProps> = ({ characters }) => {
           <div key={character.id} className="card">
             <h1>{character.title}</h1>
             <p>{character.text || "No text available"}</p>
-            <button className="btn" onClick={route(character.id)}>
+            <Link className="btn" href={`${character.title}`}>
               View Details
-            </button>
+            </Link>
           </div>
         ))
       ) : (

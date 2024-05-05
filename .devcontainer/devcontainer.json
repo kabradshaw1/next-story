@@ -14,11 +14,11 @@
         "mquandalle.graphql",
         "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
-        "rvest.vs-code-prettier-eslint",
         "bradlc.vscode-tailwindcss",
         "rangav.vscode-thunder-client",
         "Prisma.prisma",
-        "christian-kohler.path-intellisense"
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode"
       ]
     }
   }
