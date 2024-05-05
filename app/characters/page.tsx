@@ -1,11 +1,9 @@
-import React from "react";
-
 import prisma from "@/prisma/prismaClient";
 
 import Characters from "./Characters";
 
-const CharactersContainer: React.FC = async () => {
-  const characters = await prisma.character.findMany({});
+export default async function CharactersPage() {
+  const characters = await prisma.character.findMany();
   return (
     <div className="w-full max-w-lg">
       <div className="card">
@@ -14,8 +12,4 @@ const CharactersContainer: React.FC = async () => {
       </div>
     </div>
   );
-};
-
-export default function CharactersPage() {
-  return <CharactersContainer />;
 }
