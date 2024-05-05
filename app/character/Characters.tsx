@@ -25,7 +25,9 @@ const Characters: React.FC<CharactersProps> = ({ characters }) => {
           </div>
         ))
       ) : (
-        <div>No characters found.</div>
+        <div className="card">
+          <h1>No characters found.</h1>
+        </div>
       )}
     </>
   );
