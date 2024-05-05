@@ -2,7 +2,7 @@
 import React from "react";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type FeaturedProps = {
   category: string;
@@ -15,15 +15,10 @@ interface Props {
 }
 
 const FeaturedHP: React.FC<Props> = ({ items }) => {
-  const router = useRouter();
-
-  const handleClick = (category: string) => () => {
-    router.push(`${category}`);
-  };
   return (
     <>
       {items.map((item, index) => (
-        <div key={index} className="card mb-2 link">
+        <Link key={index} href={`${item.category}`} className="card mb-2 link">
           <Image
             src={item.image}
             alt={item.category}
@@ -32,7 +27,7 @@ const FeaturedHP: React.FC<Props> = ({ items }) => {
           />
           <h3 className="text-white">{item.category}</h3>
           <p className="text-gray-300">{item.description}</p>
-        </div>
+        </Link>
       ))}
     </>
   );

@@ -6,6 +6,7 @@
   "editor.formatOnSaveMode": "file", // required to format on save
   "files.autoSave": "onFocusChange", // optional but recommended
   "vs-code-prettier-eslint.prettierLast": false, // set as "true" to run 'prettier' last not first
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "tailwindCSS.includeLanguages": {
     "plaintext": "html"
   },

@@ -17,7 +17,8 @@
         "rvest.vs-code-prettier-eslint",
         "bradlc.vscode-tailwindcss",
         "rangav.vscode-thunder-client",
-        "Prisma.prisma"
+        "Prisma.prisma",
+        "christian-kohler.path-intellisense"
       ]
     }
   }
