@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row">
-      <div className="flex-1">
+      <div className="flex-1 mr-2">
         <section className="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
           <h2 className="text-white text-lg font-bold mb-3">
             Featured Categories
@@ -64,6 +64,9 @@ export default function Home() {
           <div className="flex flex-wrap">
             <NonFeatured items={regularCategories} />
           </div>
+        </section>
+        <section className="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+          
         </section>
       </div>
       <div className="flex-1 hidden sm:block">
