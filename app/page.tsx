@@ -1,7 +1,7 @@
 import React from "react"; // Make sure React is imported if JSX is being used.
 
 import AboutSection from "@/components/home/AboutSection/AboutSection";
-import FeaturedHP from "@/components/home/FeaturedHP/FeaturedHP";
+import FeaturedHP from "@/components/home/Featured/Featured";
 import NonFeatured from "@/components/home/NonFeatured/NonFeatured";
 
 export default function Home() {
@@ -61,7 +61,7 @@ export default function Home() {
 
         <section className="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
           <h2 className="text-white text-lg font-bold mb-3">More Categories</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex flex-wrap">
             <NonFeatured items={regularCategories} />
           </div>
         </section>

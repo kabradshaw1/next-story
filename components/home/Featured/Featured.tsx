@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type FeaturedProps = {
   category: string;
@@ -13,10 +15,15 @@ interface Props {
 }
 
 const FeaturedHP: React.FC<Props> = ({ items }) => {
+  const router = useRouter();
+
+  const handleClick = (category: string) => () => {
+    router.push(`${category}`);
+  };
   return (
     <>
       {items.map((item, index) => (
-        <div key={index} className="card mb-2 bg-slate-700">
+        <div key={index} className="card mb-2 link">
           <Image
             src={item.image}
             alt={item.category}

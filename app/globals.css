@@ -31,3 +31,16 @@ html, body {
 .card {
   @apply shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4
 }
+
+/* Add this in your global CSS file */
+.glow-on-hover {
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+.glow-on-hover:hover {
+  background-color: #1e40af; /* Adjust the color to match your theme */
+  box-shadow: 0 0 8px #fff, 0 0 20px #1e40af; /* Blue glow */
+}
+
+.link {
+  @apply bg-slate-700 hover:bg-slate-800 glow-on-hover transition duration-300
+}
