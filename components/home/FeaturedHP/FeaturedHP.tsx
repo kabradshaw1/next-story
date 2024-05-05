@@ -16,7 +16,7 @@ const FeaturedHP: React.FC<Props> = ({ items }) => {
   return (
     <>
       {items.map((item, index) => (
-        <div key={index} className="card mb-2">
+        <div key={index} className="card mb-2 bg-slate-700">
           <Image
             src={item.image}
             alt={item.category}

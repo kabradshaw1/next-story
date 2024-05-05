@@ -29,5 +29,5 @@ html, body {
 }
 
 .card {
-  @apply bg-gray-800 shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4
+  @apply shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4
 }
