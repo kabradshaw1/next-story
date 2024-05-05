@@ -1,7 +1,8 @@
 import React from "react";
 
-import Characters from "./Characters";
 import prisma from "@/prisma/prismaClient";
+
+import Characters from "./Characters";
 
 const CharactersContainer: React.FC = async () => {
   const characters = await prisma.character.findMany({});

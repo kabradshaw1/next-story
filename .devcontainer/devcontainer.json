@@ -11,14 +11,15 @@
     "vscode": {
       "extensions": [
         "Orta.vscode-jest",
-        "mquandalle.graphql",
         "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
         "bradlc.vscode-tailwindcss",
-        "rangav.vscode-thunder-client",
         "Prisma.prisma",
         "christian-kohler.path-intellisense",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "GraphQL.vscode-graphql",
+        "GraphQL.vscode-graphql-syntax",
+        "eamodio.gitlens"
       ]
     }
   }

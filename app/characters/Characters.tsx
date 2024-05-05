@@ -1,5 +1,4 @@
-"use client";
-import React from "react"; // Ensure React is imported if using JSX
+import React from "react"; 
 
 import { Character } from "@prisma/client";
 import Link from "next/link";
