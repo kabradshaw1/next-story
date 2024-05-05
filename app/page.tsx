@@ -3,6 +3,7 @@ import React from "react"; // Make sure React is imported if JSX is being used.
 import AboutSection from "@/components/home/AboutSection/AboutSection";
 import FeaturedHP from "@/components/home/Featured/Featured";
 import NonFeatured from "@/components/home/NonFeatured/NonFeatured";
+import Tools from "@/components/home/Tools/Tools";
 
 export default function Home() {
   const categories = [
@@ -66,7 +67,7 @@ export default function Home() {
           </div>
         </section>
         <section className="bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-          
+          <Tools />
         </section>
       </div>
       <div className="flex-1 hidden sm:block">

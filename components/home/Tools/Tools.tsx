@@ -1,63 +1,42 @@
 const Tools: React.FC = () => {
   return (
     <>
-      <div className="flex flex-col xl:flex-row items-center justify-between">
-        <div className="flex-grow">
-          <h1 className="text-white text-xl xl:text-2xl font-bold mb-4">
-            About Galaxy Voyagers
-          </h1>
-          <p className="text-gray-300 text-sm xl:text-base mb-3">
-            Welcome to a revolutionary new platform for storytelling where
-            imagination meets the infinite possibilities of collaboration. Our
-            web application, designed for those who relish long, complex, and
-            ever-evolving narratives, is not just a tool but a universe unto
-            itself. Set half a million years into the future, it offers a canvas
-            for storytellers to weave tales about a fleet of interstellar ships
-            embarking on a 10,000-year voyage to a habitable star. Here, human
-            civilization has transcended the constraints of mortality, creating
-            societies fraught with the challenges of overpopulation and diverse
-            socio-political responses to it.
-          </p>
-        </div>
-      </div>
-
       <div className="flex-grow">
         <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
-          Unique Features of this site
+          Tools and Resources
         </h2>
+        <h3 className="text-white text-xl md:text-2xl font-bold mb-4">
+          Interactive World-Building Tools
+        </h3>
         <p className="text-gray-300 text-sm md:text-base mb-3">
-          At its core, our application thrives on the power of collective
-          creativity. Users can contribute their unique stories, characters,
-          conflicts, and settings. Whether you are a novice writer or an
-          experienced novelist, your voice is valuable in shaping this expansive
-          universe. Each contribution feeds into a larger narrative, painting a
-          rich tapestry of interconnected stories.
+          Our platform provides advanced tools to help users create detailed
+          maps of ships, intricate political systems, and compelling characters.
+          These tools are designed to ensure that even the most complex
+          contributions can be seamlessly integrated into the existing story
+          framework.
         </p>
       </div>
       <div className="flex-grow">
-        <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
-          Community Governance
-        </h2>
+        <h3 className="text-white text-xl md:text-2xl font-bold mb-4">
+          Real-Time Collaboration Features
+        </h3>
         <p className="text-gray-300 text-sm md:text-base mb-3">
-          The community plays a pivotal role in determining the course of the
-          narrative. Through a democratic process, contributors can vote on
-          which aspects of the story become canon. This ensures that while
-          individual creativity is celebrated, the overarching narrative remains
-          cohesive and engaging.
+          To foster a truly collaborative environment, our application includes
+          features such as real-time editing, chat rooms, and forums. These
+          tools enable users to discuss ideas, coordinate storylines, and refine
+          contributions together, enhancing the collaborative experience.
         </p>
       </div>
       <div className="flex-grow">
-        <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
-          Dynamic Setting
-        </h2>
+        <h3 className="text-white text-xl md:text-2xl font-bold mb-4">
+          Inspiration and Guidance
+        </h3>
         <p className="text-gray-300 text-sm md:text-base mb-3">
-          Set on a fleet of 400 diverse ships, each vessel has its own unique
-          culture, conflicts, and characteristics. These ships serve not just as
-          settings but as characters in their own right, each contributing to
-          the narrative&apos;s depth and complexity. From governmental ships
-          with strict reproductive laws to rebellious vessels embroiled in
-          constant conflict, the settings are as varied as the stories they
-          inspire.
+          For those looking for inspiration, the application offers a rich
+          library of existing stories, character profiles, and world-building
+          elements. Additionally, tutorials and guidelines on effective
+          storytelling and world-building are readily available to assist both
+          new and experienced writers.
         </p>
       </div>
     </>
