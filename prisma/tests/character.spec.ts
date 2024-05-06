@@ -40,56 +40,53 @@ describe("Character", () => {
   });
 
   it("givenProperlyFormatted_whenCreate_thenCharacterCreated", async () => {
-    // given
+    // Create a scene first to be used in the character creation
     const scene = await prisma.scene.create({
       data: { title: "scene", timeline: 1 },
     });
 
+    // Create an organization to be used when creating a role
+    const organization = await prisma.organization.create({
+      data: { title: "New Organization" },
+    });
+
+    // Create a role and connect it to the previously created organization
     const role = await prisma.role.create({
       data: {
         title: "role",
-        organization: { create: { title: "New Organization" } },
+        organizationId: organization.id,
       },
     });
 
-    const input: Prisma.CharacterCreateInput = {
+    // Prepare the input for character creation
+    const input = {
       title: "title",
       text: "text",
-      scene: { connect: [{ title: "scene", timeline: 1 }] },
+      scenes: { connect: { id: scene.id } }, // Connect the existing scene
       fileNames: {
         create: [{ fileName: "example.png", discriminator: "character" }],
       },
-      role: {
-        create: [
-          {
-            title: "role",
-            organization: {
-              create: {
-                title: "New Organization",
-              },
-            },
-          },
-        ],
+      roles: {
+        connect: [{ id: role.id }], // Connect the existing role
       },
     };
 
-    // when
+    // Create the character and include related models in the result
     const character = await prisma.character.create({
       data: input,
-      include: { fileNames: true, role: true, scene: true },
+      include: { fileNames: true, roles: true, scenes: true },
     });
 
-    // then
-
-    expect(character.id).toBe(1);
+    // Assertions to verify the correct creation and linking of the character
+    expect(character.id).toBeDefined(); // As ID is auto-incremented, check if it's defined
     expect(character.title).toBe("title");
     expect(character.text).toBe("text");
     expect(character.fileNames[0].fileName).toBe("example.png");
     expect(character.createdAt).toBeInstanceOf(Date);
-    expect(character.role[0].organizationId).toBe(1);
-    expect(character.role[0].title).toBe("role");
-    expect(character.scene[0].title).toBe("scene");
-    expect(character.scene[0].timeline).toBe(1);
+    expect(character.roles[0].organizationId).toBe(organization.id);
+    expect(character.roles[0].title).toBe("role");
+    expect(character.scenes[0].title).toBe("scene");
+    expect(character.scenes[0].timeline).toBe(1);
   });
 
   it("givenExistingCharacters_whenFindMany_thenCharactersFound", async () => {
