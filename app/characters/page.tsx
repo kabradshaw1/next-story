@@ -1,6 +1,6 @@
 import prisma from "@/prisma/prismaClient";
 
-import Characters from "./Characters";
+import Characters from "../../components/main/Lists";
 
 export default async function CharactersPage() {
   const characters = await prisma.character.findMany({
