@@ -41,10 +41,21 @@ describe("Character", () => {
 
   it("givenProperlyFormatted_whenCreate_thenCharacterCreated", async () => {
     // given
+    const scene = await prisma.scene.create({
+      data: { title: "scene", timeline: 1 },
+    });
+
+    const role = await prisma.role.create({
+      data: {
+        title: "role",
+        organization: { create: { title: "New Organization" } },
+      },
+    });
+
     const input: Prisma.CharacterCreateInput = {
       title: "title",
       text: "text",
-      scene: { create: [{ title: "scene", timeline: 1 }] },
+      scene: { connect: [{ title: "scene", timeline: 1 }] },
       fileNames: {
         create: [{ fileName: "example.png", discriminator: "character" }],
       },

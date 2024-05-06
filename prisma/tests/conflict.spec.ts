@@ -62,4 +62,20 @@ describe("Conflict", () => {
     expect(conflict.fileNames[0].fileName).toBe("example.png");
     expect(conflict.fileNames[0].discriminator).toBe("organization");
   });
+  it("givenExistingConflict_whenFindMany_thenConflictFound", async () => {
+    //given conflict made in create test
+    //when
+    const conflicts = await prisma.conflict.findMany({
+      include: { scene: true, organization: true, fileNames: true },
+    });
+    //then
+    expect(conflicts[0].title).toBe("title");
+    expect(conflicts[0].text).toBe("text");
+    expect(conflicts[0].scene[0].title).toBe("scene");
+    expect(conflicts[0].scene[0].timeline).toBe(1);
+    expect(conflicts[0].organization[0].title).toBe("org 1");
+    expect(conflicts[0].organization[1].title).toBe("org 2");
+    expect(conflicts[0].fileNames[0].fileName).toBe("example.png");
+    expect(conflicts[0].fileNames[0].discriminator).toBe("organization");
+  });
 });

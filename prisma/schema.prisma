@@ -21,9 +21,9 @@ model Character {
   updatedAt DateTime @updatedAt
 
   scene Scene[]
+  roles CharacterRoles[]
 
   fileNames FileName[]
-  role      Role[]
 }
 
 model Scene {
@@ -34,15 +34,14 @@ model Scene {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  characters   Character[]
-  location     Location[]
-  conflict     Conflict[]
-  population   Population[]
-  organization Organization[]
+  characters    Character[]
+  location      Location[]
+  conflict      Conflict[]
+  population    Population[]
+  organization  Organization[]
+  characterRole CharacterRoles[]
 
   fileNames FileName[]
-  startRole Role[]     @relation("StartScene")
-  endRole   Role[]     @relation("EndScene")
 }
 
 model Population {
@@ -75,20 +74,27 @@ model Organization {
 model Role {
   id             Int      @id @default(autoincrement())
   title          String
-  characterId    Int
+  characterId    Int?
   organizationId Int
   parentId       Int? // For hierarchical relationship
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  sceneStartId Int?         @unique
-  startScene   Scene?       @relation("StartScene", fields: [sceneStartId], references: [id])
-  sceneEndId   Int?         @unique
-  endScene     Scene?       @relation("EndScene", fields: [sceneEndId], references: [id])
-  character    Character    @relation(fields: [characterId], references: [id])
   organization Organization @relation(fields: [organizationId], references: [id])
   superior     Role?        @relation("RoleHierarchy", fields: [parentId], references: [id])
   subordinates Role[]       @relation("RoleHierarchy")
+
+  characters CharacterRoles[]
+}
+
+model CharacterRoles {
+  id          Int @id @default(autoincrement())
+  characterId Int
+  roleId      Int
+
+  character Character @relation(fields: [characterId], references: [id])
+  role      Role      @relation(fields: [roleId], references: [id])
+  Scene     Scene[]
 }
 
 model Location {
