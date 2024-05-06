@@ -1,39 +1,34 @@
 import React from "react";
 
-import { Character } from "@prisma/client";
-import Link from "next/link";
+import Items from "./Items/Items";
+import NoItems from "./Items/NoItems";
 
-interface CharactersProps {
-  characters: Character[];
+interface Props {
+  props: {
+    title: string;
+    text: string;
+    imageUrl: string;
+  }[];
+  route: string;
 }
 
-const Characters: React.FC<CharactersProps> = ({ characters }) => {
+const Lists: React.FC<Props> = ({ props, route }) => {
   return (
     <>
-      {characters.length > 0 ? (
-        characters.map((character) => (
-          <Link
-            href={`${character.title}`}
-            key={character.id}
-            className="card link"
-          >
-            <h1>{character.title}</h1>
-            <p>{character.text || "No text available"}</p>
-          </Link>
+      {props.length > 0 ? (
+        props.map((prop) => (
+          <Items
+            key={prop.title}
+            title={prop.title}
+            text={prop.text}
+            imageUrl={prop.imageUrl}
+          />
         ))
       ) : (
-        <div className="card">
-          <h1>No characters found.</h1>
-          <Link href="/characters" className="button">
-            Return to Characters
-          </Link>
-          <Link href="/" className="button">
-            Return to Home Page
-          </Link>
-        </div>
+        <NoItems route={route} />
       )}
     </>
   );
 };
 
-export default Characters;
+export default Lists;
