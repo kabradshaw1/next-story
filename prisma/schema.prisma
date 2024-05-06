@@ -130,7 +130,7 @@ model Conflict {
   updatedAt DateTime @updatedAt
 
   scene        Scene[]
-  Organization Organization[]
+  organization Organization[]
 
   fileNames FileName[]
 }

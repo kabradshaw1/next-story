@@ -27,7 +27,7 @@ describe("Character", () => {
       await prisma.$executeRaw`ALTER SEQUENCE "Role_id_seq" RESTART WITH 1`;
       await prisma.$executeRaw`ALTER SEQUENCE "FileName_id_seq" RESTART WITH 1`;
       await prisma.$executeRaw`ALTER SEQUENCE "Scene_id_seq" RESTART WITH 1`;
-      console.log("Delete existing characters after tests");
+      console.log("Delete test characters after tests");
     } catch (error) {
       console.error(error);
     }
@@ -69,27 +69,16 @@ describe("Character", () => {
     });
 
     // then
-    const organization = await prisma.organization.findFirst({
-      where: {
-        title: "New Organization",
-      },
-    });
-    const role = await prisma.role.findFirst({ where: { title: "role" } });
-    const scene = await prisma.scene.findFirst({ where: { title: "scene" } });
-    expect(character).toBeDefined();
+
     expect(character.id).toBe(1);
     expect(character.title).toBe("title");
     expect(character.text).toBe("text");
-    expect(character.fileNames).toBeDefined();
     expect(character.fileNames[0].fileName).toBe("example.png");
     expect(character.createdAt).toBeInstanceOf(Date);
-    expect(organization).toBeDefined();
-    expect(role).toBeDefined();
-    expect(organization?.title).toBe("New Organization");
-    expect(role?.title).toBe("role");
-    expect(scene).toBeDefined();
-    expect(scene?.title).toBe("scene");
-    expect(scene?.timeline).toBe(1);
+    expect(character.role[0].organizationId).toBe(1);
+    expect(character.role[0].title).toBe("role");
+    expect(character.scene[0].title).toBe("scene");
+    expect(character.scene[0].timeline).toBe(1);
   });
 
   it("givenExistingCharacters_whenFindMany_thenCharactersFound", async () => {
@@ -121,12 +110,9 @@ describe("Character", () => {
     });
 
     // then
-    expect(characters).toBeDefined();
     expect(characters[0].title).toBe("title");
     expect(characters[0].text).toBe("text");
-    expect(characters[0].fileNames).toBeDefined();
     expect(characters[0].fileNames[0].fileName).toBe("example.png");
-    expect(characters[0].role).toBeDefined();
     expect(characters[0].role[0].title).toBe("role");
     expect(characters[0].role[0].organization.title).toBe("New Organization");
     expect(characters[0].scene[0].title).toBe("scene");
