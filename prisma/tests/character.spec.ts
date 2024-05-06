@@ -28,6 +28,7 @@ describe("Character", () => {
         await prisma.role.deleteMany({});
         await prisma.organization.deleteMany({});
         await prisma.character.deleteMany({});
+        await prisma.scene.deleteMany({});
         await prisma.fileName.deleteMany({});
 
         // Reset the ID sequences for all relevant tables
@@ -35,6 +36,7 @@ describe("Character", () => {
         await prisma.$executeRaw`ALTER SEQUENCE "Character_id_seq" RESTART WITH 1`;
         await prisma.$executeRaw`ALTER SEQUENCE "Role_id_seq" RESTART WITH 1`;
         await prisma.$executeRaw`ALTER SEQUENCE "FileName_id_seq" RESTART WITH 1`;
+        await prisma.$executeRaw`ALTER SEQUENCE "Scene_id_seq" RESTART WITH 1`;
         console.log("Delete existing characters after tests");
       } catch (error) {
         console.error(error);
