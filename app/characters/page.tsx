@@ -1,11 +1,11 @@
-import prisma from "@/prisma/prismaClient";
+// import prisma from "@/prisma/prismaClient";
 
-import Lists from "../../components/main/Lists";
+// import Lists from "../../components/main/Lists";
 
 export default async function CharactersPage() {
-  const characters = await prisma.character.findMany({
-    include: { fileNames: true },
-  });
+  // const characters = await prisma.character.findMany({
+  //   include: { fileNames: true },
+  // });
 
   return (
     <div className="w-full max-w-lg">
