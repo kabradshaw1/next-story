@@ -1,8 +1,8 @@
 import axios from "axios";
-import createAuthRefreshInterceptor from "axios-auth-refresh";
+// import createAuthRefreshInterceptor from "axios-auth-refresh";
 
+// import authSlice from "./slices/authSlice";
 import store from "./store";
-import authSlice from "./slices/authSlice";
 
 const baseURL = `${process.env.URL}`;
 
