@@ -5,10 +5,10 @@ set -xe
   
   docker-compose down
 
-  docker image prune -a   
+  docker image prune -af   
 
   git pull origin main
 
-  docker-compose -d --build
+  docker-compose up -d --build
 
   
