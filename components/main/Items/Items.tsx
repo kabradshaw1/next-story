@@ -10,7 +10,12 @@ const Items: React.FC<Props> = (props) => {
   return (
     <Link href={`${props.title}`} key={props.title} className="card link">
       {props.imageUrl ? (
-        <Image src={`${props.imageUrl}`} alt={`Image of ${props.title}`} />
+        <Image
+          src={`${props.imageUrl}`}
+          alt={`Image of ${props.title}`}
+          width={200}
+          height={200}
+        />
       ) : (
         <p>No image available.</p>
       )}
