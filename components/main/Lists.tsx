@@ -22,6 +22,7 @@ const Lists: React.FC<Props> = ({ props, route }) => {
             title={prop.title}
             text={prop.text}
             imageUrl={prop.imageUrl}
+            route={route}
           />
         ))
       ) : (

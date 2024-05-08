@@ -16,7 +16,7 @@ export default async function CharactersPage() {
   return (
     <div className="card">
       <h1>Characters</h1>
-      <Lists props={props} route="/characters" />
+      <Lists props={props} route="characters" />
     </div>
   );
 }

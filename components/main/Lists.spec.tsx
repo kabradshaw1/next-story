@@ -32,8 +32,8 @@ describe("Lists Component", () => {
 
   it("givenProps_whenRendered_thenPassProps", () => {
     const props = [
-      { title: "Item 1", text: "Text 1", imageUrl: "/img1" },
-      { title: "Item 2", text: "Text 2", imageUrl: "/img2" },
+      { title: "Item 1", text: "Text 1", imageUrl: "/img1", route: "items" },
+      { title: "Item 2", text: "Text 2", imageUrl: "/img2", route: "items" },
     ];
     render(<Lists props={props} route="items" />);
     props.forEach((prop, index) => {
@@ -43,6 +43,7 @@ describe("Lists Component", () => {
           title: prop.title,
           text: prop.text,
           imageUrl: prop.imageUrl,
+          route: props.route,
         },
         {}
       );

@@ -5,14 +5,11 @@ export type Props = {
   title: string;
   text?: string | null;
   imageUrl?: string;
+  route: string;
 };
 const Items: React.FC<Props> = (props) => {
   return (
-    <Link
-      href={`/${props.title.toLowerCase()}`}
-      key={props.title}
-      className="card link"
-    >
+    <Link href={`${props.title}`} key={props.title} className="card link">
       {props.imageUrl ? (
         <Image
           src={`${props.imageUrl}`}

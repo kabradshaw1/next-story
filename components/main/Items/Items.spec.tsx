@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
 import Items from "./Items";
+import { root } from "postcss";
 
 describe("Items Component", () => {
   describe("Items Component", () => {
@@ -14,6 +15,7 @@ describe("Items Component", () => {
       title: "Item",
       text: "Description 1",
       imageUrl: "/url1",
+      route: "character",
     };
     render(<Items {...props} />);
     const image = screen.getByRole("img", {
@@ -26,7 +28,12 @@ describe("Items Component", () => {
     expect(screen.getByText(props.text)).toBeInTheDocument();
   });
   it("displays a placeholder when no image is available", () => {
-    const props = { title: "Item 2", text: "Description 2", imageUrl: "" };
+    const props = {
+      title: "Item 2",
+      text: "Description 2",
+      imageUrl: "",
+      route: "character",
+    };
     render(<Items {...props} />);
     expect(screen.getByText("No image available.")).toBeInTheDocument();
   });
@@ -35,13 +42,14 @@ describe("Items Component", () => {
       title: "Item",
       text: "Description 1",
       imageUrl: "/url1",
+      route: "character",
     };
     render(<Items {...props} />);
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", `/${props.title.toLowerCase()}`);
+    expect(link).toHaveAttribute("href", `/${route}/${props.title}`);
   });
   it('displays "No text available" when text is not provided', () => {
-    const props = { title: "Item 3", imageUrl: "/url3" };
+    const props = { title: "Item 3", imageUrl: "/url3", route: "character" };
     render(<Items {...props} />);
     expect(screen.getByText("No text available")).toBeInTheDocument();
   });
@@ -50,6 +58,7 @@ describe("Items Component", () => {
       title: "Item 1",
       text: "Description 1",
       imageUrl: "/url1",
+      route: "character",
     };
     render(<Items {...props} />);
     const image = screen.getByRole("img");
