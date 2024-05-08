@@ -1,9 +1,21 @@
 import { render, screen } from "@testing-library/react";
 
+import Items from "./Items/Items";
 import Lists from "./Lists";
 
+jest.mock("./Items/Items", () => {
+  return {
+    __esModule: true,
+    default: jest.fn(({ title }) => <div>{title}</div>), // Mock as a functional component that renders title
+  };
+});
+
 describe("Lists Component", () => {
-  it("renders Items when props are provided", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("givenProps_whenRendered_theRenderComponents", () => {
     const props = [
       { title: "Item 1", text: "Description 1", imageUrl: "/url1" },
       { title: "Item 2", text: "Description 2", imageUrl: "/url2" },
@@ -18,22 +30,22 @@ describe("Lists Component", () => {
     expect(screen.getByText(/No test-route found./)).toBeInTheDocument();
   });
 
-it("passes correct props to Items components", () => {
-  const props = [
-    { title: "Item 1", text: "Text 1", imageUrl: "/img1" },
-    { title: "Item 2", text: "Text 2", imageUrl: "/img2" },
-  ];
-  render(<Lists props={props} route="items" />);
-
-  props.forEach((prop) => {
-    expect(screen.getByText(prop.title)).toBeInTheDocument();
-    expect(screen.getByText(prop.text)).toBeInTheDocument();
-    const image = screen.getByAltText(`Image of ${prop.title}`) as HTMLImageElement;
-    // Just check that the src attribute is not empty and includes some URL path
-    expect(image.src).toBeTruthy(); // Checks if src is truthy (not null, undefined, or empty)
-    expect(image.src).toContain("/_next/image"); // Checks if src includes the expected processed path
-  });
-});
-
+  it("givenProps_whenRendered_thenPassProps", () => {
+    const props = [
+      { title: "Item 1", text: "Text 1", imageUrl: "/img1" },
+      { title: "Item 2", text: "Text 2", imageUrl: "/img2" },
+    ];
+    render(<Lists props={props} route="items" />);
+    props.forEach((prop, index) => {
+      expect(Items).toHaveBeenNthCalledWith(
+        index + 1,
+        {
+          title: prop.title,
+          text: prop.text,
+          imageUrl: prop.imageUrl,
+        },
+        {}
+      );
+    });
   });
 });

@@ -3,14 +3,14 @@ import React from "react";
 import Items from "./Items/Items";
 import NoItems from "./Items/NoItems";
 
-interface Props {
+export type Props = {
   props: {
     title: string;
-    text: string;
-    imageUrl: string;
+    text: string | undefined | null;
+    imageUrl: string | undefined;
   }[];
   route: string;
-}
+};
 
 const Lists: React.FC<Props> = ({ props, route }) => {
   return (
