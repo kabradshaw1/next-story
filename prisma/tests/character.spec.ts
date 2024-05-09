@@ -9,17 +9,18 @@ describe("Character", () => {
   beforeEach(async () => {
     // Setup character data here for independent tests
     const scene = await prisma.scene.create({
-      data: { title: "scene", timeline: 1 },
+      data: { title: "scene", timeline: 1, user: "test" },
     });
 
     const organization = await prisma.organization.create({
-      data: { title: "New Organization" },
+      data: { title: "New Organization", user: "test" },
     });
 
     const role = await prisma.role.create({
       data: {
         title: "role",
         organizationId: organization.id,
+        user: "test",
       },
     });
 
@@ -27,15 +28,23 @@ describe("Character", () => {
       data: {
         title: "title",
         text: "text",
+        user: "test",
         scenes: { connect: { id: scene.id } },
         fileNames: {
-          create: [{ fileName: "example.png", discriminator: "character" }],
+          create: [
+            {
+              fileName: "example.png",
+              discriminator: "character",
+              user: "test",
+            },
+          ],
         },
         roles: {
           create: [
             {
               role: { connect: { id: role.id } },
               Scene: { connect: { id: scene.id } },
+              user: "test",
             },
           ],
         },
@@ -107,6 +116,7 @@ describe("Character", () => {
       data: {
         title: "Original Title",
         text: "Original Text",
+        user: "test",
       },
     });
 
@@ -130,6 +140,7 @@ describe("Character", () => {
       data: {
         title: "Delete Me",
         text: "Delete this character",
+        user: "test",
       },
     });
 

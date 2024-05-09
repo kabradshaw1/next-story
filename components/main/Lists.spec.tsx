@@ -43,7 +43,7 @@ describe("Lists Component", () => {
           title: prop.title,
           text: prop.text,
           imageUrl: prop.imageUrl,
-          route: props.route,
+          route: "items",
         },
         {}
       );

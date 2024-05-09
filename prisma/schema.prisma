@@ -19,6 +19,8 @@ model Character {
   text      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  cannon    Boolean  @default(false)
+  user      String
 
   scenes Scene[]
   roles  CharacterRoles[]
@@ -33,24 +35,17 @@ model Scene {
   timeline  Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  cannon    Boolean  @default(false)
+  user      String
 
-  characters    Character[]
-  location      Location[]
-  conflict      Conflict[]
-  population    Population[]
-  organization  Organization[]
-  characterRole CharacterRoles[]
+  characters     Character[]
+  locations      Location[]
+  conflicts      Conflict[]
+  populations    Population[]
+  organizations  Organization[]
+  characterRoles CharacterRoles[]
 
   fileNames FileName[]
-}
-
-model Population {
-  id         Int   @id @default(autoincrement())
-  population Int
-  shipId     Int   @unique
-  ship       Ship  @relation(fields: [shipId], references: [id])
-  sceneId    Int   @unique
-  scene      Scene @relation(fields: [sceneId], references: [id])
 }
 
 model Organization {
@@ -60,11 +55,13 @@ model Organization {
   locationId Int?     @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  cannon     Boolean  @default(false)
+  user       String
 
   roles Role[]
 
   conflicts    Conflict[]
-  scene        Scene[]
+  scenes       Scene[]
   headquarters Location?  @relation("Headquarters", fields: [locationId], references: [id])
   locations    Location[]
 
@@ -79,6 +76,8 @@ model Role {
   parentId       Int? // For hierarchical relationship
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  cannon         Boolean  @default(false)
+  user           String
 
   organization Organization @relation(fields: [organizationId], references: [id])
   superior     Role?        @relation("RoleHierarchy", fields: [parentId], references: [id])
@@ -88,13 +87,15 @@ model Role {
 }
 
 model CharacterRoles {
-  id          Int @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   characterId Int
   roleId      Int
+  cannon      Boolean @default(false)
+  user        String
 
   character Character @relation(fields: [characterId], references: [id])
   role      Role      @relation(fields: [roleId], references: [id])
-  Scene     Scene[]
+  scenes    Scene[]
 }
 
 model Location {
@@ -103,8 +104,10 @@ model Location {
   text      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  cannon    Boolean  @default(false)
+  user      String
 
-  scene Scene[]
+  scenes Scene[]
 
   shipId Int?
   ship   Ship? @relation(fields: [shipId], references: [id])
@@ -115,15 +118,28 @@ model Location {
   fileNames FileName[]
 }
 
+model Population {
+  id         Int     @id @default(autoincrement())
+  population Int
+  shipId     Int     @unique
+  ship       Ship    @relation(fields: [shipId], references: [id])
+  sceneId    Int     @unique
+  scene      Scene   @relation(fields: [sceneId], references: [id])
+  cannon     Boolean @default(false)
+  user       String
+}
+
 model Ship {
   id        Int      @id @default(autoincrement())
   title     String   @unique
   text      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  cannon    Boolean  @default(false)
+  user      String
 
-  population Population[]
-  location   Location[]
+  populations Population[]
+  locations   Location[]
 
   fileNames FileName[]
 }
@@ -134,9 +150,10 @@ model Conflict {
   text      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      String
 
-  scene        Scene[]
-  organization Organization[]
+  scenes        Scene[]
+  organizations Organization[]
 
   fileNames FileName[]
 }
@@ -153,6 +170,7 @@ model FileName {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   discriminator  String
+  user           String
 
   // Relations
   character    Character?    @relation(fields: [characterId], references: [id])

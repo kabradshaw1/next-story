@@ -20,3 +20,5 @@ export default async function CharactersPage() {
     </div>
   );
 }
+
+export async function getServerSideProps() {}

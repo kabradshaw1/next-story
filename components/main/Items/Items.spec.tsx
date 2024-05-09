@@ -1,12 +1,18 @@
 import { render, screen } from "@testing-library/react";
 
 import Items from "./Items";
-import { root } from "postcss";
 
 describe("Items Component", () => {
   describe("Items Component", () => {
     it("displays no image text when imageUrl is missing", () => {
-      render(<Items title="Item 1" text="Text 1" imageUrl="/test.png" />);
+      render(
+        <Items
+          title="Item 1"
+          text="Text 1"
+          imageUrl="/test.png"
+          route="route"
+        />
+      );
       expect(screen.getByText("Item 1")).toBeInTheDocument();
     });
   });
@@ -37,7 +43,7 @@ describe("Items Component", () => {
     render(<Items {...props} />);
     expect(screen.getByText("No image available.")).toBeInTheDocument();
   });
-  it("creates a link that navigates to the correct URL based on the title", () => {
+  it("creates a link that navigates to the correct URL based on the title and route", () => {
     const props = {
       title: "Item",
       text: "Description 1",
@@ -46,7 +52,7 @@ describe("Items Component", () => {
     };
     render(<Items {...props} />);
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", `/${route}/${props.title}`);
+    expect(link).toHaveAttribute("href", `/${props.route}/${props.title}`);
   });
   it('displays "No text available" when text is not provided', () => {
     const props = { title: "Item 3", imageUrl: "/url3", route: "character" };

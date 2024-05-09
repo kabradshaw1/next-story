@@ -5,6 +5,8 @@ CREATE TABLE "Character" (
     "text" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
 
     CONSTRAINT "Character_pkey" PRIMARY KEY ("id")
 );
@@ -17,6 +19,8 @@ CREATE TABLE "Scene" (
     "timeline" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
 
     CONSTRAINT "Scene_pkey" PRIMARY KEY ("id")
 );
@@ -27,6 +31,8 @@ CREATE TABLE "Population" (
     "population" INTEGER NOT NULL,
     "shipId" INTEGER NOT NULL,
     "sceneId" INTEGER NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
 
     CONSTRAINT "Population_pkey" PRIMARY KEY ("id")
 );
@@ -39,17 +45,36 @@ CREATE TABLE "Organization" (
     "locationId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
 
     CONSTRAINT "Organization_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Hierarchy" (
+CREATE TABLE "Role" (
     "id" SERIAL NOT NULL,
+    "title" TEXT NOT NULL,
+    "characterId" INTEGER,
     "organizationId" INTEGER NOT NULL,
-    "structure" JSONB NOT NULL,
+    "parentId" INTEGER,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
 
-    CONSTRAINT "Hierarchy_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Role_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CharacterRoles" (
+    "id" SERIAL NOT NULL,
+    "characterId" INTEGER NOT NULL,
+    "roleId" INTEGER NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
+
+    CONSTRAINT "CharacterRoles_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -59,6 +84,8 @@ CREATE TABLE "Location" (
     "text" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
     "shipId" INTEGER,
 
     CONSTRAINT "Location_pkey" PRIMARY KEY ("id")
@@ -71,6 +98,8 @@ CREATE TABLE "Ship" (
     "text" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "cannon" BOOLEAN NOT NULL DEFAULT false,
+    "user" TEXT NOT NULL,
 
     CONSTRAINT "Ship_pkey" PRIMARY KEY ("id")
 );
@@ -82,6 +111,7 @@ CREATE TABLE "Conflict" (
     "text" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "user" TEXT NOT NULL,
 
     CONSTRAINT "Conflict_pkey" PRIMARY KEY ("id")
 );
@@ -99,6 +129,7 @@ CREATE TABLE "FileName" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "discriminator" TEXT NOT NULL,
+    "user" TEXT NOT NULL,
 
     CONSTRAINT "FileName_pkey" PRIMARY KEY ("id")
 );
@@ -111,6 +142,12 @@ CREATE TABLE "_CharacterToScene" (
 
 -- CreateTable
 CREATE TABLE "_OrganizationToScene" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "_CharacterRolesToScene" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
 );
@@ -158,9 +195,6 @@ CREATE UNIQUE INDEX "Organization_title_key" ON "Organization"("title");
 CREATE UNIQUE INDEX "Organization_locationId_key" ON "Organization"("locationId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Hierarchy_organizationId_key" ON "Hierarchy"("organizationId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Location_title_key" ON "Location"("title");
 
 -- CreateIndex
@@ -168,6 +202,9 @@ CREATE UNIQUE INDEX "Ship_title_key" ON "Ship"("title");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Conflict_title_key" ON "Conflict"("title");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "FileName_fileName_key" ON "FileName"("fileName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_CharacterToScene_AB_unique" ON "_CharacterToScene"("A", "B");
@@ -180,6 +217,12 @@ CREATE UNIQUE INDEX "_OrganizationToScene_AB_unique" ON "_OrganizationToScene"("
 
 -- CreateIndex
 CREATE INDEX "_OrganizationToScene_B_index" ON "_OrganizationToScene"("B");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_CharacterRolesToScene_AB_unique" ON "_CharacterRolesToScene"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_CharacterRolesToScene_B_index" ON "_CharacterRolesToScene"("B");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_LocationToScene_AB_unique" ON "_LocationToScene"("A", "B");
@@ -215,7 +258,16 @@ ALTER TABLE "Population" ADD CONSTRAINT "Population_sceneId_fkey" FOREIGN KEY ("
 ALTER TABLE "Organization" ADD CONSTRAINT "Organization_locationId_fkey" FOREIGN KEY ("locationId") REFERENCES "Location"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Hierarchy" ADD CONSTRAINT "Hierarchy_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Role" ADD CONSTRAINT "Role_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Role" ADD CONSTRAINT "Role_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Role"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CharacterRoles" ADD CONSTRAINT "CharacterRoles_characterId_fkey" FOREIGN KEY ("characterId") REFERENCES "Character"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CharacterRoles" ADD CONSTRAINT "CharacterRoles_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Location" ADD CONSTRAINT "Location_shipId_fkey" FOREIGN KEY ("shipId") REFERENCES "Ship"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -249,6 +301,12 @@ ALTER TABLE "_OrganizationToScene" ADD CONSTRAINT "_OrganizationToScene_A_fkey" 
 
 -- AddForeignKey
 ALTER TABLE "_OrganizationToScene" ADD CONSTRAINT "_OrganizationToScene_B_fkey" FOREIGN KEY ("B") REFERENCES "Scene"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CharacterRolesToScene" ADD CONSTRAINT "_CharacterRolesToScene_A_fkey" FOREIGN KEY ("A") REFERENCES "CharacterRoles"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_CharacterRolesToScene" ADD CONSTRAINT "_CharacterRolesToScene_B_fkey" FOREIGN KEY ("B") REFERENCES "Scene"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_LocationToScene" ADD CONSTRAINT "_LocationToScene_A_fkey" FOREIGN KEY ("A") REFERENCES "Location"("id") ON DELETE CASCADE ON UPDATE CASCADE;
