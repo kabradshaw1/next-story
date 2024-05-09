@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -49,20 +43,20 @@ model Scene {
 }
 
 model Organization {
-  id         Int      @id @default(autoincrement())
-  title      String   @unique
-  text       String?
-  locationId Int?     @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  cannon     Boolean  @default(false)
-  user       String
+  id             Int      @id @default(autoincrement())
+  title          String   @unique
+  text           String?
+  headquartersId Int?     @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  cannon         Boolean  @default(false)
+  user           String
 
   roles Role[]
 
   conflicts    Conflict[]
   scenes       Scene[]
-  headquarters Location?  @relation("Headquarters", fields: [locationId], references: [id])
+  headquarters Location?  @relation("Headquarters", fields: [headquartersId], references: [id])
   locations    Location[]
 
   fileNames FileName[]

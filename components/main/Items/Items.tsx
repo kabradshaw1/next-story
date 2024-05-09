@@ -1,18 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import createSlug from "@/lib/createSlug";
 export type Props = {
   title: string;
   imageUrl?: string;
   route: string;
-};
-
-const createSlug = (title: string) => {
-  return title
-    .toLowerCase()
-    .trim()
-    .replace(/[\s+]/g, "-") // Replace spaces with hyphens
-    .replace(/[^\w\-]+/g, ""); // Remove all non-word characters except for hyphens
 };
 
 const Items: React.FC<Props> = (props) => {
