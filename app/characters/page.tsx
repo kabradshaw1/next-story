@@ -1,18 +1,7 @@
 import Lists from "@/components/main/Lists";
-import prisma from "@/prisma/prismaClient";
 
 export default async function CharactersPage() {
-  const characters = await prisma.character.findMany({
-    include: { fileNames: true },
-  });
-  const props = characters.map((character) => ({
-    title: character.title, // Assuming `title` directly comes from character
-    text: character.text, // Assuming `text` directly comes from character
-    imageUrl:
-      character.fileNames.length > 0
-        ? character.fileNames[0].fileName
-        : undefined, // Assuming the first file name is the image URL
-  }));
+  const props = [{ title: "Character 1", imageUrl: "/test.png" }];
   return (
     <div className="card">
       <h1>Characters</h1>

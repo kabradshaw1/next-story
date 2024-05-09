@@ -4,6 +4,8 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import createSlug from "@/lib/createSlug";
+
 type FeaturedProps = {
   category: string;
   description: string;
@@ -18,7 +20,11 @@ const FeaturedHP: React.FC<Props> = ({ items }) => {
   return (
     <>
       {items.map((item, index) => (
-        <Link key={index} href={`${item.category}`} className="card mb-2 link">
+        <Link
+          key={index}
+          href={`${createSlug(item.category)}`}
+          className="card mb-2 link"
+        >
           <Image
             src={item.image}
             alt={item.category}
