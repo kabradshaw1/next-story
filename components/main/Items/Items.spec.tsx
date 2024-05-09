@@ -5,21 +5,13 @@ import Items from "./Items";
 describe("Items Component", () => {
   describe("Items Component", () => {
     it("displays no image text when imageUrl is missing", () => {
-      render(
-        <Items
-          title="Item 1"
-          text="Text 1"
-          imageUrl="/test.png"
-          route="route"
-        />
-      );
+      render(<Items title="Item 1" imageUrl="/test.png" route="route" />);
       expect(screen.getByText("Item 1")).toBeInTheDocument();
     });
   });
   it("renders the image, title, and text correctly", () => {
     const props = {
       title: "Item",
-      text: "Description 1",
       imageUrl: "/url1",
       route: "character",
     };
@@ -31,7 +23,6 @@ describe("Items Component", () => {
     // Check if the src attribute includes encoded URL and optimization parameters
     expect(image.src).toContain(encodeURIComponent(props.imageUrl));
     expect(screen.getByText(props.title)).toBeInTheDocument();
-    expect(screen.getByText(props.text)).toBeInTheDocument();
   });
   it("displays a placeholder when no image is available", () => {
     const props = {
@@ -46,23 +37,16 @@ describe("Items Component", () => {
   it("creates a link that navigates to the correct URL based on the title and route", () => {
     const props = {
       title: "Item",
-      text: "Description 1",
       imageUrl: "/url1",
       route: "character",
     };
     render(<Items {...props} />);
     const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", `/${props.route}/${props.title}`);
-  });
-  it('displays "No text available" when text is not provided', () => {
-    const props = { title: "Item 3", imageUrl: "/url3", route: "character" };
-    render(<Items {...props} />);
-    expect(screen.getByText("No text available")).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", `/${props.route}/item`);
   });
   it("has appropriate alt text for images for accessibility", () => {
     const props = {
       title: "Item 1",
-      text: "Description 1",
       imageUrl: "/url1",
       route: "character",
     };

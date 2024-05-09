@@ -3,15 +3,24 @@ import Link from "next/link";
 
 export type Props = {
   title: string;
-  text?: string | null;
   imageUrl?: string;
   route: string;
 };
 
+const createSlug = (title: string) => {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[\s+]/g, "-") // Replace spaces with hyphens
+    .replace(/[^\w\-]+/g, ""); // Remove all non-word characters except for hyphens
+};
+
 const Items: React.FC<Props> = (props) => {
+  const slug = createSlug(props.title);
+
   return (
     <Link
-      href={`/${props.route}/${props.title}`}
+      href={`/${props.route}/${slug}`}
       key={props.title}
       className="card link"
     >
@@ -26,7 +35,6 @@ const Items: React.FC<Props> = (props) => {
         <p>No image available.</p>
       )}
       <h2>{props.title}</h2>
-      <p>{props.text || "No text available"}</p>
     </Link>
   );
 };
