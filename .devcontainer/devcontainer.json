@@ -14,7 +14,6 @@
         "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
         "bradlc.vscode-tailwindcss",
-        "Prisma.prisma",
         "christian-kohler.path-intellisense",
         "esbenp.prettier-vscode",
         "GraphQL.vscode-graphql",

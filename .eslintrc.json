@@ -1,7 +1,15 @@
 {
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
   "extends": [
-    "next/core-web-vitals",
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "next/core-web-vitals",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:import/errors",
@@ -10,12 +18,18 @@
     "plugin:jest/recommended"
   ],
   "plugins": ["@typescript-eslint", "react", "import", "jest"],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
   "rules": {
-    "react/react-in-jsx-scope": "off", // Not necessary for Next.js since React 17+
-    "react/prop-types": "off", // Not needed with TypeScript
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
     "import/no-unresolved": "error",
-    "semi": ["error", "always"], // Enforces semicolons
+    "semi": ["error", "always"],
     "@typescript-eslint/semi": ["error", "always"],
+    "quotes": ["error", "single"], // Enforce single quotes
     "import/order": [
       "error",
       {
@@ -45,7 +59,6 @@
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error"
   },
-  "overrides": [],
   "settings": {
     "react": {
       "version": "detect"
