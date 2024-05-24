@@ -1,11 +1,15 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+    "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "editor.formatOnType": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
   "files.autoSave": "onFocusChange",
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "vs-code-prettier-eslint.prettierLast": false,
   "tailwindCSS.includeLanguages": {
     "plaintext": "html"
   },
@@ -16,10 +20,7 @@
     "**/.git/subtree-cache/**": true,
     "**/node_modules/*/**": true
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.semi": true
 }

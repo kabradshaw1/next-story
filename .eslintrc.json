@@ -10,6 +10,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "next/core-web-vitals",
+    "standard-with-typescript",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:import/errors",
@@ -17,7 +18,15 @@
     "plugin:import/typescript",
     "plugin:jest/recommended"
   ],
-  "plugins": ["@typescript-eslint", "react", "import", "jest"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "import",
+    "jest",
+    "promise",
+    "n",
+    "prettier"
+  ],
   "env": {
     "browser": true,
     "es6": true,

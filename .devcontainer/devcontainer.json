@@ -13,12 +13,14 @@
         "Orta.vscode-jest",
         "dbaeumer.vscode-eslint",
         "ms-azuretools.vscode-docker",
-        "bradlc.vscode-tailwindcss",
         "christian-kohler.path-intellisense",
         "esbenp.prettier-vscode",
         "GraphQL.vscode-graphql",
         "GraphQL.vscode-graphql-syntax",
-        "eamodio.gitlens"
+        "eamodio.gitlens",
+        "rvest.vs-code-prettier-eslint",
+        "github.vscode-github-actions",
+        "bradlc.vscode-tailwindcss"
       ]
     }
   }
