@@ -33,12 +33,19 @@
     "jest": true
   },
   "rules": {
+    "@typescript-eslint/comma-dangle": "off",
+    "no-unused-vars": "warn",
+    "no-console": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "n/handle-callback-err": "error",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
+    "promise/catch-or-return": "error",
     "import/no-unresolved": "error",
     "semi": ["error", "always"],
     "@typescript-eslint/semi": ["error", "always"],
     "quotes": ["error", "single"], // Enforce single quotes
+    "prettier/prettier": ["error", { "singleQuote": true, "semi": true }],
     "import/order": [
       "error",
       {
@@ -62,15 +69,30 @@
       "warn",
       { "ignoreRestSiblings": true }
     ],
+    "@typescript-eslint/space-before-function-paren": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error"
   },
+  "overrides": [
+    {
+      "files": ["*.test.ts", "*.spec.ts"],
+      "env": {
+        "jest": true
+      },
+      "rules": {
+        "@typescript-eslint/no-unused-expressions": "off"
+      }
+    }
+  ],
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "node": {
+      "extensions": [".js", ".jsx", ".ts", ".tsx"]
     }
   }
 }
