@@ -4,7 +4,7 @@ import axios, {
   type AxiosResponse,
 } from 'axios';
 
-import authSlice from './slices/authSlice';
+import authSlice, { type AuthState } from './slices/authSlice';
 import store from './store';
 
 interface FailedRequests {
@@ -14,10 +14,18 @@ interface FailedRequests {
   error: AxiosError;
 }
 
-const baseURL = `${process.env.AUTH_URL}`;
+const baseURL = `${process.env.STORY_URL}/graphql`;
 
 const axiosInstance = axios.create({
   baseURL,
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export const axiosAuthInstance = axios.create({
+  baseURL: `${process.env.AUTH_URL}/api`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -59,40 +67,38 @@ axiosInstance.interceptors.response.use(
     isTokenRefreshing = true;
 
     try {
-      const response = await axiosInstance.post('/access-token', {
-        refreshToken: JSON.parse(localStorage.getItem('refreshToken') ?? ''),
-      });
-      const { accessToken = null, refreshToken = null } = response.data ?? {};
+      const response = await axiosAuthInstance.post('/api/refresh');
+      const token =
+        response.headers?.authorization?.split(' ').pop()?.trim() ?? '';
 
-      if (accessToken == null || refreshToken == null) {
-        throw new Error(
-          'Something went wrong while refreshing your access token'
-        );
+      if (token === '') {
+        console.log('No token in response');
+        return authSlice.actions.logout();
       }
 
-      localStorage.setItem('accessToken', JSON.stringify(accessToken));
-      localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+      store.dispatch(authSlice.actions.setAuth(token as AuthState));
 
       failedRequests.forEach(({ resolve, reject, config }) => {
-        axiosInstance(config)
+        axiosAuthInstance(config)
           .then((response) => resolve(response))
           .catch((error) => reject(error));
       });
     } catch (_error: unknown) {
       console.error(_error);
       failedRequests.forEach(({ reject, error }) => reject(error));
-      localStorage.setItem('accessToken', '');
-      localStorage.setItem('refreshToken', '');
-      return Promise.reject(error);
+      authSlice.actions.logout();
+      return await Promise.reject(error);
     } finally {
       failedRequests = [];
       isTokenRefreshing = false;
     }
 
-    return axiosInstance(originalRequestConfig);
+    return await axiosAuthInstance(originalRequestConfig);
   }
 );
+
 export async function fetcher<T>(url: string): Promise<T> {
   return await axiosInstance.get<T>(url).then((res) => res.data);
 }
+
 export default axiosInstance;

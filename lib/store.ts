@@ -1,6 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { combineReducers } from "redux";
+import { configureStore } from '@reduxjs/toolkit';
+import {
+  type TypedUseSelectorHook,
+  useDispatch,
+  useSelector,
+} from 'react-redux';
+import { combineReducers } from 'redux';
 import {
   FLUSH,
   PAUSE,
@@ -10,10 +14,10 @@ import {
   PURGE,
   REGISTER,
   REHYDRATE,
-} from "redux-persist";
-import storage from "redux-persist/lib/storage";
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-import authSlice from "./slices/authSlice";
+import authSlice from './slices/authSlice';
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,
@@ -21,9 +25,9 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(
   {
-    key: "root",
+    key: 'root',
     version: 1,
-    storage: storage,
+    storage,
   },
   rootReducer
 );
