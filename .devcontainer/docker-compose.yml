@@ -4,6 +4,9 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile.dev
+    environment:
+      - NODE_ENV=development
+      - URL
     volumes:
       - ../:/app:delegated
       - /app/node_modules

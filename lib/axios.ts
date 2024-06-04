@@ -1,22 +1,22 @@
-import axios from "axios";
+import axios from 'axios';
 // import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 // import authSlice from "./slices/authSlice";
-import store from "./store";
+import store from './store';
 
 const baseURL = `${process.env.URL}`;
 
 const axiosInstance = axios.create({
-  baseURL: baseURL,
+  baseURL,
   timeout: 5000,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
 axiosInstance.interceptors.request.use((config) => {
   const { token } = store.getState().auth;
-  if (token) {
+  if (token !== null) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
@@ -76,7 +76,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 // createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic);
 
-export function fetcher<T>(url: string) {
-  return axiosInstance.get<T>(url).then((res) => res.data);
+export async function fetcher<T>(url: string): Promise<T> {
+  return await axiosInstance.get<T>(url).then((res) => res.data);
 }
 export default axiosInstance;
