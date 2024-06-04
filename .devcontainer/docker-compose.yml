@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - NODE_ENV=development
-      - URL
+      - AUTH_URL=http://
     volumes:
       - ../:/app:delegated
       - /app/node_modules

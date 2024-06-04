@@ -1,8 +1,8 @@
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';
 
-import Image, { ImageProps } from "next/image";
+import Image, { type ImageProps } from 'next/image';
 
-Object.defineProperty(Image, "default", {
+Object.defineProperty(Image, 'default', {
   configurable: true,
   value: (props: ImageProps) => <Image {...props} alt="" />, // Simplified mock of the Next.js Image component
 });

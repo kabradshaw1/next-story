@@ -10,11 +10,11 @@ import store from './store';
 interface FailedRequests {
   resolve: (value: AxiosResponse) => void;
   reject: (value: AxiosError) => void;
-  config: AxiosRequestConfig;
+  config: AxiosRequestConfig | undefined;
   error: AxiosError;
 }
 
-const baseURL = `${process.env.URL}`;
+const baseURL = `${process.env.AUTH_URL}`;
 
 const axiosInstance = axios.create({
   baseURL,
