@@ -49,11 +49,11 @@ const isTokenExpired = (token: string): boolean => {
   return decoded.exp * 1000 < Date.now();
 };
 
-const setupInterceptors = () => {
+const setupInterceptors = (): void => {
   axiosInstance.interceptors.request.use(async (config) => {
     let { token } = store.getState().auth;
 
-    if (token && isTokenExpired(token)) {
+    if (token !== null && isTokenExpired(token)) {
       if (!isTokenRefreshing) {
         isTokenRefreshing = true;
         try {
@@ -71,7 +71,7 @@ const setupInterceptors = () => {
         const interval = setInterval(() => {
           if (!isTokenRefreshing) {
             clearInterval(interval);
-            if (store.getState().auth.token) {
+            if (store.getState().auth.token !== null) {
               config.headers.Authorization = `Bearer ${store.getState().auth.token}`;
               resolve(config);
             } else {
@@ -80,7 +80,7 @@ const setupInterceptors = () => {
           }
         }, 100);
       });
-    } else if (token) {
+    } else if (token !== null) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -156,4 +156,4 @@ export async function fetcher<T>(url: string): Promise<T> {
 }
 
 export default axiosInstance;
-export { axiosAuthInstance };
+export { axiosAuthInstance, setupInterceptors };
