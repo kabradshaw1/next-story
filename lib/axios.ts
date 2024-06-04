@@ -1,8 +1,18 @@
-import axios from 'axios';
-// import createAuthRefreshInterceptor from "axios-auth-refresh";
+import axios, {
+  type AxiosError,
+  type AxiosRequestConfig,
+  type AxiosResponse,
+} from 'axios';
 
-// import authSlice from "./slices/authSlice";
+import authSlice from './slices/authSlice';
 import store from './store';
+
+interface FailedRequests {
+  resolve: (value: AxiosResponse) => void;
+  reject: (value: AxiosError) => void;
+  config: AxiosRequestConfig;
+  error: AxiosError;
+}
 
 const baseURL = `${process.env.URL}`;
 
@@ -22,60 +32,66 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-// axiosInstance.interceptors.response.use(
-//   (res) => {
-//     console.debug(
-//       "[Response]",
-//       res.config.baseURL + res.config.url,
-//       res.status,
-//       res.data
-//     );
-//     return Promise.resolve(res);
-//   },
-//   (err) => {
-//     console.debug(
-//       "[Response]",
-//       err.config.baseURL + err.config.url,
-//       err.response.status,
-//       err.response.data
-//     );
-//     return Promise.reject(err);
-//   }
-// );
+let failedRequests: FailedRequests[] = [];
+let isTokenRefreshing = false;
 
-// const refreshAuthLogic = async (failedRequest) => {
-//   const { token } = store.getState().auth;
-//   if (token !== null) {
-//     return axios
-//       .post(
-//         "/user/auth/refresh/",
-//         {
-//           refresh: token,
-//         },
-//         {
-//           baseURL: baseURL,
-//         }
-//       )
-//       .then((resp) => {
-//         const { access, refresh } = resp.data;
-//         failedRequest.response.config.headers.Authorization =
-//           "Bearer " + access;
-//         store.dispatch(
-//           authSlice.actions.setAuth({
-//             token: access,
-//           })
-//         );
-//       })
-//       .catch((err) => {
-//         if (err.response && err.response.status === 401) {
-//           store.dispatch(authSlice.actions.logout());
-//         }
-//       });
-//   }
-// };
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const status = error.response?.status;
+    const originalRequestConfig = error.config;
 
-// createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic);
+    if (status !== 401) {
+      return await Promise.reject(error);
+    }
 
+    if (isTokenRefreshing) {
+      return await new Promise((resolve, reject) => {
+        failedRequests.push({
+          resolve,
+          reject,
+          config: originalRequestConfig,
+          error,
+        });
+      });
+    }
+
+    isTokenRefreshing = true;
+
+    try {
+      const response = await axiosInstance.post('/access-token', {
+        refreshToken: JSON.parse(localStorage.getItem('refreshToken') ?? ''),
+      });
+      const { accessToken = null, refreshToken = null } = response.data ?? {};
+
+      if (accessToken == null || refreshToken == null) {
+        throw new Error(
+          'Something went wrong while refreshing your access token'
+        );
+      }
+
+      localStorage.setItem('accessToken', JSON.stringify(accessToken));
+      localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
+
+      failedRequests.forEach(({ resolve, reject, config }) => {
+        axiosInstance(config)
+          .then((response) => resolve(response))
+          .catch((error) => reject(error));
+      });
+    } catch (_error: unknown) {
+      console.error(_error);
+      failedRequests.forEach(({ reject, error }) => reject(error));
+      localStorage.setItem('accessToken', '');
+      localStorage.setItem('refreshToken', '');
+      return Promise.reject(error);
+    } finally {
+      failedRequests = [];
+      isTokenRefreshing = false;
+    }
+
+    return axiosInstance(originalRequestConfig);
+  }
+);
 export async function fetcher<T>(url: string): Promise<T> {
   return await axiosInstance.get<T>(url).then((res) => res.data);
 }
