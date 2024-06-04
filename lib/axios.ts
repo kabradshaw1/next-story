@@ -3,8 +3,9 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
-import authSlice, { type AuthState, logout, setAuth } from './slices/authSlice';
+import { type AuthState, logout, setAuth } from './slices/authSlice';
 import store from './store';
 
 interface FailedRequests {
@@ -43,6 +44,49 @@ axiosInstance.interceptors.request.use((config) => {
 let failedRequests: FailedRequests[] = [];
 let isTokenRefreshing = false;
 
+const isTokenExpired = (token: string): boolean => {
+  const decoded: { exp: number } = jwtDecode(token);
+  return decoded.exp * 1000 < Date.now();
+};
+
+const setupInterceptors = () => {
+  axiosInstance.interceptors.request.use(async (config) => {
+    let { token } = store.getState().auth;
+
+    if (token && isTokenExpired(token)) {
+      if (!isTokenRefreshing) {
+        isTokenRefreshing = true;
+        try {
+          const response = await axiosAuthInstance.post('/refresh');
+          token = response.headers.authorization?.split(' ')[1] ?? '';
+          store.dispatch(setAuth({ token }));
+          isTokenRefreshing = false;
+        } catch (error) {
+          store.dispatch(logout());
+          isTokenRefreshing = false;
+          throw error;
+        }
+      }
+      return await new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+          if (!isTokenRefreshing) {
+            clearInterval(interval);
+            if (store.getState().auth.token) {
+              config.headers.Authorization = `Bearer ${store.getState().auth.token}`;
+              resolve(config);
+            } else {
+              reject(new Error('Failed to refresh token'));
+            }
+          }
+        }, 100);
+      });
+    } else if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+};
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
@@ -67,7 +111,7 @@ axiosInstance.interceptors.response.use(
     isTokenRefreshing = true;
 
     try {
-      const response = await axiosAuthInstance.post('/api/refresh');
+      const response = await axiosAuthInstance.post('/refresh');
       const token =
         response.headers?.authorization?.split(' ').pop()?.trim() ?? '';
 
@@ -89,17 +133,21 @@ axiosInstance.interceptors.response.use(
             });
         }
       });
+      if (originalRequestConfig === undefined) {
+        throw new Error('config is undefined');
+      }
+      return await axiosInstance(originalRequestConfig);
     } catch (_error: unknown) {
       console.error(_error);
-      failedRequests.forEach(({ reject, error }) => reject(error));
-      authSlice.actions.logout();
+      failedRequests.forEach(({ reject, error }) => {
+        reject(error);
+      });
+      store.dispatch(logout());
       return await Promise.reject(error);
     } finally {
       failedRequests = [];
       isTokenRefreshing = false;
     }
-
-    return await axiosInstance(originalRequestConfig);
   }
 );
 
