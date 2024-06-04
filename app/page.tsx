@@ -1,46 +1,46 @@
-import React from "react"; // Make sure React is imported if JSX is being used.
+import React from 'react'; // Make sure React is imported if JSX is being used.
 
-import AboutSection from "@/components/home/AboutSection/AboutSection";
-import FeaturedHP from "@/components/home/Featured/Featured";
-import NonFeatured from "@/components/home/NonFeatured/NonFeatured";
-import Tools from "@/components/home/Tools/Tools";
+import AboutSection from '@/components/home/AboutSection/AboutSection';
+import FeaturedHP from '@/components/home/Featured/Featured';
+import NonFeatured from '@/components/home/NonFeatured/NonFeatured';
+import Tools from '@/components/home/Tools/Tools';
 
 export default function Home() {
   const categories = [
     {
-      category: "Characters",
-      description: "Galaxy Voyagers has a lot of characters",
-      image: "/images/characters.png",
+      category: 'Characters',
+      description: 'Galaxy Voyagers has a lot of characters',
+      image: '/images/characters.png',
       featured: true,
     },
     {
-      category: "Scenes",
-      description: "Galaxy Voyagers has a lot of planets",
-      image: "/images/scenes.png",
+      category: 'Scenes',
+      description: 'Galaxy Voyagers has a lot of planets',
+      image: '/images/scenes.png',
       featured: true,
     },
     {
-      category: "Locations",
-      description: "Galaxy Voyagers has a lot of species",
-      image: "/images/locations.png",
+      category: 'Locations',
+      description: 'Galaxy Voyagers has a lot of species',
+      image: '/images/locations.png',
       featured: false,
     },
     {
-      category: "Ships",
-      description: "Galaxy Voyagers has a lot of starships",
-      image: "/images/ships.png",
+      category: 'Ships',
+      description: 'Galaxy Voyagers has a lot of starships',
+      image: '/images/ships.png',
       featured: false,
     },
     {
-      category: "Conflicts",
-      description: "Galaxy Voyagers has a lot of species",
-      image: "/images/conflicts.png",
+      category: 'Conflicts',
+      description: 'Galaxy Voyagers has a lot of species',
+      image: '/images/conflicts.png',
       featured: false,
     },
     {
-      category: "Organizations",
-      description: "Galaxy Voyagers has a lot of organizations",
-      image: "/images/organizations.png",
+      category: 'Organizations',
+      description: 'Galaxy Voyagers has a lot of organizations',
+      image: '/images/organizations.png',
       featured: false,
     },
   ];
