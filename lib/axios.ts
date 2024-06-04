@@ -4,7 +4,7 @@ import axios, {
   type AxiosResponse,
 } from 'axios';
 
-import authSlice, { type AuthState } from './slices/authSlice';
+import authSlice, { type AuthState, logout, setAuth } from './slices/authSlice';
 import store from './store';
 
 interface FailedRequests {
@@ -24,7 +24,7 @@ const axiosInstance = axios.create({
   },
 });
 
-export const axiosAuthInstance = axios.create({
+const axiosAuthInstance = axios.create({
   baseURL: `${process.env.AUTH_URL}/api`,
   timeout: 5000,
   headers: {
@@ -72,16 +72,22 @@ axiosInstance.interceptors.response.use(
         response.headers?.authorization?.split(' ').pop()?.trim() ?? '';
 
       if (token === '') {
-        console.log('No token in response');
-        return authSlice.actions.logout();
+        store.dispatch(logout());
+        return await Promise.reject(error);
       }
 
-      store.dispatch(authSlice.actions.setAuth(token as AuthState));
+      store.dispatch(setAuth(token as AuthState));
 
       failedRequests.forEach(({ resolve, reject, config }) => {
-        axiosAuthInstance(config)
-          .then((response) => resolve(response))
-          .catch((error) => reject(error));
+        if (config !== undefined) {
+          axiosInstance(config)
+            .then((response) => {
+              resolve(response);
+            })
+            .catch((error: AxiosError) => {
+              reject(error);
+            });
+        }
       });
     } catch (_error: unknown) {
       console.error(_error);
@@ -93,7 +99,7 @@ axiosInstance.interceptors.response.use(
       isTokenRefreshing = false;
     }
 
-    return await axiosAuthInstance(originalRequestConfig);
+    return await axiosInstance(originalRequestConfig);
   }
 );
 
@@ -102,3 +108,4 @@ export async function fetcher<T>(url: string): Promise<T> {
 }
 
 export default axiosInstance;
+export { axiosAuthInstance };
