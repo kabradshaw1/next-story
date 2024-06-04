@@ -1,23 +1,23 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import "./globals.css";
-import Footer from "@/components/Footer/Footer";
-import Header from "@/components/Header/Header";
+import './globals.css';
+import Footer from '@/components/Footer/Footer';
+import Header from '@/components/Header/Header';
 
 export const metadata: Metadata = {
   title: {
-    default: "Galaxy Voyagers",
-    template: "",
+    default: 'Galaxy Voyagers',
+    template: '',
   },
   description:
-    "A fleet of spaceships embark on a journey to reach another habitalable planet.",
+    'A fleet of spaceships embark on a journey to reach another habitalable planet.',
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element {
   return (
     <html lang="en">
       <body>

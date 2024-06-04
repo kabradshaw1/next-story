@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import Items from "./Items/Items";
-import NoItems from "./Items/NoItems";
+import Items from './Items/Items';
+import NoItems from './Items/NoItems';
 
 export type Props = {
   props: {
