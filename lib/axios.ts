@@ -1,3 +1,4 @@
+import 'client-only';
 import axios, {
   type AxiosError,
   type AxiosRequestConfig,
@@ -26,7 +27,7 @@ const axiosInstance = axios.create({
 });
 
 const axiosAuthInstance = axios.create({
-  baseURL: `${process.env.AUTH_URL}/api`,
+  baseURL: `${process.env.AUTH_URL}/api/auth`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
