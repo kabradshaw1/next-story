@@ -43,9 +43,13 @@ axiosInstance.interceptors.request.use(async (config) => {
 
 const handleTokenRefresh = async (): Promise<void> => {
   try {
+    console.log('Refreshing token');
     const response = await axiosAuthInstance.post('/refresh');
+    console.log('Token refreshed', response);
     const newToken = response.headers?.authorization?.split(' ')[1] ?? '';
+    console.log('New token:', newToken);
     if (newToken !== '' && newToken !== undefined) {
+      console.log('dispatching new token');
       store.dispatch(setAuth({ token: newToken }));
     }
   } catch (error) {
@@ -55,9 +59,13 @@ const handleTokenRefresh = async (): Promise<void> => {
 };
 
 const setupInterceptors = async (): Promise<void> => {
+  console.log('Setting up interceptors');
   const initialTokenCheck = async (): Promise<void> => {
-    const { token } = store.getState().auth;
+    console.log('Checking initial token');
+    const token = store.getState().auth.token;
+    console.log('Token:', token);
     if (token !== null && isTokenExpired(token)) {
+      console.log('Token is expired, refreshing');
       await handleTokenRefresh();
     }
   };

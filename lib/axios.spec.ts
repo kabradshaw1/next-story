@@ -1,12 +1,15 @@
 import MockAdapter from 'axios-mock-adapter';
+import configureMockStore from 'redux-mock-store';
 
-import axiosInstance, { axiosAuthInstance } from './axios';
+import axiosInstance, { axiosAuthInstance, setupInterceptors } from './axios';
 import isTokenExpired from './isTokenExired';
 import { setAuth, logout } from './slices/authSlice';
 import store from './store';
 
 const mockAxiosInstance = new MockAdapter(axiosInstance);
 const mockAxiosAuthInstance = new MockAdapter(axiosAuthInstance);
+const middlewares = [];
+const mockStore = configureMockStore(middlewares);
 
 jest.mock('./isTokenExired', () => {
   return jest.fn();
@@ -72,5 +75,31 @@ describe('Axios Interceptor Tests', () => {
     // then
     expect(dispatchSpy).toHaveBeenCalledWith(logout());
     expect(store.getState().auth.token).toBe(null);
+  });
+
+  describe('setupInterceptors', () => {
+    it('givenExiredToken_whenSetupInterceptor_thenRefreshTokenAndDispatchAuth', async () => {
+      // given
+      const expiredToken = 'expiredToken';
+      const newToken = 'newToken';
+      store.dispatch(setAuth({ token: expiredToken }));
+      (isTokenExpired as jest.Mock).mockReturnValue(true);
+      mockAxiosAuthInstance
+        .onPost('/refresh')
+        .reply(200, {}, { authorization: `Bearer ${newToken}` });
+      mockAxiosInstance.onPost('/test-endpoint').reply((config) => {
+        // when
+
+        const Authorization = config.headers?.Authorization;
+        if (Authorization === `Bearer ${newToken}`) {
+          return [200, { data: 'test' }];
+        }
+        return [401];
+      });
+      await setupInterceptors();
+
+      // then
+      expect(store.getState().auth.token).toBe(newToken);
+    });
   });
 });
