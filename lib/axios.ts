@@ -1,5 +1,5 @@
 import 'client-only';
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 
 import isTokenExpired from './isTokenExired';
 import { logout, setAuth } from './slices/authSlice';
@@ -54,11 +54,45 @@ const handleTokenRefresh = async (): Promise<void> => {
   }
 };
 
-const setupInterceptors = (): void => {
-  axiosInstance.interceptors.request.use(async (config) => {
-    let { token } = store.getState().auth;
-    return config;
+const setupInterceptors = async (): Promise<void> => {
+  const initialTokenCheck = async (): Promise<void> => {
+    const { token } = store.getState().auth;
+    if (token !== null && isTokenExpired(token)) {
+      await handleTokenRefresh();
+    }
+  };
+
+  const refreshTokenInterval = async (): Promise<void> => {
+    try {
+      await handleTokenRefresh();
+      console.log('Token refreshed every 14 minutes');
+    } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 401) {
+        console.error('Received 401 error, stopping token refresh.');
+        return;
+      }
+    }
+    scheduleNextTokenRefresh();
+  };
+
+  const scheduleNextTokenRefresh = (): void => {
+    setTimeout(
+      () => {
+        refreshTokenInterval().catch((error) => {
+          console.error('Error in scheduled token refresh:', error);
+        });
+      },
+      14 * 60 * 1000
+    );
+  };
+
+  // Perform the initial token check
+  initialTokenCheck().catch((error) => {
+    console.error('Error in initial token check:', error);
   });
+
+  // Start the recursive token refresh
+  scheduleNextTokenRefresh();
 };
 
 export async function fetcher<T>(url: string): Promise<T> {
