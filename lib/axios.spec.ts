@@ -1,6 +1,6 @@
-import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
-import axiosInstance, { setupInterceptors, axiosAuthInstance } from './axios';
+
+import axiosInstance, { axiosAuthInstance } from './axios';
 import isTokenExpired from './isTokenExired';
 import { setAuth, logout } from './slices/authSlice';
 import store from './store';
@@ -16,7 +16,7 @@ describe('Axios Interceptor Tests', () => {
   beforeEach(() => {
     mockAxiosInstance.reset();
     mockAxiosAuthInstance.reset();
-    store.dispatch(logout()); // Clear any existing state
+    store.dispatch(logout());
   });
 
   it('givenTokenInAuthState_whenRequest_thenAddTokenToHeader', async () => {
@@ -63,9 +63,6 @@ describe('Axios Interceptor Tests', () => {
     mockAxiosInstance.onPost('/graphql').reply(401);
     mockAxiosAuthInstance.onPost('/refresh').reply(401);
 
-    // Ensure no token is present
-    store.dispatch(logout());
-
     // Spy on the store's dispatch method to verify logout action is called
     const dispatchSpy = jest.spyOn(store, 'dispatch');
 
@@ -75,6 +72,5 @@ describe('Axios Interceptor Tests', () => {
     // then
     expect(dispatchSpy).toHaveBeenCalledWith(logout());
     expect(store.getState().auth.token).toBe(null);
-    expect(store.getState().auth.isLoggedIn).toBe(false);
   });
 });

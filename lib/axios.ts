@@ -5,10 +5,8 @@ import isTokenExpired from './isTokenExired';
 import { logout, setAuth } from './slices/authSlice';
 import store from './store';
 
-const baseURL = `${process.env.STORY_URL}/graphql`;
-
 const axiosInstance = axios.create({
-  baseURL,
+  baseURL: `${process.env.STORY_URL}/graphql`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -24,31 +22,33 @@ const axiosAuthInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(async (config) => {
-  const { token } = store.getState().auth;
+  let token = store.getState().auth.token;
 
-  if (token !== null) {
-    if (!isTokenExpired(token)) {
-      config.headers.Authorization = `Bearer ${token}`;
-    } else {
-      await handleTokenRefresh();
-      const { token } = store.getState().auth;
+  const setAuthorizationHeader = (token: string | null): void => {
+    if (token !== null) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+  };
+
+  if (token !== null && !isTokenExpired(token)) {
+    setAuthorizationHeader(token);
+  } else {
+    await handleTokenRefresh();
+    token = store.getState().auth.token;
+    setAuthorizationHeader(token);
   }
+
   return config;
 });
 
 const handleTokenRefresh = async (): Promise<void> => {
   try {
-    console.log('Refreshing token');
     const response = await axiosAuthInstance.post('/refresh');
-    console.log('Token refreshed', response.data);
     const newToken = response.headers?.authorization?.split(' ')[1] ?? '';
     if (newToken !== '' && newToken !== undefined) {
       store.dispatch(setAuth({ token: newToken }));
     }
   } catch (error) {
-    console.error('Error refreshing token', error);
     store.dispatch(logout());
     throw error;
   }
