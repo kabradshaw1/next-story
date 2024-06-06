@@ -1,20 +1,24 @@
-"use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+'use client';
+import { useState } from 'react';
 
-import Logo from "@/components/Logo/Logo";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-export default function Login() {
+import Logo from '@/components/Logo/Logo';
+
+export default function Login(): JSX.Element {
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const validationSchema = z.object({
     email: z
       .string()
-      .min(1, "Email is required")
-      .email("This email is not a valid format"),
+      .min(1, 'Email is required')
+      .email('This email is not a valid format'),
     password: z
       .string()
-      .min(6, "This password is too short")
-      .max(50, "This password is too long"),
+      .min(6, 'This password is too short')
+      .max(50, 'This password is too long'),
   });
 
   type LoginProps = z.infer<typeof validationSchema>;
@@ -27,14 +31,17 @@ export default function Login() {
   } = useForm<LoginProps>({
     resolver: zodResolver(validationSchema),
   });
-
+  const formSubmit: SubmitHandler<LoginProps> = (data) => {};
   return (
     <>
       <div className="w-full max-w-lg">
         <form
           noValidate
           className="card"
-          onSubmit={handleSubmit((data) => console.log(data))}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit(formSubmit);
+          }}
         >
           <div className="mb-4">
             <label htmlFor="email" className="label">
@@ -44,9 +51,12 @@ export default function Login() {
               id="email"
               type="email"
               placeholder="Enter email"
-              {...register("email")}
-              className={`input ${errors.email ? "border-red-600" : "border-gray-700"} bg-gray-700`}
-              onBlur={() => trigger("email")}
+              {...register('email')}
+              className={`input ${errors.email !== null ? 'border-red-600' : 'border-gray-700'} bg-gray-700`}
+              onBlur={() => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                trigger('email');
+              }}
             />
             <p className="error-message">{errors.email?.message}</p>
           </div>
@@ -58,9 +68,12 @@ export default function Login() {
               id="password"
               type="password"
               placeholder="Enter password"
-              {...register("password")}
-              className={`input ${errors.password ? "border-red-600" : "border-gray-700"} bg-gray-700`}
-              onBlur={() => trigger("password")}
+              {...register('password')}
+              className={`input ${errors.password !== null ? 'border-red-600' : 'border-gray-700'} bg-gray-700`}
+              onBlur={() => {
+                // eslint-disable-next-line @typescript-eslint/no-floating-promises
+                trigger('password');
+              }}
             />
             <p className="error-message">{errors.password?.message}</p>
           </div>

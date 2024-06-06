@@ -17,6 +17,19 @@ spec:
       containers:
         - name: next
           image: gcr.io/gvgamers/next:latest
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: AUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: next-configmap
+                  key: AUTH_URL
+            - name: STORY_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: next-configmap
+                  key: STORY_URL
           ports:
             - containerPort: 3000
       imagePullSecrets:
