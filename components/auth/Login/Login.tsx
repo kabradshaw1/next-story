@@ -6,8 +6,10 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Logo from '@/components/Logo/Logo';
+import { useAppDispatch } from '@/lib/store';
 
 export default function Login(): JSX.Element {
+  const dispatch = useAppDispatch();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const validationSchema = z.object({

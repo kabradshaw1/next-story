@@ -1,8 +1,13 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 
 import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
+
+const ReduxProvider = dynamic(() => import('@/app/StoreProvider'), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: {
@@ -21,11 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <main className="flex flex-wrap justify-center items-center bg-dark-gray">
-          {children}
-        </main>
-        <Footer />
+        <ReduxProvider>
+          <Header />
+          <main className="flex flex-wrap justify-center items-center bg-dark-gray">
+            {children}
+          </main>
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import FeaturedHP from '@/components/home/Featured/Featured';
 import NonFeatured from '@/components/home/NonFeatured/NonFeatured';
 import Tools from '@/components/home/Tools/Tools';
 
-export default function Home() {
+export default function Home(): React.ReactElement {
   const categories = [
     {
       category: 'Characters',
