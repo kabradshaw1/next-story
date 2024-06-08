@@ -2,16 +2,21 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/router';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Logo from '@/components/Logo/Logo';
-import { useAppDispatch } from '@/lib/store';
+import { axiosAuthInstance } from '@/lib/axios';
+import { setAuth } from '@/lib/store/slices/authSlice';
+import { useAppDispatch } from '@/lib/store/store';
 
 export default function Login(): JSX.Element {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+
   const validationSchema = z.object({
     email: z
       .string()
@@ -33,7 +38,24 @@ export default function Login(): JSX.Element {
   } = useForm<LoginProps>({
     resolver: zodResolver(validationSchema),
   });
-  const formSubmit: SubmitHandler<LoginProps> = (data) => {};
+
+  const formSubmit: SubmitHandler<LoginProps> = async (data) => {
+    setLoading(true);
+    try {
+      setMessage('Logging in...');
+      const response = await axiosAuthInstance.post('/login', data);
+      if (response.status === 200) {
+        dispatch(setAuth({ token: response.data.token }));
+        void router.push('/');
+      } else {
+        setMessage('Failed to login');
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
+  };
   return (
     <>
       <div className="w-full max-w-lg">
@@ -80,10 +102,10 @@ export default function Login(): JSX.Element {
             <p className="error-message">{errors.password?.message}</p>
           </div>
           <div className="flex items-center justify-between">
-            <button type="submit" className="btn">
+            <button type="submit" className="btn" disabled={loading}>
               Submit Form
             </button>
-            <p className="text-sm text-custom-blue">place holder message</p>
+            <p className="text-sm text-custom-blue">{message}</p>
           </div>
         </form>
       </div>

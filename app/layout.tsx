@@ -5,7 +5,8 @@ import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 
-const ReduxProvider = dynamic(() => import('@/lib/store/redux-provider'), {
+// eslint-disable-next-line @typescript-eslint/promise-function-async
+const StoreProvider = dynamic(() => import('@/app/StoreProvider'), {
   ssr: false,
 });
 
@@ -26,13 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ReduxProvider>
+        <StoreProvider>
           <Header />
           <main className="flex flex-wrap justify-center items-center bg-dark-gray">
             {children}
           </main>
           <Footer />
-        </ReduxProvider>
+        </StoreProvider>
       </body>
     </html>
   );
