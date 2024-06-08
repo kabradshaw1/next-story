@@ -4,10 +4,6 @@ services:
     build:
       context: ..
       dockerfile: Dockerfile.dev
-    environment:
-      - NODE_ENV=development
-      - AUTH_URL=http://${AUTH_URL}
-      - STORY_URL=http://${STORY_URL}
     volumes:
       - ../:/app:delegated
       - /app/node_modules

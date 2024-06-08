@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
+import 'dotenv/config';
 
 // eslint-disable-next-line @typescript-eslint/promise-function-async
 const StoreProvider = dynamic(() => import('@/app/StoreProvider'), {

@@ -1,4 +1,5 @@
 import axios, { isAxiosError } from 'axios';
+import 'dotenv/config';
 
 import isTokenExpired from './isTokenExired';
 import { setAuth, logout } from './store/slices/authSlice';
