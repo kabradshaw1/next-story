@@ -5,7 +5,7 @@ import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 
-const ReduxProvider = dynamic(() => import('@/app/StoreProvider'), {
+const ReduxProvider = dynamic(() => import('@/lib/store/redux-provider'), {
   ssr: false,
 });
 

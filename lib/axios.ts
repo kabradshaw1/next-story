@@ -2,8 +2,8 @@ import 'client-only';
 import axios, { isAxiosError } from 'axios';
 
 import isTokenExpired from './isTokenExired';
-import { logout, setAuth } from './slices/authSlice';
-import store from './store';
+import { setAuth, logout } from './store/slices/authSlice';
+import { store } from './store/index';
 
 const axiosInstance = axios.create({
   baseURL: `${process.env.STORY_URL}/graphql`,

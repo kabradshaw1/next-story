@@ -4,7 +4,7 @@ import MockAdapter from 'axios-mock-adapter';
 import axiosInstance, { axiosAuthInstance, setupInterceptors } from './axios';
 import isTokenExpired from './isTokenExired';
 import { setAuth, logout } from './slices/authSlice';
-import store from './store';
+import store from './store/store';
 
 const mockAxiosInstance = new MockAdapter(axiosInstance);
 const mockAxiosAuthInstance = new MockAdapter(axiosAuthInstance);
