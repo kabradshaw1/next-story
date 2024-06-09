@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { configureStore } from '@reduxjs/toolkit';
 import {
   type TypedUseSelectorHook,
@@ -15,9 +16,29 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 import authSlice from './slices/authSlice';
+
+const createNoopStorage = (): Storage => {
+  return {
+    getItem(_key: string) {
+      return null;
+    },
+    setItem(_key: string, _value: string) {},
+    removeItem(_key: string) {},
+    clear() {},
+    key(_index: number) {
+      return null;
+    },
+    length: 0,
+  };
+};
+
+const storage =
+  typeof window !== 'undefined'
+    ? createWebStorage('local')
+    : createNoopStorage();
 
 const rootReducer = combineReducers({
   auth: authSlice.reducer,

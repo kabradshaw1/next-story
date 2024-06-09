@@ -9,10 +9,10 @@ import { z } from 'zod';
 import Logo from '@/components/Logo/Logo';
 import { axiosAuthInstance } from '@/lib/axios';
 import { setAuth } from '@/lib/store/slices/authSlice';
-// import { useAppDispatch } from '@/lib/store/store';
+import { useAppDispatch } from '@/lib/store/store';
 
 export default function Login(): JSX.Element {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -41,22 +41,24 @@ export default function Login(): JSX.Element {
 
   const formSubmit: SubmitHandler<LoginProps> = async (data) => {
     setLoading(true);
-    console.log('Logging in...');
     try {
       setMessage('Logging in...');
       const response = await axiosAuthInstance.post('/login', data);
       console.log(response);
       if (response.status === 200) {
-        // dispatch(setAuth({ token: response.data.token }));
-        console.log('Redirecting...');
+        const authHeader = response.headers.getAuthorization?.toString;
+
+        console.log(authHeader);
+        dispatch(setAuth({ token: response.headers.token }));
         router.push('/');
       } else {
         setMessage('Failed to login');
         setLoading(false);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       setLoading(false);
+      setMessage('Failed to login');
     }
   };
   return (

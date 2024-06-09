@@ -2,6 +2,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import Dropdown from '@/components/Header/Dropdown';
+
 export default function Header(): JSX.Element {
   const pathname = usePathname();
 
@@ -30,6 +32,7 @@ export default function Header(): JSX.Element {
       >
         Register
       </Link>
+      <Dropdown />
     </header>
   );
 }

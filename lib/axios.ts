@@ -10,6 +10,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 const axiosAuthInstance = axios.create({
@@ -18,6 +19,7 @@ const axiosAuthInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(async (config) => {

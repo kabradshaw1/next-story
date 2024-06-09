@@ -1,11 +1,9 @@
 'use client';
 
-import QueryProvider from '@/app/QueryProvider';
+import { useAppSelector } from '@/lib/store/store';
 
 export default function Dropdown(): JSX.Element {
-  return (
-    <QueryProvider>
-      <p>Dropdown</p>
-    </QueryProvider>
-  );
+  // const auth = useAppSelector((state) => state.auth);
+  // console.log(auth);
+  return <p>Dropdown</p>;
 }
