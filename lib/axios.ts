@@ -5,7 +5,7 @@ import { setAuth, logout } from './store/slices/authSlice';
 import store from './store/store';
 
 const axiosInstance = axios.create({
-  baseURL: `${process.env.STORY_URL}/graphql`,
+  baseURL: `${process.env.NEXT_PUBLIC_STORY_URL}/graphql`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 });
 
 const axiosAuthInstance = axios.create({
-  baseURL: `${process.env.AUTH_URL}/api/auth`,
+  baseURL: `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
