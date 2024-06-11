@@ -4,10 +4,10 @@ import Items from './Items/Items';
 import NoItems from './Items/NoItems';
 
 export type Props = {
-  props: {
+  props: Array<{
     title: string;
     imageUrl: string | undefined;
-  }[];
+  }>;
   route: string;
 };
 

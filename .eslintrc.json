@@ -36,8 +36,10 @@
   },
   "rules": {
     "@typescript-eslint/comma-dangle": "off",
+    "@typescript-eslint/consistent-type-definitions": ["error", "type"],
     "no-unused-vars": "warn",
     "no-console": "off",
+    "multiline-ternary": "off",
     "@typescript-eslint/no-explicit-any": "error",
     "n/handle-callback-err": "error",
     "react/react-in-jsx-scope": "off",

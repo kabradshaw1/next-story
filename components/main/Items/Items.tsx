@@ -1,7 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import createSlug from "@/lib/createSlug";
+import createSlug from '@/lib/createSlug';
+
 export type Props = {
   title: string;
   imageUrl?: string;
@@ -19,7 +20,7 @@ const Items: React.FC<Props> = (props) => {
     >
       {props.imageUrl ? (
         <Image
-          src={`${props.imageUrl}`}
+          src={props.imageUrl}
           alt={`Image of ${props.title}`}
           width={200}
           height={200}
