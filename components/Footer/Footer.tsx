@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { FaTwitter, FaFacebook, FaEnvelope, FaInstagram } from "react-icons/fa";
+import Link from 'next/link';
+import { FaTwitter, FaFacebook, FaEnvelope, FaInstagram } from 'react-icons/fa';
 
-export default function Footer() {
+export default function Footer(): JSX.Element {
   return (
     <footer>
       <h1>Footer</h1>

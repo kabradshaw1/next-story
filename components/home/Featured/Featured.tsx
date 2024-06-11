@@ -1,10 +1,10 @@
-"use client";
-import React from "react";
+'use client';
+import React from 'react';
 
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import createSlug from "@/lib/createSlug";
+import createSlug from '@/lib/createSlug';
 
 type FeaturedProps = {
   category: string;
@@ -12,9 +12,9 @@ type FeaturedProps = {
   image: string;
 };
 
-interface Props {
+type Props = {
   items: FeaturedProps[];
-}
+};
 
 const FeaturedHP: React.FC<Props> = ({ items }) => {
   return (

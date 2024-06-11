@@ -1,6 +1,6 @@
-import Logo from "@/components/Logo/Logo";
+import Logo from '@/components/Logo/Logo';
 
-const AboutSection = () => {
+const AboutSection = (): JSX.Element => {
   return (
     <>
       <div className="flex flex-col xl:flex-row items-center justify-between">

@@ -1,13 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from '@testing-library/react';
 
-import Logo from "./Logo";
+import Logo from './Logo';
 
-describe("Logo", () => {
+describe('Logo', () => {
   beforeEach(() => {
     render(<Logo />);
   });
 
-  it("given_whenRendered_thenImageLoads", async () => {
+  it('given_whenRendered_thenImageLoads', async () => {
     // given
 
     // when rendered in beforeEach
@@ -17,13 +17,13 @@ describe("Logo", () => {
     expect(logoImage).toBeInTheDocument();
   });
 
-  it("given_whenRendered_thenAltTextPresent", async () => {
+  it('given_whenRendered_thenAltTextPresent', async () => {
     // given
 
     // when
 
     // then
-    const logoImage = screen.getByAltText("Logo Image");
-    expect(logoImage).toHaveAttribute("alt", "Logo Image");
+    const logoImage = screen.getByAltText('Logo Image');
+    expect(logoImage).toHaveAttribute('alt', 'Logo Image');
   });
 });
