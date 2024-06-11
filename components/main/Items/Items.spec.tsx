@@ -16,9 +16,10 @@ describe('Items Component', () => {
       route: 'character',
     };
     render(<Items {...props} />);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const image = screen.getByRole('img', {
       name: `Image of ${props.title}`,
-    });
+    }) as HTMLImageElement;
 
     // Check if the src attribute includes encoded URL and optimization parameters
     expect(image.src).toContain(encodeURIComponent(props.imageUrl));
@@ -28,7 +29,7 @@ describe('Items Component', () => {
     const props = {
       title: 'Item 2',
       text: 'Description 2',
-      imageUrl: '',
+      imageUrl: undefined,
       route: 'character',
     };
     render(<Items {...props} />);
