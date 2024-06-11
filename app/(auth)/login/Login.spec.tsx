@@ -1,19 +1,24 @@
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 
-import Login from '../../../components/auth/Login/Login';
+import StoreProvider from '@/app/StoreProvider';
 
-describe('login', () => {
-  jest.mock('next/router', () => ({
-    useRouter: () => ({
-      push: jest.fn(),
-    }),
-  }));
+import Login from './page';
 
-  beforeEach(() => {
-    render(<Login />);
-  });
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn(),
+  }),
+}));
 
+beforeEach(() => {
+  render(
+    <StoreProvider>
+      <Login />
+    </StoreProvider>
+  );
+});
+describe('Login', () => {
   describe('input validation', () => {
     it('givenBlankEmail_whenEmailIsEntered_thenShowRequiredMessage', async () => {
       const emailInput = screen.getByPlaceholderText('Enter email');
@@ -83,9 +88,11 @@ describe('login', () => {
       });
     });
   });
-  it('giveImage_whenPageLoads_thenDisplayImage', async () => {
-    const image = screen.getByAltText(/Logo Image/i);
+  describe('ui components', () => {
+    it('giveImage_whenPageLoads_thenDisplayImage', async () => {
+      const image = screen.getByAltText(/Logo Image/i);
 
-    expect(image).toBeInTheDocument();
+      expect(image).toBeInTheDocument();
+    });
   });
 });
