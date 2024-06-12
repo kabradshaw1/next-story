@@ -1,0 +1,12 @@
+query characters {
+  characters {
+    title
+    text
+    createdAt
+    user
+    scenes {
+      title
+      text
+    }
+  }
+}
