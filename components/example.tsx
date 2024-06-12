@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 
 export default function Example(): React.ReactElement {
   // const { data, error } = useQuery({

@@ -6,7 +6,7 @@ import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 
 // eslint-disable-next-line @typescript-eslint/promise-function-async
-const StoreProvider = dynamic(() => import('@/app/StoreProvider'), {
+const QueryProvider = dynamic(() => import('@/app/QueryProvider'), {
   ssr: false,
 });
 
@@ -27,13 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StoreProvider>
+        <QueryProvider>
           <Header />
           <main className="flex flex-wrap justify-center items-center bg-dark-gray">
             {children}
           </main>
           <Footer />
-        </StoreProvider>
+        </QueryProvider>
       </body>
     </html>
   );
