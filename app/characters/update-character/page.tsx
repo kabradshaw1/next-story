@@ -1,3 +1,3 @@
-export default function UpdateCharacterPage() {
+export default function UpdateCharacterPage(): JSX.Element {
   return <></>;
 }

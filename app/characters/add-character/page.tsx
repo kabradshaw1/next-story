@@ -1,3 +1,3 @@
-export default function AddCharacterPage() {
+export default function AddCharacterPage(): JSX.Element {
   return <></>;
 }

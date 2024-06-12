@@ -1,14 +1,20 @@
 import { render } from '@testing-library/react';
 
+import StoreProvider from '@/app/StoreProvider';
+
 import Header from './Header';
 
 describe('Header', () => {
-  jest.mock('next/navigation', () => {
-    usePathname: () => '/login';
-  });
+  // jest.mock('next/navigation', () => {
+  //   usePathname: () => '/login';
+  // });
 
   beforeEach(() => {
-    render(<Header />);
+    render(
+      <StoreProvider>
+        <Header />
+      </StoreProvider>
+    );
   });
   describe('Contents', () => {
     describe('Drop Downs', () => {

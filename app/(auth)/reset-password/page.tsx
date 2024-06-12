@@ -1,4 +1,4 @@
-export default function ResetPassword() {
+export default function ResetPassword(): JSX.Element {
   return (
     <div>
       <h1>Reset Password</h1>
