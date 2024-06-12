@@ -6,7 +6,6 @@ query characters {
     user
     scenes {
       title
-      text
     }
   }
 }
