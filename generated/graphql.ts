@@ -23,24 +23,12 @@ export type Character = {
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   id?: Maybe<Scalars['Int']['output']>;
-  roles?: Maybe<Array<Maybe<CharacterRoles>>>;
+  roles?: Maybe<Array<Maybe<Role>>>;
   scenes?: Maybe<Array<Maybe<Scene>>>;
   text?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
   uploadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  user: Scalars['String']['output'];
-};
-
-export type CharacterRoles = {
-  __typename?: 'CharacterRoles';
-  cannon?: Maybe<Scalars['Boolean']['output']>;
-  character?: Maybe<Character>;
-  createdAt?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
-  role?: Maybe<Role>;
-  scenes?: Maybe<Array<Maybe<Scene>>>;
-  updatedAt?: Maybe<Scalars['String']['output']>;
   user: Scalars['String']['output'];
 };
 
@@ -151,7 +139,6 @@ export type MutationCreateOrganizationArgs = {
 
 export type MutationCreateSceneArgs = {
   characterIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  characterRoleIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   conflictIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   files?: InputMaybe<Array<InputMaybe<FileInput>>>;
   locationIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
@@ -253,8 +240,6 @@ export type MutationUpdateOrganizationArgs = {
 export type MutationUpdateSceneArgs = {
   characterAddIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   characterRemoveIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  characterRoleAddIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  characterRoleRemoveIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   conflictAddIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   conflictRemoveIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   contentType?: InputMaybe<Scalars['String']['input']>;
@@ -382,7 +367,6 @@ export type Role = {
 export type Scene = {
   __typename?: 'Scene';
   cannon?: Maybe<Scalars['Boolean']['output']>;
-  characterRoles?: Maybe<Array<Maybe<CharacterRoles>>>;
   characters?: Maybe<Array<Maybe<Character>>>;
   conflicts?: Maybe<Array<Maybe<Conflict>>>;
   createdAt?: Maybe<Scalars['String']['output']>;
@@ -430,7 +414,7 @@ export type UpdateRoleInput = {
 export type CharactersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CharactersQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null } | null> | null };
+export type CharactersQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string } | null> | null } | null> | null };
 
 export type MinCharactersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -447,6 +431,9 @@ export const CharactersDocument = gql`
     user
     downloadURLs
     scenes {
+      title
+    }
+    roles {
       title
     }
   }
