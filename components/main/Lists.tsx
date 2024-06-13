@@ -13,7 +13,7 @@ export type Props = {
 
 const Lists: React.FC<Props> = ({ props, route }) => {
   return (
-    <>
+    <div className="flex flex-wrap justify-center gap-4">
       {props.length > 0 ? (
         props.map((prop) => (
           <Items
@@ -26,7 +26,7 @@ const Lists: React.FC<Props> = ({ props, route }) => {
       ) : (
         <NoItems route={route} />
       )}
-    </>
+    </div>
   );
 };
 

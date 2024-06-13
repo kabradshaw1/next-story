@@ -27,7 +27,7 @@ const Items: React.FC<Props> = (props) => {
       ) : (
         <p>No image available.</p>
       )}
-      <h2>{props.title}</h2>
+      <h2 className="mt-4">{props.title}</h2>
     </Link>
   );
 };
