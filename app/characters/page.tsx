@@ -1,7 +1,7 @@
+import axios from 'axios';
 import { gql } from 'graphql-tag';
 
 import Lists from '@/components/main/Lists';
-import axiosInstance from '@/lib/axios';
 
 export default async function CharactersPage(): Promise<JSX.Element> {
   const query = gql`
@@ -13,17 +13,21 @@ export default async function CharactersPage(): Promise<JSX.Element> {
     }
   `;
 
-  const response = await axiosInstance.post('', {
-    query: query.loc?.source.body,
-  });
+  const response = await axios.post(
+    'http://host.docker.internal:4000/graphql',
+    {
+      query: query.loc?.source.body,
+    }
+  );
 
   const characters = response.data.data.characters;
   console.log('the characters', characters);
-  return <div></div>;
-  // <div className="card">
-  //   <h1>Characters</h1>
-  //   <Lists props={characters} route="characters" />
-  // </div>
+  return (
+    <div className="card">
+      <h1>Characters</h1>
+      <Lists props={characters} route="characters" />
+    </div>
+  );
 }
 // I also have error and loading here
 
