@@ -1,5 +1,5 @@
-query character() {
-  character($title: String!) {
+query character($title: String!) {
+  character(title: $title) {
     title
     text
     createdAt

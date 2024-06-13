@@ -37,7 +37,7 @@ export default async function CharactersPage(): Promise<JSX.Element> {
 
   return (
     <div className="card">
-      {/* <h1>Characters</h1> */}
+      <h2>Characters</h2>
       <Lists props={characters} route="characters" />
     </div>
   );

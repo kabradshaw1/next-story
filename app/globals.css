@@ -30,8 +30,7 @@ body {
 
 .card {
   @apply shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4;
-  max-width: 250px; /* Adjust this value as needed */
-  overflow: hidden; /* Ensure content doesn't overflow */
+  max-width: 350px; /* Adjust this value as needed */
 }
 
 /* Add this in your global CSS file */

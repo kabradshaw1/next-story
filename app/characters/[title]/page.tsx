@@ -1,26 +1,12 @@
-import { gql } from 'graphql-tag';
+'use client';
 
-export default async function SingleCharacterPage(): Promise<JSX.Element> {
-  const query = gql`
-    query character() {
-      character($title: String!) {
-        title
-        text
-        createdAt
-        user
-        downloadURLs
-        scenes {
-          title
-        }
-        roles {
-          title
-          organization {
-            title
-          }
-        }
-      }
-    }
-  `;
+import { useParams } from 'next/navigation';
 
+import { useCharacterQuery } from '@/generated/graphql';
+
+export default function SingleCharacterPage(): JSX.Element {
+  const { title } = useParams<{ title: string }>();
+  const { data } = useCharacterQuery({ variables: { title } });
+  console.log('characters', data);
   return <></>;
 }
