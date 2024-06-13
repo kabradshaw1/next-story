@@ -9,37 +9,37 @@ export default function Home(): React.ReactElement {
   const categories = [
     {
       category: 'Characters',
-      description: 'Galaxy Voyagers has a lot of characters',
+      description: 'See the characters of Galaxy Voyagers',
       image: '/images/characters.png',
       featured: true,
     },
     {
       category: 'Scenes',
-      description: 'Galaxy Voyagers has a lot of planets',
+      description: 'See the scenes of Galaxy Voyagers',
       image: '/images/scenes.png',
       featured: true,
     },
     {
       category: 'Locations',
-      description: 'Galaxy Voyagers has a lot of species',
+      description: 'See the locations of Galaxy Voyagers',
       image: '/images/locations.png',
       featured: false,
     },
     {
       category: 'Ships',
-      description: 'Galaxy Voyagers has a lot of starships',
+      description: 'See the ships of Galaxy Voyagers',
       image: '/images/ships.png',
       featured: false,
     },
     {
       category: 'Conflicts',
-      description: 'Galaxy Voyagers has a lot of species',
+      description: 'See the conflicts of Galaxy Voyagers',
       image: '/images/conflicts.png',
       featured: false,
     },
     {
       category: 'Organizations',
-      description: 'Galaxy Voyagers has a lot of organizations',
+      description: 'See the organizations of Galaxy Voyagers',
       image: '/images/organizations.png',
       featured: false,
     },
