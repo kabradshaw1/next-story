@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { gql } from 'graphql-tag';
-
+import axiosInstance from '@/lib/axios';
 import Lists from '@/components/main/Lists';
 
 export default async function CharactersPage(): Promise<JSX.Element> {
@@ -12,7 +12,7 @@ export default async function CharactersPage(): Promise<JSX.Element> {
       }
     }
   `;
-
+  const stuff = axiosInstance;
   const response = await axios.post(
     'http://host.docker.internal:4000/graphql',
     {
