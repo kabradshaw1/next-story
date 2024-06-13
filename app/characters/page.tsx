@@ -16,8 +16,25 @@ export default async function CharactersPage(): Promise<JSX.Element> {
     query: query.loc?.source.body,
   });
 
-  const characters = response.data.data.characters;
-  console.log('the characters', characters);
+  const characters = response.data.data.characters.map(
+    (character: { title: string; downloadURLs: string[] }) => {
+      let imageUrl;
+      if (
+        character.downloadURLs !== null &&
+        character.downloadURLs !== undefined
+      ) {
+        const randomIndex = Math.floor(
+          Math.random() * character.downloadURLs.length
+        );
+        imageUrl = character.downloadURLs[randomIndex];
+      }
+      return {
+        title: character.title,
+        imageUrl,
+      };
+    }
+  );
+
   return (
     <div className="card">
       <h1>Characters</h1>
