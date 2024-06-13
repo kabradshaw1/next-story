@@ -1,0 +1,6 @@
+query minCharacters {
+  characters {
+    title
+    downloadURLs
+  }
+}

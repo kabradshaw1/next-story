@@ -430,7 +430,12 @@ export type UpdateRoleInput = {
 export type CharactersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CharactersQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null } | null> | null };
+export type CharactersQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null } | null> | null };
+
+export type MinCharactersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MinCharactersQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', title: string, downloadURLs?: Array<string | null> | null } | null> | null };
 
 
 export const CharactersDocument = gql`
@@ -440,6 +445,7 @@ export const CharactersDocument = gql`
     text
     createdAt
     user
+    downloadURLs
     scenes {
       title
     }
@@ -478,3 +484,43 @@ export type CharactersQueryHookResult = ReturnType<typeof useCharactersQuery>;
 export type CharactersLazyQueryHookResult = ReturnType<typeof useCharactersLazyQuery>;
 export type CharactersSuspenseQueryHookResult = ReturnType<typeof useCharactersSuspenseQuery>;
 export type CharactersQueryResult = Apollo.QueryResult<CharactersQuery, CharactersQueryVariables>;
+export const MinCharactersDocument = gql`
+    query minCharacters {
+  characters {
+    title
+    downloadURLs
+  }
+}
+    `;
+
+/**
+ * __useMinCharactersQuery__
+ *
+ * To run a query within a React component, call `useMinCharactersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMinCharactersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMinCharactersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMinCharactersQuery(baseOptions?: Apollo.QueryHookOptions<MinCharactersQuery, MinCharactersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MinCharactersQuery, MinCharactersQueryVariables>(MinCharactersDocument, options);
+      }
+export function useMinCharactersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MinCharactersQuery, MinCharactersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MinCharactersQuery, MinCharactersQueryVariables>(MinCharactersDocument, options);
+        }
+export function useMinCharactersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<MinCharactersQuery, MinCharactersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<MinCharactersQuery, MinCharactersQueryVariables>(MinCharactersDocument, options);
+        }
+export type MinCharactersQueryHookResult = ReturnType<typeof useMinCharactersQuery>;
+export type MinCharactersLazyQueryHookResult = ReturnType<typeof useMinCharactersLazyQuery>;
+export type MinCharactersSuspenseQueryHookResult = ReturnType<typeof useMinCharactersSuspenseQuery>;
+export type MinCharactersQueryResult = Apollo.QueryResult<MinCharactersQuery, MinCharactersQueryVariables>;
