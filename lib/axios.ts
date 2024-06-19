@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+import isTokenExpired from './isTokenExired';
+import { setAuth, logout } from './store/slices/authSlice';
+import store from './store/store';
+
 const axiosInstance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_STORY_URL}/graphql`,
   timeout: 5000,
@@ -20,10 +24,6 @@ const axiosAuthInstance = axios.create({
 
 export default axiosInstance;
 export { axiosAuthInstance };
-
-// import isTokenExpired from './isTokenExired';
-// import { setAuth, logout } from './store/slices/authSlice';
-// import store from './store/store';
 
 // axiosInstance.interceptors.request.use(async (config) => {
 //   let token = store.getState().auth.token;
@@ -52,10 +52,10 @@ export { axiosAuthInstance };
 //     const newToken = response.headers?.authorization?.split(' ')[1] ?? '';
 
 //     if (newToken !== '' && newToken !== undefined) {
-//       // store.dispatch(setAuth({ token: newToken }));
+//       store.dispatch(setAuth({ token: newToken }));
 //     }
 //   } catch (error) {
-//     // store.dispatch(logout());
+//     store.dispatch(logout());
 //     throw error;
 //   }
 // };
