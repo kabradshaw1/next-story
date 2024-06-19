@@ -26,10 +26,10 @@ const fetchCharacter = async (title: string): Promise<unknown> => {
   `;
 
   const { data } = await axios.post('', {
-    query,
+    query: query.loc?.source.body,
     variables: { title },
   });
-
+  console.log('fetch data', data);
   return data.data.character;
 };
 
@@ -37,18 +37,10 @@ export default function SingleCharacterPage(): JSX.Element {
   const { title: slug } = useParams<{ title: string }>();
   const title = slugToTitle(slug);
 
-  const { data, error, isLoading } = useQuery(
-    [title],
-    async () => await fetchCharacter(title)
-  );
-
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['character', 'Character 1'],
+    queryFn: async () => await fetchCharacter('Character 1'),
+  });
+  console.log('query data', data);
   return <></>;
 }
-
-// const { title: slug } = useParams<{ title: string }>();
-// const title = slugToTitle(slug);
-// console.log('title', title);
-// const { data, error, loading } = useCharacterQuery({
-//   variables: { title: 'Character 1' },
-// });
-// console.log('characters', data, error, loading);
