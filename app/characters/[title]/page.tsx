@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 
+import axiosInstance from '@/lib/axios';
 import { slugToTitle } from '@/lib/createSlug';
 
 const fetchCharacter = async (title: string): Promise<unknown> => {
@@ -25,11 +26,11 @@ const fetchCharacter = async (title: string): Promise<unknown> => {
     }
   `;
 
-  const { data } = await axios.post('', {
+  const { data } = await axiosInstance.post('', {
     query: query.loc?.source.body,
     variables: { title },
   });
-  console.log('fetch data', data);
+  console.log('fetch data', data.data.character);
   return data.data.character;
 };
 
