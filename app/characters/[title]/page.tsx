@@ -14,7 +14,7 @@ export default async function SingleCharacterPage({
 }: Props): Promise<JSX.Element> {
   const { title: slug } = params;
   const title = slugToTitle(slug);
-
+  console.log(title);
   const query = gql`
     query character($title: String!) {
       character(title: $title) {
@@ -35,7 +35,7 @@ export default async function SingleCharacterPage({
 
   const response = await axiosInstance.post('', {
     query: query.loc?.source.body,
-    variables: { title: 'Character 1' },
+    variables: { title },
   });
   console.log(response.data.data.character);
   return <div></div>;
