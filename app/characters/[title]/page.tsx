@@ -1,13 +1,12 @@
 'use client';
 import { gql } from '@apollo/client';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { useParams } from 'next/navigation';
 
 import { slugToTitle } from '@/lib/createSlug';
 
-export default function SingleCharacterPage(): JSX.Element {
-  const { title: slug } = useParams<{ title: string }>();
-  const title = slugToTitle(slug);
-
+const fetchCharacter = async (title: string): Promise<unknown> => {
   const query = gql`
     query character($title: String!) {
       character(title: $title) {
@@ -25,6 +24,23 @@ export default function SingleCharacterPage(): JSX.Element {
       }
     }
   `;
+
+  const { data } = await axios.post('', {
+    query,
+    variables: { title },
+  });
+
+  return data.data.character;
+};
+
+export default function SingleCharacterPage(): JSX.Element {
+  const { title: slug } = useParams<{ title: string }>();
+  const title = slugToTitle(slug);
+
+  const { data, error, isLoading } = useQuery(
+    [title],
+    async () => await fetchCharacter(title)
+  );
 
   return <></>;
 }
