@@ -35,7 +35,8 @@ export default async function SingleCharacterPage({
 
   const response = await axiosInstance.post('', {
     query: query.loc?.source.body,
-    variables: { title },
+    variables: { title: 'Character 1' },
   });
+  console.log(response.data.data.character);
   return <div></div>;
 }

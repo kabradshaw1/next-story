@@ -9,5 +9,9 @@ const createSlug = (title: string): string => {
 export default createSlug;
 
 export function slugToTitle(slug: string): string {
-  return slug.replace(/-/g, ' ');
+  return slug
+    .replace(/-/g, ' ')
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
