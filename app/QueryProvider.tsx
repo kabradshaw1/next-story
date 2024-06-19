@@ -5,8 +5,10 @@ import { useState } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 
-import StoreProvider from './StoreProvider';
+import store, { persistor } from '@/lib/store/store';
 
 export default function QueryProvider({
   children,
@@ -18,19 +20,20 @@ export default function QueryProvider({
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 1000 * 6,
-            refetchInterval: 1000 * 6,
+            staleTime: 1000 * 6 * 10,
           },
         },
       })
   );
 
   return (
-    <StoreProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </StoreProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </PersistGate>
+    </Provider>
   );
 }

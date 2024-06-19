@@ -1,13 +1,30 @@
 'use client';
-
 import { gql } from '@apollo/client';
 import { useParams } from 'next/navigation';
 
 import { slugToTitle } from '@/lib/createSlug';
 
-// Having an issue here that
 export default function SingleCharacterPage(): JSX.Element {
-  const query = gql``;
+  const { title: slug } = useParams<{ title: string }>();
+  const title = slugToTitle(slug);
+
+  const query = gql`
+    query character($title: String!) {
+      character(title: $title) {
+        title
+        text
+        createdAt
+        user
+        downloadURLs
+        scenes {
+          title
+        }
+        roles {
+          title
+        }
+      }
+    }
+  `;
 
   return <></>;
 }
