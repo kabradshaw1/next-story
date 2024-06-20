@@ -67,7 +67,7 @@ export default async function SingleCharacterPage({
         ))}
       </div>
       <h3>Roles</h3>
-      <ul>
+      <div className="card">
         {character.roles.map((role: { title: string }) => (
           <Link
             className="mr-1"
@@ -76,8 +76,9 @@ export default async function SingleCharacterPage({
           >
             {role.title}
           </Link>
-        ))}
-      </ul>
+        ))}{' '}
+        : <p>This character has no roles in any organizations.</p>
+      </div>
     </div>
   );
 }

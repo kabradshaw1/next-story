@@ -9,7 +9,7 @@ type Props = {
 
 const ImageList: React.FC<Props> = ({ images }) => {
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="gap-2">
       {images.map((image) => (
         <Image
           key={image.imageUrl}
