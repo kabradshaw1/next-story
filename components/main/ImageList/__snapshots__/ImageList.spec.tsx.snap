@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageList Component renders ImageList correctly 1`] = `
+<div>
+  <div
+    class="gap-2"
+  >
+    <img
+      alt="Image 1"
+      data-nimg="1"
+      decoding="async"
+      height="200"
+      loading="lazy"
+      src="/_next/image?url=http%3A%2F%2Fexample.com%2Fimage1.jpg&w=640&q=75"
+      srcset="/_next/image?url=http%3A%2F%2Fexample.com%2Fimage1.jpg&w=256&q=75 1x, /_next/image?url=http%3A%2F%2Fexample.com%2Fimage1.jpg&w=640&q=75 2x"
+      style="color: transparent;"
+      width="200"
+    />
+    <img
+      alt="Image 2"
+      data-nimg="1"
+      decoding="async"
+      height="200"
+      loading="lazy"
+      src="/_next/image?url=http%3A%2F%2Fexample.com%2Fimage2.jpg&w=640&q=75"
+      srcset="/_next/image?url=http%3A%2F%2Fexample.com%2Fimage2.jpg&w=256&q=75 1x, /_next/image?url=http%3A%2F%2Fexample.com%2Fimage2.jpg&w=640&q=75 2x"
+      style="color: transparent;"
+      width="200"
+    />
+  </div>
+</div>
+`;
