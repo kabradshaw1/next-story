@@ -1,7 +1,7 @@
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 
-import StoreProvider from '@/app/StoreProvider';
+import StoreProvider from '@/lib/StoreProvider';
 
 import Login from './page';
 

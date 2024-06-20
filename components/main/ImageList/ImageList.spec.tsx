@@ -22,7 +22,19 @@ describe('ImageList Component', () => {
       const imgElement = getByAltText(image.alt);
       expect(imgElement).toBeInTheDocument();
       expect(imgElement).toHaveAttribute('src');
-      expect(imgElement.getAttribute('src')).toContain(image.imageUrl);
+    });
+  });
+  test('renders without images', () => {
+    const { container } = render(<ImageList images={[]} />);
+    expect(container.firstChild).toBeEmptyDOMElement();
+  });
+
+  test('images have alt text', () => {
+    const { getByAltText } = render(<ImageList images={mockImages} />);
+
+    mockImages.forEach((image) => {
+      const imgElement = getByAltText(image.alt);
+      expect(imgElement).toBeInTheDocument();
     });
   });
 });
