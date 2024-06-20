@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import createSlug from '@/lib/createSlug';
+import { createSlug } from '@/lib/createSlug';
 export type Props = {
   title: string;
   imageUrl?: string;

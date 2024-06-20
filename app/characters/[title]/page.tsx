@@ -1,8 +1,9 @@
 import { gql } from 'graphql-tag';
+import Link from 'next/link';
 
 import ImageList from '@/components/main/ImageList/ImageList';
 import axiosInstance from '@/lib/axios';
-import { slugToTitle } from '@/lib/createSlug';
+import { slugToTitle, createSlug } from '@/lib/createSlug';
 
 type Props = {
   params: {
@@ -54,15 +55,27 @@ export default async function SingleCharacterPage({
       <p>Created by: {character.user}</p>
       <p>Created at: {character.createdAt}</p>
       <h3>Scenes</h3>
-      <ul>
+      <div className="card">
         {character.scenes.map((scene: { title: string }) => (
-          <li key={scene.title}>{scene.title}</li>
+          <Link
+            className="mr-1"
+            href={`/scenes/${createSlug(scene.title)}`}
+            key={scene.title}
+          >
+            {scene.title}
+          </Link>
         ))}
-      </ul>
+      </div>
       <h3>Roles</h3>
       <ul>
         {character.roles.map((role: { title: string }) => (
-          <li key={role.title}>{role.title}</li>
+          <Link
+            className="mr-1"
+            href={`/role/${createSlug(role.title)}`}
+            key={role.title}
+          >
+            {role.title}
+          </Link>
         ))}
       </ul>
     </div>
