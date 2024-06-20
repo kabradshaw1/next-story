@@ -2,8 +2,8 @@ import { gql } from 'graphql-tag';
 import Link from 'next/link';
 
 import ImageList from '@/components/main/ImageList/ImageList';
-import axiosInstance from '@/lib/axios';
 import { slugToTitle, createSlug } from '@/lib/createSlug';
+import axiosInstance from '@/lib/serverAxios';
 
 type Props = {
   params: {

@@ -1,7 +1,7 @@
 import { gql } from 'graphql-tag';
 
 import Lists from '@/components/main/Lists';
-import axiosInstance from '@/lib/axios';
+import axiosInstance from '@/lib/serverAxios';
 
 export default async function CharactersPage(): Promise<JSX.Element> {
   const query = gql`
