@@ -1,5 +1,6 @@
 import { gql } from 'graphql-tag';
 
+import ImageList from '@/components/main/ImageList/ImageList';
 import axiosInstance from '@/lib/axios';
 import { slugToTitle } from '@/lib/createSlug';
 
@@ -37,6 +38,33 @@ export default async function SingleCharacterPage({
     query: query.loc?.source.body,
     variables: { title },
   });
+  const character = response.data.data.character;
 
-  return <div></div>;
+  // Map the downloadURLs to the format expected by ImageList
+  const images = character.downloadURLs.map((url: string) => ({
+    imageUrl: url,
+    alt: `${character.title} image`,
+  }));
+
+  return (
+    <div className="card">
+      <ImageList images={images} />
+      <h2>{character.title}</h2>
+      <p>{character.text}</p>
+      <p>Created by: {character.user}</p>
+      <p>Created at: {character.createdAt}</p>
+      <h3>Scenes</h3>
+      <ul>
+        {character.scenes.map((scene: { title: string }) => (
+          <li key={scene.title}>{scene.title}</li>
+        ))}
+      </ul>
+      <h3>Roles</h3>
+      <ul>
+        {character.roles.map((role: { title: string }) => (
+          <li key={role.title}>{role.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
 }

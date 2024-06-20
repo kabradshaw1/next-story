@@ -6,10 +6,11 @@ import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 
-import store, { persistor } from '@/lib/store/store';
+import store from '@/lib/store/store';
 
+persistStore(store);
 export default function QueryProvider({
   children,
 }: {
@@ -28,12 +29,10 @@ export default function QueryProvider({
 
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </PersistGate>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </Provider>
   );
 }
