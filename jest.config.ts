@@ -15,6 +15,7 @@ const customJestConfig = {
     '<rootDir>/node_modules/',
     '<rootDir>/cypress/',
     '<rootDir>/prisma/',
+    '<rootDir>/test/',
   ],
   globals: {
     'ts-jest': {

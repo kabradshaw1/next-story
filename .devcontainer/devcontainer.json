@@ -20,7 +20,8 @@
         "eamodio.gitlens",
         "rvest.vs-code-prettier-eslint",
         "github.vscode-github-actions",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "ms-playwright.playwright"
       ]
     }
   }

@@ -43,7 +43,7 @@ describe('CharactersPage', () => {
   });
 
   test('renders CharactersPage correctly', async () => {
-    const { container } = render(<CharactersPage />);
+    const { container } = render((<CharactersPage />));
     await waitFor(() => expect(mockedAxios.post).toHaveBeenCalledTimes(1));
     expect(container).toMatchSnapshot();
   });
