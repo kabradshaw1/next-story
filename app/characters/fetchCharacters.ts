@@ -2,7 +2,7 @@ import { gql } from 'graphql-tag';
 
 import axiosInstance from '@/lib/serverAxios';
 
-export const fetchCharacters = async (): Promise<unknown> => {
+const fetchCharacters = async (): Promise<unknown> => {
   const query = gql`
     query Characters {
       characters {
@@ -34,3 +34,5 @@ export const fetchCharacters = async (): Promise<unknown> => {
     }
   );
 };
+
+export default fetchCharacters;
