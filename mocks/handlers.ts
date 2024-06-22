@@ -1,32 +1,27 @@
-// import { http, graphql, HttpResponse } from 'msw'
+import { http, graphql, HttpResponse } from 'msw';
 
-// export const handlers = [
-//   http.get('https://api.example.com/user', () => {
-//     return HttpResponse.json({
-//       firstName: 'John',
-//       lastName: 'Maverick',
-//     })
-//   }),
-//   http.get('/product', () => {
-//     return HttpResponse.json({
-//       name: 'Awesome Product',
-//     })
-//   }),
-//   graphql.query('ListMovies', () => {
-//     return HttpResponse.json({
-//       data: {
-//         movies: [
-//           {
-//             title: 'The Lord of The Rings',
-//           },
-//           {
-//             title: 'The Matrix',
-//           },
-//           {
-//             title: 'Star Wars: The Empire Strikes Back',
-//           },
-//         ],
-//       },
-//     })
-//   }),
-// ]
+export const handlers = [
+  graphql.query('characters', () => {
+    return HttpResponse.json({
+      data: {
+        characters: [
+          {
+            title: 'character1',
+            downloadURLs: [
+              'http://example.com/image1.jpg',
+              'http://example.com/image2.jpg',
+            ],
+          },
+          {
+            title: 'character2',
+            downloadURLs: ['http://example.com/image3.jpg'],
+          },
+          {
+            title: 'character3',
+            downloadURLs: [],
+          },
+        ],
+      },
+    });
+  }),
+];

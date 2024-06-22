@@ -16,14 +16,7 @@ const fetchCharacters = async (): Promise<unknown> => {
     const response = await axiosInstance.post('', {
       query: query.loc?.source.body,
     });
-
-    if (
-      !response.data ||
-      !response.data.data ||
-      !response.data.data.characters
-    ) {
-      throw new Error('Invalid response structure');
-    }
+    console.log(response.data.data.characters);
 
     return response.data.data.characters.map(
       (character: { title: string; downloadURLs: string[] }) => {

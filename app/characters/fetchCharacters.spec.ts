@@ -1,5 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
+
 import axiosInstance from '@/lib/serverAxios';
+
 import fetchCharacters from './fetchCharacters';
 
 describe('fetchCharacters', () => {
@@ -37,6 +39,8 @@ describe('fetchCharacters', () => {
     mock.onPost('').reply(200, mockedResponse);
 
     const characters = await fetchCharacters();
+
+    console.log('Fetched characters:', characters);
 
     expect(characters).toEqual([
       {
