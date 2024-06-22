@@ -17,6 +17,14 @@ const fetchCharacters = async (): Promise<unknown> => {
       query: query.loc?.source.body,
     });
 
+    if (
+      !response.data ||
+      !response.data.data ||
+      !response.data.data.characters
+    ) {
+      throw new Error('Invalid response structure');
+    }
+
     return response.data.data.characters.map(
       (character: { title: string; downloadURLs: string[] }) => {
         let imageUrl;
@@ -37,7 +45,7 @@ const fetchCharacters = async (): Promise<unknown> => {
     );
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to fetch characters');
+    throw error;
   }
 };
 

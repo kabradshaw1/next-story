@@ -1,7 +1,5 @@
 import MockAdapter from 'axios-mock-adapter';
-
 import axiosInstance from '@/lib/serverAxios';
-
 import fetchCharacters from './fetchCharacters';
 
 describe('fetchCharacters', () => {
@@ -62,7 +60,11 @@ describe('fetchCharacters', () => {
             },
             {
               title: 'Character 2',
-              downloadURLs: null,
+              downloadURLs: [],
+            },
+            {
+              title: 'Character 3',
+              downloadURLs: [],
             },
           ],
         },
@@ -76,6 +78,7 @@ describe('fetchCharacters', () => {
     expect(characters).toEqual([
       { title: 'Character 1', imageUrl: undefined },
       { title: 'Character 2', imageUrl: undefined },
+      { title: 'Character 3', imageUrl: undefined },
     ]);
   });
 
@@ -83,5 +86,19 @@ describe('fetchCharacters', () => {
     mock.onPost('').reply(500);
 
     await expect(fetchCharacters()).rejects.toThrow();
+  });
+
+  it('should throw an error for invalid response structure', async () => {
+    const mockedResponse = {
+      data: {
+        invalid: 'structure',
+      },
+    };
+
+    mock.onPost('').reply(200, mockedResponse);
+
+    await expect(fetchCharacters()).rejects.toThrow(
+      'Invalid response structure'
+    );
   });
 });
