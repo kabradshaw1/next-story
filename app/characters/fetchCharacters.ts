@@ -11,28 +11,34 @@ const fetchCharacters = async (): Promise<unknown> => {
       }
     }
   `;
-  const response = await axiosInstance.post('', {
-    query: query.loc?.source.body,
-  });
 
-  return response.data.data.characters.map(
-    (character: { title: string; downloadURLs: string[] }) => {
-      let imageUrl;
-      if (
-        character.downloadURLs !== null &&
-        character.downloadURLs !== undefined
-      ) {
-        const randomIndex = Math.floor(
-          Math.random() * character.downloadURLs.length
-        );
-        imageUrl = character.downloadURLs[randomIndex];
+  try {
+    const response = await axiosInstance.post('', {
+      query: query.loc?.source.body,
+    });
+
+    return response.data.data.characters.map(
+      (character: { title: string; downloadURLs: string[] }) => {
+        let imageUrl;
+        if (
+          character.downloadURLs !== null &&
+          character.downloadURLs !== undefined
+        ) {
+          const randomIndex = Math.floor(
+            Math.random() * character.downloadURLs.length
+          );
+          imageUrl = character.downloadURLs[randomIndex];
+        }
+        return {
+          title: character.title,
+          imageUrl,
+        };
       }
-      return {
-        title: character.title,
-        imageUrl,
-      };
-    }
-  );
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to fetch characters');
+  }
 };
 
 export default fetchCharacters;
