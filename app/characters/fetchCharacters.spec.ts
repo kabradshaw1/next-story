@@ -16,28 +16,6 @@ describe('fetchCharacters', () => {
   });
 
   it('should fetch and return characters with images', async () => {
-    const mockedResponse = {
-      data: {
-        data: {
-          characters: [
-            {
-              title: 'Character 1',
-              downloadURLs: [
-                'http://example.com/image1.jpg',
-                'http://example.com/image2.jpg',
-              ],
-            },
-            {
-              title: 'Character 2',
-              downloadURLs: ['http://example.com/image3.jpg'],
-            },
-          ],
-        },
-      },
-    };
-
-    mock.onPost('').reply(200, mockedResponse);
-
     const characters = await fetchCharacters();
 
     console.log('Fetched characters:', characters);

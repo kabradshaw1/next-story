@@ -13,8 +13,6 @@ const customJestConfig = {
   testPathIgnorePatterns: [
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
-    '<rootDir>/cypress/',
-    '<rootDir>/prisma/',
     '<rootDir>/test/',
   ],
   globals: {
