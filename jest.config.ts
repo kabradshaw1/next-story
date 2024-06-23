@@ -13,7 +13,7 @@ const customJestConfig = {
   testPathIgnorePatterns: [
     '<rootDir>/.next/',
     '<rootDir>/node_modules/',
-    '<rootDir>/test/',
+    '<rootDir>/tests/',
   ],
   globals: {
     'ts-jest': {
