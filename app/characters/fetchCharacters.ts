@@ -16,9 +16,10 @@ const fetchCharacters = async (): Promise<unknown> => {
     const response = await axiosInstance.post('', {
       query: query.loc?.source.body,
     });
-    console.log(response.data.data.characters);
 
-    return response.data.data.characters.map(
+    const characters = response.data.data.characters;
+
+    return characters.map(
       (character: { title: string; downloadURLs: string[] }) => {
         let imageUrl;
         if (

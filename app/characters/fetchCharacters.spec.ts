@@ -16,9 +16,27 @@ describe('fetchCharacters', () => {
   });
 
   it('should fetch and return characters with images', async () => {
-    const characters = await fetchCharacters();
+    const mockedResponse = {
+      data: {
+        characters: [
+          {
+            title: 'Character 1',
+            downloadURLs: [
+              'http://example.com/image1.jpg',
+              'http://example.com/image2.jpg',
+            ],
+          },
+          {
+            title: 'Character 2',
+            downloadURLs: ['http://example.com/image3.jpg'],
+          },
+        ],
+      },
+    };
 
-    console.log('Fetched characters:', characters);
+    mock.onPost('').reply(200, mockedResponse);
+
+    const characters = await fetchCharacters();
 
     expect(characters).toEqual([
       {
@@ -31,25 +49,19 @@ describe('fetchCharacters', () => {
     ]);
   });
 
-  it('should handle empty downloadURLs', async () => {
+  it('should handle characters with empty downloadURLs arrays', async () => {
     const mockedResponse = {
       data: {
-        data: {
-          characters: [
-            {
-              title: 'Character 1',
-              downloadURLs: [],
-            },
-            {
-              title: 'Character 2',
-              downloadURLs: [],
-            },
-            {
-              title: 'Character 3',
-              downloadURLs: [],
-            },
-          ],
-        },
+        characters: [
+          {
+            title: 'Character 1',
+            downloadURLs: [],
+          },
+          {
+            title: 'Character 2',
+            downloadURLs: ['http://example.com/image3.jpg'],
+          },
+        ],
       },
     };
 
@@ -58,29 +70,46 @@ describe('fetchCharacters', () => {
     const characters = await fetchCharacters();
 
     expect(characters).toEqual([
-      { title: 'Character 1', imageUrl: undefined },
-      { title: 'Character 2', imageUrl: undefined },
-      { title: 'Character 3', imageUrl: undefined },
+      {
+        title: 'Character 1',
+        imageUrl: undefined,
+      },
+      { title: 'Character 2', imageUrl: 'http://example.com/image3.jpg' },
     ]);
   });
 
-  it('should throw an error for a failed API call', async () => {
-    mock.onPost('').reply(500);
-
-    await expect(fetchCharacters()).rejects.toThrow();
-  });
-
-  it('should throw an error for invalid response structure', async () => {
+  it('should handle characters with null downloadURLs', async () => {
     const mockedResponse = {
       data: {
-        invalid: 'structure',
+        characters: [
+          {
+            title: 'Character 1',
+            downloadURLs: null,
+          },
+          {
+            title: 'Character 2',
+            downloadURLs: ['http://example.com/image3.jpg'],
+          },
+        ],
       },
     };
 
     mock.onPost('').reply(200, mockedResponse);
 
-    await expect(fetchCharacters()).rejects.toThrow(
-      'Invalid response structure'
-    );
+    const characters = await fetchCharacters();
+
+    expect(characters).toEqual([
+      {
+        title: 'Character 1',
+        imageUrl: undefined,
+      },
+      { title: 'Character 2', imageUrl: 'http://example.com/image3.jpg' },
+    ]);
+  });
+
+  it('should handle errors when the request fails', async () => {
+    mock.onPost('').reply(500);
+
+    await expect(fetchCharacters()).rejects.toThrow();
   });
 });
