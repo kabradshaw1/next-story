@@ -1,22 +1,33 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
+
+// import dotenv from 'dotenv';
+// dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 export default defineConfig({
-  testDir: './tests', // Directory where your tests are located
-  timeout: 60000, // Increased timeout for each test
-  use: {
-    baseURL: 'http://127.0.0.1:3000', // The base URL of your Next.js app
-    headless: true, // Set to false if you want to see the browser action
-    browserName: 'chromium',
+  testDir: './tests',
 
-    screenshot: 'only-on-failure', // Take screenshots only on test failure
-    video: 'retain-on-failure', // Record videos only on test failure
+  fullyParallel: true,
+
+  reporter: 'html',
+
+  use: {
+    baseURL: 'http://127.0.0.1:3000',
+
+    trace: 'on-first-retry',
   },
+
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+
+  /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npm run dev', // Command to start your Next.js app
-    port: 3000,
-    timeout: 120 * 1000,
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    reuseExistingServer: !process.env.CI, // Reuse server if not in CI environment
+    command: 'npm run start',
+    url: 'http://127.0.0.1:3000',
+    // elsint disable-next-line @typescript-eslint/strict-boolean-expressions
+    reuseExistingServer: !process.env.CI,
   },
-  reporter: [['list'], ['json', { outputFile: 'test-results.json' }]], // Added JSON reporter for better debugging
 });

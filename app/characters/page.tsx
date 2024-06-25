@@ -8,6 +8,8 @@ export default async function CharactersPage(): Promise<JSX.Element> {
     imageUrl: string | undefined;
   }>;
 
+  console.log('Fetched characters:', characters);
+
   return (
     <div className="card">
       <h2>Characters</h2>
