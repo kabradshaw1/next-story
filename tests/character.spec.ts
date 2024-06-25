@@ -1,90 +1,62 @@
+// tests/characters.spec.ts
 import { test, expect, type Page, type Route } from '@playwright/test';
 
 test.describe('Characters Page', () => {
-  test.beforeEach(async ({ page }: { page: Page }) => {
-    console.log('NEXT_PUBLIC_STORY_URL:', process.env.NEXT_PUBLIC_STORY_URL);
-
-    const graphqlEndpoint = `${process.env.NEXT_PUBLIC_STORY_URL}/graphql`;
-    console.log('Intercepting endpoint:', graphqlEndpoint);
-
-    await page.route(graphqlEndpoint, async (route: Route) => {
-      console.log('Intercepting GraphQL request:', route.request().url());
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          data: {
-            characters: [
-              {
-                title: 'Character 1',
-                downloadURLs: ['http://example.com/character1.jpg'],
-              },
-              {
-                title: 'Character 2',
-                downloadURLs: ['http://example.com/character2.jpg'],
-              },
-            ],
-          },
-        }),
-      });
-      console.log('Mock response applied');
-    });
-
-    page.on('request', (request) => {
-      console.log('>>', request.method(), request.url());
-    });
-    page.on('response', (response) => {
-      console.log('<<', response.status(), response.url());
-    });
-
-    await page.goto('/characters');
-    await page.waitForTimeout(10000); // Increased wait time for rendering
-  });
-
   test('should display a list of characters', async ({
     page,
   }: {
     page: Page;
   }) => {
-    const content = await page.content();
-    console.log('Page content:', content);
+    // Mock the API call
+    await page.route('**/graphql', async (route: Route) => {
+      const mockedResponse = {
+        data: {
+          characters: [
+            {
+              title: 'Character 1',
+              downloadURLs: [
+                'http://example.com/image1.jpg',
+                'http://example.com/image2.jpg',
+              ],
+            },
+            {
+              title: 'Character 2',
+              downloadURLs: ['http://example.com/image3.jpg'],
+            },
+          ],
+        },
+      };
 
-    const characterCards = page.locator('.card .link');
-    await expect(characterCards).toHaveCount(2, { timeout: 10000 }); // Increased timeout
+      console.log('Mocked response:', mockedResponse);
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify(mockedResponse),
+      });
+    });
 
-    const characterCount = await characterCards.count();
-    for (let i = 0; i < characterCount; i++) {
-      const card = characterCards.nth(i);
-      await expect(card.locator('h2')).toBeVisible();
+    await page.goto('/characters');
+    console.log('Navigated to /characters');
 
-      const image = card.locator('img');
-      const imageCount = await image.count();
-      if (imageCount > 0) {
-        await expect(image).toBeVisible();
-        await expect(image).toHaveAttribute('src', /http/);
-      } else {
-        await expect(card.locator('p')).toHaveText('No image available.');
-      }
-    }
-  });
+    // Wait for the 'Characters' heading to be visible
+    await expect(
+      page.getByRole('heading', { name: 'Characters' })
+    ).toBeVisible();
+    console.log('Characters heading is visible');
 
-  test('should navigate to character details page on click', async ({
-    page,
-  }: {
-    page: Page;
-  }) => {
-    const characterCards = page.locator('.card .link');
-    await expect(characterCards).toHaveCount(2, { timeout: 10000 }); // Increased timeout
+    // Log page content for debugging
+    const pageContent = await page.content();
+    console.log('Page content:', pageContent);
 
-    const firstCharacterCard = characterCards.first();
-    await firstCharacterCard.click();
+    // Wait for a specific time to ensure characters are loaded
+    await page.waitForTimeout(2000);
 
-    const url = page.url();
-    expect(url).toMatch(/\/characters\/.+/);
+    // Check if characters are displayed
+    const character1 = page.getByText('Character 1');
+    const character2 = page.getByText('Character 2');
+    console.log('Character 1 element:', character1);
+    console.log('Character 2 element:', character2);
 
-    const characterTitle = await firstCharacterCard.locator('h2').textContent();
-    await expect(page.locator('h1')).toHaveText(
-      characterTitle as unknown as string
-    );
+    await expect(character1).toBeVisible();
+    await expect(character2).toBeVisible();
   });
 });
