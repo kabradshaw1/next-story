@@ -4,6 +4,7 @@ test.describe('Characters Page', () => {
   test.beforeEach(async ({ page }: { page: Page }) => {
     // Intercept the API call and provide a mock response
     await page.route('**/graphql', async (route: Route) => {
+      console.log('Intercepting GraphQL request');
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
