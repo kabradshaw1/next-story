@@ -12,16 +12,16 @@ services:
       - "3001:3001"
       - "9229:9229"
 
-  playwright:
-    image: next-app-playwright
-    build:
-      context: ..
-      dockerfile: Dockerfile.dev
-    depends_on:
-      - next
-    environment:
-      - CI=true
-    volumes:
-      - ../:/app:delegated
-    working_dir: /app
-    command: ["npx", "playwright", "test"]
+  # playwright:
+  #   image: next-app-playwright
+  #   build:
+  #     context: ..
+  #     dockerfile: Dockerfile.dev
+  #   depends_on:
+  #     - next
+  #   environment:
+  #     - CI=true
+  #   volumes:
+  #     - ../:/app:delegated
+  #   working_dir: /app
+  #   command: ["npx", "playwright", "test"]
