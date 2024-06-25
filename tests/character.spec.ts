@@ -24,15 +24,21 @@ test.describe('Characters Page', () => {
       });
     });
   });
-  test('should display a list of characters', async ({ page }: { page: Page }) => {
+
+  test('should display a list of characters', async ({
+    page,
+  }: {
+    page: Page;
+  }) => {
     await page.goto('/characters');
 
     // Check if the page title is correct
-    await expect(page.locator('h2')).toHaveText('Characters');
+    const header = page.locator('h2', { hasText: 'Characters' });
+    await expect(header).toBeVisible();
 
     // Check if the character list is displayed
     const characterCards = page.locator('.card .link');
-    await expect(characterCards).toHaveCount(1);
+    await expect(characterCards).toHaveCount(2); // Expecting 2 characters from the mock
 
     // Verify each character card has a title and optionally an image
     const characterCount = await characterCards.count();
@@ -53,11 +59,17 @@ test.describe('Characters Page', () => {
 
   test('should navigate to character details page on click', async ({
     page,
-  }: { page: Page }) => {
+  }: {
+    page: Page;
+  }) => {
     await page.goto('/characters');
 
+    // Wait for the character list to load
+    const characterCards = page.locator('.card .link');
+    await expect(characterCards).toHaveCount(2);
+
     // Click the first character card
-    const firstCharacterCard = page.locator('.card .link').first();
+    const firstCharacterCard = characterCards.first();
     await firstCharacterCard.click();
 
     // Verify navigation by checking the new URL

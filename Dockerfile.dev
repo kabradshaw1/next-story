@@ -1,10 +1,23 @@
 # Dockerfile.dev
 FROM mcr.microsoft.com/playwright:focal
 
-RUN apk update && apk add git
+# Install dependencies
+RUN apt-get update && apt-get install -y git
+
+# Set the working directory
 WORKDIR /app
+
+# Copy package.json and package-lock.json
 COPY package*.json ./
-RUN npm i
+
+# Install node dependencies
+RUN npm install
+
+# Copy the rest of the application
 COPY . .
+
+# Expose the necessary ports
 EXPOSE 3000 3001 9229
-CMD [ "npm", "run", "dev" ]
+
+# Command to run your Next.js application
+CMD ["npm", "run", "dev"]
