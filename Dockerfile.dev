@@ -1,29 +1,10 @@
 # Dockerfile.dev
-FROM node:20.11.1-alpine3.18
+FROM mcr.microsoft.com/playwright:focal
 
-# Install dependencies for Playwright
-RUN apk update && apk add --no-cache \
-  git \
-  bash \
-  libc6-compat \
-  chromium \
-  nss \
-  freetype \
-  harfbuzz \
-  ca-certificates \
-  ttf-freefont \
-  wget
-
-# Install Playwright and its dependencies
-RUN npm install -g playwright
-
+RUN apk update && apk add git
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
-
-# Install Playwright browsers
-RUN npx playwright install --with-deps
-
+RUN npm i
 COPY . .
 EXPOSE 3000 3001 9229
 CMD [ "npm", "run", "dev" ]

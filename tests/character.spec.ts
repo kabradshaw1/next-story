@@ -1,9 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page, type Route } from '@playwright/test';
 
 test.describe('Characters Page', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }: { page: Page }) => {
     // Intercept the API call and provide a mock response
-    await page.route('**/graphql', async (route) => {
+    await page.route('**/graphql', async (route: Route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
@@ -24,7 +24,7 @@ test.describe('Characters Page', () => {
       });
     });
   });
-  test('should display a list of characters', async ({ page }) => {
+  test('should display a list of characters', async ({ page }: { page: Page }) => {
     await page.goto('/characters');
 
     // Check if the page title is correct
@@ -53,7 +53,7 @@ test.describe('Characters Page', () => {
 
   test('should navigate to character details page on click', async ({
     page,
-  }) => {
+  }: { page: Page }) => {
     await page.goto('/characters');
 
     // Click the first character card
