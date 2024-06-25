@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests', // Directory where your tests are located
   timeout: 60000, // Increased timeout for each test
   use: {
-    baseURL: 'http://localhost:3000', // The base URL of your Next.js app
+    baseURL: 'http://127.0.0.1:3000', // The base URL of your Next.js app
     headless: true, // Set to false if you want to see the browser action
     browserName: 'chromium',
 

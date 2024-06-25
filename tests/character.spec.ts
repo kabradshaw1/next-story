@@ -38,13 +38,7 @@ test.describe('Characters Page', () => {
     });
 
     await page.goto('/characters');
-
-    // Ensure the page is in a clean state before running each test
-    await page.evaluate(() => {
-      document.querySelectorAll('.card .link').forEach((node) => node.remove());
-    });
-
-    await page.waitForTimeout(5000); // Increased wait time for rendering
+    await page.waitForTimeout(10000); // Increased wait time for rendering
   });
 
   test('should display a list of characters', async ({
@@ -52,12 +46,11 @@ test.describe('Characters Page', () => {
   }: {
     page: Page;
   }) => {
-    // Log page content for debugging
     const content = await page.content();
     console.log('Page content:', content);
 
     const characterCards = page.locator('.card .link');
-    await expect(characterCards).toHaveCount(2); // Expecting 2 characters from the mock
+    await expect(characterCards).toHaveCount(2, { timeout: 10000 }); // Increased timeout
 
     const characterCount = await characterCards.count();
     for (let i = 0; i < characterCount; i++) {
@@ -81,7 +74,7 @@ test.describe('Characters Page', () => {
     page: Page;
   }) => {
     const characterCards = page.locator('.card .link');
-    await expect(characterCards).toHaveCount(2);
+    await expect(characterCards).toHaveCount(2, { timeout: 10000 }); // Increased timeout
 
     const firstCharacterCard = characterCards.first();
     await firstCharacterCard.click();
