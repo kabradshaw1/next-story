@@ -29,6 +29,5 @@
     "next.config.mjs",
     "mocks/**/*.ts"
   ],
-  "exclude": ["node_modules", "/generated"],
-  "types": ["jest", "node", "@testing-library/jest-dom"]
+  "exclude": ["node_modules", "/generated"]
 }

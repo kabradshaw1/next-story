@@ -1,4 +1,3 @@
-// tests/characters.spec.ts
 import { test, expect, type Page, type Route } from '@playwright/test';
 
 test.describe('Characters Page', () => {
@@ -31,17 +30,7 @@ test.describe('Characters Page', () => {
       });
     });
 
-    // Log all network requests
-    page.on('request', (request) => {
-      console.log('Request:', request.url());
-    });
-
-    page.on('response', (response) => {
-      console.log('Response:', response.url(), response.status());
-    });
-
     await page.goto('/characters');
-    console.log('Navigated to /characters');
 
     // Wait for the 'Characters' heading to be visible
     await expect(
