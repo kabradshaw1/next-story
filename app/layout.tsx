@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
-import { setupMocks } from '@/mocks';
 
 import('../mocks')
   .then(({ setupMocks }) => {
@@ -13,6 +12,7 @@ import('../mocks')
   .catch((error) => {
     console.error(error);
   });
+
 // eslint-disable-next-line @typescript-eslint/promise-function-async
 const StoreProvider = dynamic(() => import('@/lib/StoreProvider'), {
   ssr: false,

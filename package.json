@@ -34,6 +34,7 @@
     "@graphql-codegen/typescript": "^4.0.7",
     "@graphql-codegen/typescript-operations": "^4.2.1",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
+    "@mswjs/interceptors": "^0.30.0",
     "@playwright/test": "^1.45.0",
     "@tanstack/eslint-plugin-query": "^5.43.1",
     "@testing-library/jest-dom": "^6.4.2",
