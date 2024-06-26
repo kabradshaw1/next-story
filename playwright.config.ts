@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests', // Directory where your tests are located
   timeout: 30000,
   use: {
-    baseURL: 'http://host.docker.internal:3000', // The base URL of your Next.js app
+    baseURL: 'http://localhost:3000', // The base URL of your Next.js app
     headless: true, // Set to false if you want to see the browser action
     browserName: 'chromium',
 

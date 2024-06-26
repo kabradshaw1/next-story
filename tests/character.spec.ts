@@ -7,28 +7,31 @@ test.describe('Characters Page', () => {
     page: Page;
   }) => {
     // Mock the API call
-    await page.route('**/graphql', async (route: Route) => {
-      const mockedResponse = {
-        data: {
-          characters: [
-            {
-              title: 'Character',
-              downloadURLs: ['http://example.com/image1.jpg'],
-            },
-            {
-              title: 'Character 2',
-              downloadURLs: ['http://example.com/image3.jpg'],
-            },
-          ],
-        },
-      };
+    await page.route(
+      'http://host.docker.internal:4000/graphql',
+      async (route: Route) => {
+        const mockedResponse = {
+          data: {
+            characters: [
+              {
+                title: 'Character',
+                downloadURLs: ['http://example.com/image1.jpg'],
+              },
+              {
+                title: 'Character 2',
+                downloadURLs: ['http://example.com/image3.jpg'],
+              },
+            ],
+          },
+        };
 
-      console.log('Mocked response:', mockedResponse);
-      await route.fulfill({
-        contentType: 'application/json',
-        body: JSON.stringify(mockedResponse),
-      });
-    });
+        console.log('Mocked response:', mockedResponse);
+        await route.fulfill({
+          contentType: 'application/json',
+          body: JSON.stringify(mockedResponse),
+        });
+      }
+    );
 
     await page.goto('/characters');
 
@@ -36,11 +39,6 @@ test.describe('Characters Page', () => {
     await expect(
       page.getByRole('heading', { name: 'Characters' })
     ).toBeVisible();
-    console.log('Characters heading is visible');
-
-    // Log page content for debugging
-    const pageContent = await page.content();
-    console.log('Page content:', pageContent);
 
     // Wait for a specific time to ensure characters are loaded
     await page.waitForTimeout(2000);
