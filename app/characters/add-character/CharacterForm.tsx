@@ -12,10 +12,12 @@ export default function CharacterForm(): JSX.Element {
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [files, setFiles] = useState<File[]>([]);
 
   const validationSchema = z.object({
     title: z.string().min(1, 'Name is required'),
     text: z.string().min(1, 'Description is required'),
+    files: z.array(z.instanceof(File)).optional(),
   });
 
   type CharacterProps = z.infer<typeof validationSchema>;
@@ -24,17 +26,30 @@ export default function CharacterForm(): JSX.Element {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
+    setValue,
   } = useForm<CharacterProps>({
     resolver: zodResolver(validationSchema),
   });
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(event.target.files || []);
+    setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
+    setValue('files', [...files, ...selectedFiles]);
+  };
+
+  const handleRemoveFile = (fileToRemove: File) => {
+    const updatedFiles = files.filter((file) => file !== fileToRemove);
+    setFiles(updatedFiles);
+    setValue('files', updatedFiles);
+  };
+
   const formSubmit: SubmitHandler<CharacterProps> = async (data) => {
-    // Handle form submission, including the image file
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('text', data.text);
-    // formData.append('file', data.file);
+    data.files?.forEach((file) => {
+      formData.append('files', file);
+    });
 
     setLoading(true);
 
@@ -94,16 +109,34 @@ export default function CharacterForm(): JSX.Element {
             />
             <p className="error-message">{errors.text?.message}</p>
 
-            <label htmlFor="file" className="label mt-1">
-              Image
+            <label htmlFor="files" className="label mt-1">
+              Images
             </label>
             <input
               type="file"
-              id="file"
+              id="files"
               className="input bg-gray-700"
-              {...register('file')}
+              multiple
+              onChange={handleFileChange}
             />
-            <p className="error-message">{errors.file?.message}</p>
+            <p className="error-message">{errors.files?.message}</p>
+
+            {files.length > 0 && (
+              <ul className="mt-2">
+                {files.map((file, index) => (
+                  <li key={index} className="flex justify-between items-center">
+                    <span>{file.name}</span>
+                    <button
+                      type="button"
+                      className="text-red-500 ml-2"
+                      onClick={() => handleRemoveFile(file)}
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <button
