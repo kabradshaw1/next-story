@@ -414,7 +414,7 @@ export type UpdateRoleInput = {
 export type RolesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RolesQuery = { __typename?: 'Query', roles?: Array<{ __typename?: 'Role', id?: number | null, title: string, organization?: { __typename?: 'Organization', id?: number | null, title: string } | null } | null> | null };
+export type RolesQuery = { __typename?: 'Query', roles?: Array<{ __typename?: 'Role', id?: number | null, title: string, organization?: { __typename?: 'Organization', title: string } | null } | null> | null };
 
 
 export const RolesDocument = gql`
@@ -423,7 +423,6 @@ export const RolesDocument = gql`
     id
     title
     organization {
-      id
       title
     }
   }
