@@ -23,11 +23,9 @@ export default function QueryProvider({
   );
 
   return (
-    <>
-      <QueryClientProvider client={queryClient}>
-        {children}
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </>
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   );
 }

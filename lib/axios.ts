@@ -14,7 +14,7 @@ export const axiosAuthInstance = axios.create({
 });
 
 export const axiosClientInstance = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth`,
+  baseURL: `${process.env.NEXT_PUBLIC_STORY_URL}/graphql`,
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',

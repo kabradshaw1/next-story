@@ -1,7 +1,9 @@
 'use client';
 import type { Dispatch, SetStateAction } from 'react';
 
-import { useRolesQuery } from '@/generated/graphql';
+import { useQuery } from '@tanstack/react-query';
+
+import getRoles from '@/requests/queryRoles';
 
 type RolesProps = {
   selectedRoles: number[];
@@ -12,11 +14,12 @@ export default function Roles({
   selectedRoles,
   setSelectedRoles,
 }: RolesProps): JSX.Element {
-  console.log('working on it');
-  const { data, loading, error } = useRolesQuery();
-  if (loading) return <p>Loading...</p>;
-  if (error !== null) return <p>Error: {error?.message}</p>;
-  const roles = data?.roles;
+  const { data, isLoading, isError, error } = useQuery({
+    queryFn: async () => await getRoles(),
+    queryKey: ['roles'],
+  });
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error: {error?.message}</p>;
 
   const handleRoleChange = (roleId: number): void => {
     setSelectedRoles((prevSelectedRoles) => {
@@ -30,8 +33,8 @@ export default function Roles({
 
   return (
     <>
-      {roles !== null &&
-        roles?.map((role) => (
+      {data !== null &&
+        data?.map((role) => (
           <div key={role?.id} className="mb-2">
             <label className="inline-flex items-center">
               <input
@@ -50,7 +53,7 @@ export default function Roles({
                 }}
               />
               <span className="ml-2">
-                {role?.title} of {role?.organization?.title}
+                {role?.title} of {role?.organization}
               </span>
             </label>
           </div>
