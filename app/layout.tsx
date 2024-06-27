@@ -9,6 +9,10 @@ import Header from '@/components/Header/Header';
 const StoreProvider = dynamic(() => import('@/lib/StoreProvider'), {
   ssr: false,
 });
+// eslint-disable-next-line @typescript-eslint/promise-function-async
+const ApolloProvider = dynamic(() => import('@/lib/ApolloProvider'), {
+  ssr: false,
+});
 
 export const metadata: Metadata = {
   title: {
@@ -28,11 +32,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StoreProvider>
-          <Header />
-          <main className="flex flex-wrap justify-center items-center bg-slate-700">
-            {children}
-          </main>
-          <Footer />
+          <ApolloProvider>
+            <Header />
+            <main className="flex flex-wrap justify-center items-center bg-slate-700">
+              {children}
+            </main>
+            <Footer />
+          </ApolloProvider>
         </StoreProvider>
       </body>
     </html>

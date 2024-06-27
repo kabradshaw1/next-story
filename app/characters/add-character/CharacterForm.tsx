@@ -7,8 +7,11 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Logo from '@/components/Logo/Logo';
+import { useRolesQuery } from '@/generated/graphql';
 
 export default function CharacterForm(): JSX.Element {
+  const { loading: roleLoading, error, data } = useRolesQuery();
+
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,5 +22,11 @@ export default function CharacterForm(): JSX.Element {
     files: z.string().url('This image is not a valid format'),
   });
 
-  return <Logo />;
+  return (
+    <>
+      <div className="w-full max-w-lg">
+        <Logo />
+      </div>
+    </>
+  );
 }
