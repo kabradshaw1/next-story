@@ -8,16 +8,20 @@ import { z } from 'zod';
 
 import Logo from '@/components/Logo/Logo';
 
+import Roles from './Roles';
+
 export default function CharacterForm(): JSX.Element {
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<string[]>([]); // State for selected roles
 
   const validationSchema = z.object({
     title: z.string().min(1, 'Name is required'),
     text: z.string().min(1, 'Description is required'),
     files: z.array(z.instanceof(File)).optional(),
+    roles: z.array(z.string()).optional(), // Add roles to validation schema
   });
 
   type CharacterProps = z.infer<typeof validationSchema>;
@@ -50,6 +54,7 @@ export default function CharacterForm(): JSX.Element {
     data.files?.forEach((file) => {
       formData.append('files', file);
     });
+    formData.append('roles', JSON.stringify(selectedRoles)); // Add selected roles to form data
 
     setLoading(true);
 
@@ -96,7 +101,6 @@ export default function CharacterForm(): JSX.Element {
               {...register('title')}
             />
             <p className="error-message">{errors.title?.message}</p>
-
             <label htmlFor="text" className="label mt-1">
               Back Ground
             </label>
@@ -108,7 +112,6 @@ export default function CharacterForm(): JSX.Element {
               {...register('text')}
             />
             <p className="error-message">{errors.text?.message}</p>
-
             <label htmlFor="files" className="label mt-1">
               Images
             </label>
@@ -120,7 +123,6 @@ export default function CharacterForm(): JSX.Element {
               onChange={handleFileChange}
             />
             <p className="error-message">{errors.files?.message}</p>
-
             {files.length > 0 && (
               <ul className="mt-2">
                 {files.map((file, index) => (
@@ -137,6 +139,14 @@ export default function CharacterForm(): JSX.Element {
                 ))}
               </ul>
             )}
+            <label htmlFor="roles" className="label mt-4">
+              Roles
+            </label>
+            <Roles
+              selectedRoles={selectedRoles}
+              setSelectedRoles={setSelectedRoles}
+            />{' '}
+            {/* Include Roles component */}
           </div>
 
           <button
