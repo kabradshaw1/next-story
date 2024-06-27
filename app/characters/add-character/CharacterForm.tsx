@@ -15,13 +15,13 @@ export default function CharacterForm(): JSX.Element {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const [selectedRoles, setSelectedRoles] = useState<string[]>([]); // State for selected roles
+  const [selectedRoles, setSelectedRoles] = useState<number[]>([]); // State for selected roles
 
   const validationSchema = z.object({
     title: z.string().min(1, 'Name is required'),
     text: z.string().min(1, 'Description is required'),
     files: z.array(z.instanceof(File)).optional(),
-    roles: z.array(z.string()).optional(), // Add roles to validation schema
+    roles: z.array(z.number()).optional(), // Add roles to validation schema
   });
 
   type CharacterProps = z.infer<typeof validationSchema>;
@@ -131,7 +131,9 @@ export default function CharacterForm(): JSX.Element {
                     <button
                       type="button"
                       className="text-red-500 ml-2"
-                      onClick={() => handleRemoveFile(file)}
+                      onClick={() => {
+                        handleRemoveFile(file);
+                      }}
                     >
                       Remove
                     </button>
@@ -156,7 +158,7 @@ export default function CharacterForm(): JSX.Element {
           >
             {loading ? 'Creating...' : 'Create Character'}
           </button>
-          {message && <p className="mt-2 text-center">{message}</p>}
+          {message !== null && <p className="mt-2 text-center">{message}</p>}
         </form>
       </div>
       <div className="w-full max-w-xs mt-4">
