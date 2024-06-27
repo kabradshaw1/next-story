@@ -1,3 +1,4 @@
+'use client';
 import type { Dispatch, SetStateAction } from 'react';
 
 import { useRolesQuery } from '@/generated/graphql';
@@ -11,6 +12,7 @@ export default function Roles({
   selectedRoles,
   setSelectedRoles,
 }: RolesProps): JSX.Element {
+  console.log('working on it');
   const { data, loading, error } = useRolesQuery();
   if (loading) return <p>Loading...</p>;
   if (error !== null) return <p>Error: {error?.message}</p>;

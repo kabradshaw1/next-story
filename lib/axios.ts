@@ -4,7 +4,7 @@ import isTokenExpired from './isTokenExired';
 import { setAuth, logout } from './store/slices/authSlice';
 import store from './store/store';
 
-const axiosAuthInstance = axios.create({
+export const axiosAuthInstance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth`,
   timeout: 5000,
   headers: {
@@ -13,9 +13,7 @@ const axiosAuthInstance = axios.create({
   withCredentials: true,
 });
 
-export { axiosAuthInstance };
-
-const axiosMutationInstance = axios.create({
+export const axiosClientInstance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_AUTH_URL}/api/auth`,
   timeout: 5000,
   headers: {
@@ -24,7 +22,7 @@ const axiosMutationInstance = axios.create({
   withCredentials: true,
 });
 
-axiosMutationInstance.interceptors.request.use(async (config) => {
+axiosClientInstance.interceptors.request.use(async (config) => {
   let token = store.getState().auth.token;
 
   const setAuthorizationHeader = (token: string | null): void => {
