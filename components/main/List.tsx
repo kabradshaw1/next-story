@@ -11,7 +11,7 @@ export type Props = {
   route: string;
 };
 
-const Lists: React.FC<Props> = ({ props, route }) => {
+const List: React.FC<Props> = ({ props, route }) => {
   return (
     <div className="flex flex-wrap justify-center gap-4">
       {props.length > 0 ? (
@@ -30,4 +30,4 @@ const Lists: React.FC<Props> = ({ props, route }) => {
   );
 };
 
-export default Lists;
+export default List;

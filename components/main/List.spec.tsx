@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import Items from './Items/Items';
-import Lists from './Lists';
+import List from './List';
 
 jest.mock('./Items/Items', () => {
   return {
@@ -20,13 +20,13 @@ describe('Lists Component', () => {
       { title: 'Item 1', imageUrl: '/url1' },
       { title: 'Item 2', imageUrl: '/url2' },
     ];
-    render(<Lists props={props} route="test-route" />);
+    render(<List props={props} route="test-route" />);
     const itemTitles = screen.getAllByText(/Item/);
     expect(itemTitles).toHaveLength(2);
   });
 
   it('renders NoItems when props array is empty', () => {
-    render(<Lists props={[]} route="test-route" />);
+    render(<List props={[]} route="test-route" />);
     expect(screen.getByText(/No test-route found./)).toBeInTheDocument();
   });
 
@@ -35,7 +35,7 @@ describe('Lists Component', () => {
       { title: 'Item 1', imageUrl: '/img1', route: 'items' },
       { title: 'Item 2', imageUrl: '/img2', route: 'items' },
     ];
-    render(<Lists props={props} route="items" />);
+    render(<List props={props} route="items" />);
     props.forEach((prop, index) => {
       expect(Items).toHaveBeenNthCalledWith(
         index + 1,
