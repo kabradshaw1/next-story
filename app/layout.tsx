@@ -29,7 +29,7 @@ export default function RootLayout({
       <body>
         <StoreProvider>
           <Header />
-          <main className="flex flex-wrap justify-center items-center bg-dark-gray">
+          <main className="flex flex-wrap justify-center items-center bg-slate-700">
             {children}
           </main>
           <Footer />
