@@ -28,9 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "next.config.mjs",
-    "mocks/**/*.ts",
-    "cypress/**/*.ts"
+    "mocks/**/*.ts"
   ],
-  "exclude": ["node_modules", "/generated"],
-  "types": ["cypress", "node"]
+  "exclude": ["node_modules", "/generated"]
 }

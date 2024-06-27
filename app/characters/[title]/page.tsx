@@ -76,8 +76,7 @@ export default async function SingleCharacterPage({
           >
             {role.title}
           </Link>
-        ))}{' '}
-        : <p>This character has no roles in any organizations.</p>
+        ))}
       </div>
     </div>
   );
