@@ -1,0 +1,10 @@
+query roles {
+  roles {
+    id
+    title
+    organization {
+      id
+      title
+    }
+  }
+}

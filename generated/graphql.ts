@@ -411,26 +411,19 @@ export type UpdateRoleInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type CharacterQueryVariables = Exact<{
-  title: Scalars['String']['input'];
-}>;
+export type RolesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string } | null> | null } | null };
+export type RolesQuery = { __typename?: 'Query', roles?: Array<{ __typename?: 'Role', id?: number | null, title: string, organization?: { __typename?: 'Organization', id?: number | null, title: string } | null } | null> | null };
 
 
-export const CharacterDocument = gql`
-    query character($title: String!) {
-  character(title: $title) {
+export const RolesDocument = gql`
+    query roles {
+  roles {
+    id
     title
-    text
-    createdAt
-    user
-    downloadURLs
-    scenes {
-      title
-    }
-    roles {
+    organization {
+      id
       title
     }
   }
@@ -438,34 +431,33 @@ export const CharacterDocument = gql`
     `;
 
 /**
- * __useCharacterQuery__
+ * __useRolesQuery__
  *
- * To run a query within a React component, call `useCharacterQuery` and pass it any options that fit your needs.
- * When your component renders, `useCharacterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useRolesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useCharacterQuery({
+ * const { data, loading, error } = useRolesQuery({
  *   variables: {
- *      title: // value for 'title'
  *   },
  * });
  */
-export function useCharacterQuery(baseOptions: Apollo.QueryHookOptions<CharacterQuery, CharacterQueryVariables> & ({ variables: CharacterQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useRolesQuery(baseOptions?: Apollo.QueryHookOptions<RolesQuery, RolesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
+        return Apollo.useQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
       }
-export function useCharacterLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
+export function useRolesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RolesQuery, RolesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
+          return Apollo.useLazyQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
         }
-export function useCharacterSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<CharacterQuery, CharacterQueryVariables>) {
+export function useRolesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<RolesQuery, RolesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<CharacterQuery, CharacterQueryVariables>(CharacterDocument, options);
+          return Apollo.useSuspenseQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
         }
-export type CharacterQueryHookResult = ReturnType<typeof useCharacterQuery>;
-export type CharacterLazyQueryHookResult = ReturnType<typeof useCharacterLazyQuery>;
-export type CharacterSuspenseQueryHookResult = ReturnType<typeof useCharacterSuspenseQuery>;
-export type CharacterQueryResult = Apollo.QueryResult<CharacterQuery, CharacterQueryVariables>;
+export type RolesQueryHookResult = ReturnType<typeof useRolesQuery>;
+export type RolesLazyQueryHookResult = ReturnType<typeof useRolesLazyQuery>;
+export type RolesSuspenseQueryHookResult = ReturnType<typeof useRolesSuspenseQuery>;
+export type RolesQueryResult = Apollo.QueryResult<RolesQuery, RolesQueryVariables>;
