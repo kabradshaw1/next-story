@@ -16,11 +16,6 @@ export default function CharacterForm(): JSX.Element {
   const validationSchema = z.object({
     title: z.string().min(1, 'Name is required'),
     text: z.string().min(1, 'Description is required'),
-    file: z
-      .instanceof(File, 'Image is required')
-      .refine((file) => file.size <= 5000000, {
-        message: 'Max file size is 5MB',
-      }),
   });
 
   type CharacterProps = z.infer<typeof validationSchema>;
@@ -39,7 +34,7 @@ export default function CharacterForm(): JSX.Element {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('text', data.text);
-    formData.append('file', data.file);
+    // formData.append('file', data.file);
 
     setLoading(true);
 
