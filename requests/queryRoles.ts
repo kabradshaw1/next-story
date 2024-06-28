@@ -10,7 +10,7 @@ export type Role = {
 
 export default async function getRoles(): Promise<Role[]> {
   const query = gql`
-    query Roles {
+    query roles {
       title
       id
       organization {
@@ -21,7 +21,7 @@ export default async function getRoles(): Promise<Role[]> {
 
   try {
     const response = await axios.post(
-      'http://host.docker.internal:4000/graphql',
+      'http://localhost:4000/graphql',
       {
         query: query.loc?.source.body,
       },
