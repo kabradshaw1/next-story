@@ -15,13 +15,13 @@ export default function CharacterForm(): JSX.Element {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const [selectedRoles, setSelectedRoles] = useState<number[]>([]); // State for selected roles
+  const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
 
   const validationSchema = z.object({
     title: z.string().min(1, 'Name is required'),
     text: z.string().min(1, 'Description is required'),
     files: z.array(z.instanceof(File)).optional(),
-    roles: z.array(z.number()).optional(), // Add roles to validation schema
+    roles: z.array(z.number()).optional(),
   });
 
   type CharacterProps = z.infer<typeof validationSchema>;
@@ -54,12 +54,11 @@ export default function CharacterForm(): JSX.Element {
     data.files?.forEach((file) => {
       formData.append('files', file);
     });
-    formData.append('roles', JSON.stringify(selectedRoles)); // Add selected roles to form data
+    formData.append('roles', JSON.stringify(selectedRoles));
 
     setLoading(true);
 
     try {
-      // Replace with your API call logic
       const response = await fetch('/api/characters', {
         method: 'POST',
         body: formData,
@@ -147,8 +146,7 @@ export default function CharacterForm(): JSX.Element {
             <Roles
               selectedRoles={selectedRoles}
               setSelectedRoles={setSelectedRoles}
-            />{' '}
-            {/* Include Roles component */}
+            />
           </div>
 
           <button

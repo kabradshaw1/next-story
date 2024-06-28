@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
   },
   withCredentials: true,
 });
+
 export default axiosInstance;
 
 export async function fetcher<T>(url: string): Promise<T> {

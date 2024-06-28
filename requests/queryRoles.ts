@@ -1,6 +1,6 @@
+'use client';
+import axios from 'axios';
 import { gql } from 'graphql-tag';
-
-import axiosInstance from '@/lib/serverAxios';
 
 export type Role = {
   title: string;
@@ -20,9 +20,17 @@ export default async function getRoles(): Promise<Role[]> {
   `;
 
   try {
-    const response = await axiosInstance.post('', {
-      query: query.loc?.source.body,
-    });
+    const response = await axios.post(
+      'http://host.docker.internal:4000/graphql',
+      {
+        query: query.loc?.source.body,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
     const roles = response.data.data.roles;
 
