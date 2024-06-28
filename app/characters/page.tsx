@@ -5,10 +5,7 @@ import List from '@/components/main/List';
 import fetchCharacters from './fetchCharacters';
 
 export default async function CharactersPage(): Promise<JSX.Element> {
-  const characters = (await fetchCharacters()) as Array<{
-    title: string;
-    imageUrl: string | undefined;
-  }>;
+  const characters = await fetchCharacters();
 
   return (
     <div className="card mx-auto mt-8">

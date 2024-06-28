@@ -1,8 +1,8 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-tag';
 
-import { axiosClientInstance } from '@/lib/axios';
+import axiosInstance from '@/lib/serverAxios';
 
-type Role = {
+export type Role = {
   title: string;
   organization: string;
   id: string;
@@ -20,7 +20,7 @@ export default async function getRoles(): Promise<Role[]> {
   `;
 
   try {
-    const response = await axiosClientInstance.post('', {
+    const response = await axiosInstance.post('', {
       query: query.loc?.source.body,
     });
 
