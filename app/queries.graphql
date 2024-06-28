@@ -1,8 +1,8 @@
-query roles {
-  roles {
-    id
+query organization {
+  organizations {
     title
-    organization {
+    roles {
+      id
       title
     }
   }

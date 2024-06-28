@@ -411,18 +411,18 @@ export type UpdateRoleInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type RolesQueryVariables = Exact<{ [key: string]: never; }>;
+export type OrganizationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type RolesQuery = { __typename?: 'Query', roles?: Array<{ __typename?: 'Role', id?: number | null, title: string, organization?: { __typename?: 'Organization', title: string } | null } | null> | null };
+export type OrganizationQuery = { __typename?: 'Query', organizations?: Array<{ __typename?: 'Organization', title: string, roles?: Array<{ __typename?: 'Role', id?: number | null, title: string } | null> | null } | null> | null };
 
 
-export const RolesDocument = gql`
-    query roles {
-  roles {
-    id
+export const OrganizationDocument = gql`
+    query organization {
+  organizations {
     title
-    organization {
+    roles {
+      id
       title
     }
   }
@@ -430,33 +430,33 @@ export const RolesDocument = gql`
     `;
 
 /**
- * __useRolesQuery__
+ * __useOrganizationQuery__
  *
- * To run a query within a React component, call `useRolesQuery` and pass it any options that fit your needs.
- * When your component renders, `useRolesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOrganizationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useRolesQuery({
+ * const { data, loading, error } = useOrganizationQuery({
  *   variables: {
  *   },
  * });
  */
-export function useRolesQuery(baseOptions?: Apollo.QueryHookOptions<RolesQuery, RolesQueryVariables>) {
+export function useOrganizationQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
+        return Apollo.useQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, options);
       }
-export function useRolesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<RolesQuery, RolesQueryVariables>) {
+export function useOrganizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
+          return Apollo.useLazyQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, options);
         }
-export function useRolesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<RolesQuery, RolesQueryVariables>) {
+export function useOrganizationSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<RolesQuery, RolesQueryVariables>(RolesDocument, options);
+          return Apollo.useSuspenseQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, options);
         }
-export type RolesQueryHookResult = ReturnType<typeof useRolesQuery>;
-export type RolesLazyQueryHookResult = ReturnType<typeof useRolesLazyQuery>;
-export type RolesSuspenseQueryHookResult = ReturnType<typeof useRolesSuspenseQuery>;
-export type RolesQueryResult = Apollo.QueryResult<RolesQuery, RolesQueryVariables>;
+export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery>;
+export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
+export type OrganizationSuspenseQueryHookResult = ReturnType<typeof useOrganizationSuspenseQuery>;
+export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;

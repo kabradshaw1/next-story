@@ -31,15 +31,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* <StoreProvider>
-          <QueryProvider> */}
-        <Header />
-        <main className="flex flex-wrap justify-center items-center bg-slate-700">
-          {children}
-        </main>
-        <Footer />
-        {/* </QueryProvider>
-        </StoreProvider> */}
+        <StoreProvider>
+          <QueryProvider>
+            <Header />
+            <main className="flex flex-wrap justify-center items-center bg-slate-700">
+              {children}
+            </main>
+            <Footer />
+          </QueryProvider>
+        </StoreProvider>
       </body>
     </html>
   );

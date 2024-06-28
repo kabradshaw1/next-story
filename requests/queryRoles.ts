@@ -10,11 +10,13 @@ export type Role = {
 
 export default async function getRoles(): Promise<Role[]> {
   const query = gql`
-    query roles {
-      title
-      id
-      organization {
+    query organization {
+      organizations {
         title
+        roles {
+          id
+          title
+        }
       }
     }
   `;
@@ -32,21 +34,9 @@ export default async function getRoles(): Promise<Role[]> {
       }
     );
 
-    const roles = response.data.data.roles;
+    const organization = response.data.data.organization;
 
-    return roles.map(
-      (role: {
-        title: string;
-        organization: { title: string };
-        id: string;
-      }) => {
-        return {
-          title: role.title,
-          organization: role.organization.title,
-          id: role.id,
-        };
-      }
-    );
+    return organization;
   } catch (error) {
     console.error(error);
     throw error;
