@@ -1,14 +1,16 @@
-'use client';
+'use server';
 import axios from 'axios';
 import { gql } from 'graphql-tag';
 
-export type Role = {
+export type Organizations = {
   title: string;
-  organization: string;
-  id: string;
+  roles: Array<{
+    id: string;
+    title: string;
+  }>;
 };
 
-export default async function getRoles(): Promise<Role[]> {
+export default async function getRoles(): Promise<Organizations[]> {
   const query = gql`
     query organization {
       organizations {

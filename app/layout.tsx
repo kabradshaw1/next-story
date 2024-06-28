@@ -10,7 +10,7 @@ const StoreProvider = dynamic(() => import('@/lib/StoreProvider'), {
   ssr: false,
 });
 // eslint-disable-next-line @typescript-eslint/promise-function-async
-const QueryProvider = dynamic(() => import('@/lib/QueryProvider'), {
+const ApolloProvider = dynamic(() => import('@/lib/ApolloProvider'), {
   ssr: false,
 });
 
@@ -32,13 +32,13 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <StoreProvider>
-          <QueryProvider>
+          <ApolloProvider>
             <Header />
             <main className="flex flex-wrap justify-center items-center bg-slate-700">
               {children}
             </main>
             <Footer />
-          </QueryProvider>
+          </ApolloProvider>
         </StoreProvider>
       </body>
     </html>
