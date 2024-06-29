@@ -3,7 +3,7 @@ import React from 'react';
 import type { UseFormRegister, FieldValues, Path } from 'react-hook-form';
 
 type InputFieldProps<T extends FieldValues> = {
-  id: Path<T>; // Ensure the id matches the correct type from react-hook-form
+  id: Path<T>;
   label: string;
   placeholder: string;
   error?: string;

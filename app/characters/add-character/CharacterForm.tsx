@@ -7,6 +7,8 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Logo from '@/components/Logo/Logo';
+import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
+import InputField from '@/components/main/forms/FormInput/InputField';
 
 import Roles from './Roles';
 
@@ -50,35 +52,7 @@ export default function CharacterForm(): JSX.Element {
     setValue('files', updatedFiles);
   };
 
-  const formSubmit: SubmitHandler<CharacterProps> = async (data) => {
-    const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('text', data.text);
-    data.files?.forEach((file) => {
-      formData.append('files', file);
-    });
-    formData.append('roles', JSON.stringify(selectedRoles));
-
-    setLoading(true);
-
-    try {
-      const response = await fetch('/api/characters', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        setMessage('Character created successfully');
-        router.push('/characters');
-      } else {
-        setMessage('Failed to create character');
-      }
-    } catch (error) {
-      setMessage('An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const formSubmit: SubmitHandler<CharacterProps> = async (data) => {};
 
   return (
     <>
@@ -92,57 +66,26 @@ export default function CharacterForm(): JSX.Element {
           }}
         >
           <div className="mb-4">
-            <label htmlFor="title" className="label">
-              Name
-            </label>
-            <input
-              type="text"
+            <InputField<CharacterProps>
               id="title"
+              label="Name"
               placeholder="Name"
-              className="input bg-gray-700"
-              {...register('title')}
+              error={errors.title?.message}
+              register={register}
             />
-            <p className="error-message">{errors.title?.message}</p>
-            <label htmlFor="text" className="label mt-1">
-              Back Ground
-            </label>
-            <input
-              type="text"
+            <InputField<CharacterProps>
               id="text"
+              label="Back Ground"
               placeholder="Description"
-              className="input bg-gray-700"
-              {...register('text')}
+              error={errors.text?.message}
+              register={register}
             />
-            <p className="error-message">{errors.text?.message}</p>
-            <label htmlFor="files" className="label mt-1">
-              Images
-            </label>
-            <input
-              type="file"
-              id="files"
-              className="input bg-gray-700"
-              multiple
-              onChange={handleFileChange}
+            <FileUploader<CharacterProps>
+              files={files}
+              setFiles={setFiles}
+              setValue={setValue}
+              error={errors.files?.message}
             />
-            <p className="error-message">{errors.files?.message}</p>
-            {files.length > 0 && (
-              <ul className="mt-2">
-                {files.map((file, index) => (
-                  <li key={index} className="flex justify-between items-center">
-                    <span>{file.name}</span>
-                    <button
-                      type="button"
-                      className="text-red-500 ml-2"
-                      onClick={() => {
-                        handleRemoveFile(file);
-                      }}
-                    >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
             <label htmlFor="roles" className="label mt-4">
               Roles
             </label>
