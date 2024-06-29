@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import StoreProvider from '@/app/StoreProvider';
+import StoreProvider from '@/lib/StoreProvider';
 
 import Header from './Header';
 

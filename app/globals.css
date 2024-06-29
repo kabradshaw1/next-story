@@ -50,3 +50,12 @@ body {
 .link {
   @apply bg-slate-700 hover:bg-slate-800 glow-on-hover transition duration-300;
 }
+
+.active-link {
+  font-weight: bold;
+  color: var(--custom-blue);
+}
+
+.inactive-link {
+  color: var(--dark-gray);
+}
