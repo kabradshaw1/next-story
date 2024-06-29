@@ -9,10 +9,14 @@ import { z } from 'zod';
 import Logo from '@/components/Logo/Logo';
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
+import { useCreateCharacterMutation } from '@/generated/graphql';
 
 import Roles from './Roles';
 
 export default function CharacterForm(): JSX.Element {
+  const [createCharacter, { loading: mutationLoading, error }] =
+    useCreateCharacterMutation();
+
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -37,7 +41,48 @@ export default function CharacterForm(): JSX.Element {
     resolver: zodResolver(validationSchema),
   });
 
-  const formSubmit: SubmitHandler<CharacterProps> = async (data) => {};
+  const formSubmit: SubmitHandler<CharacterProps> = async (data) => {
+    setLoading(true);
+    try {
+      const fileInputs = files.map((file) => ({
+        fileName: file.name,
+        contentType: file.type,
+      }));
+
+      const response = await createCharacter({
+        variables: {
+          title: data.title,
+          text: data.text,
+          files: fileInputs,
+          roleIds: data.roles,
+        },
+      });
+
+      if (
+        response.data?.createCharacter?.uploadURLs !== null &&
+        response.data?.createCharacter?.uploadURLs !== undefined
+      ) {
+        const uploadURLs = response.data.createCharacter.uploadURLs;
+        const uploadPromises = files.map(async (file, index) => {
+          if (uploadURLs[index] !== null) {
+            await fetch(uploadURLs[index], {
+              method: 'PUT',
+              body: file,
+            });
+          }
+        });
+
+        await Promise.all(uploadPromises);
+        router.push('/characters');
+      }
+    } catch (e) {
+      console.log(e);
+      if (error?.message !== undefined) {
+        setMessage(error.message);
+      }
+      setLoading(false);
+    }
+  };
 
   return (
     <>
