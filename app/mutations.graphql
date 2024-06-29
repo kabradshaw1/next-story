@@ -1,0 +1,22 @@
+mutation createCharacter(
+  $title: String!
+  $text: String
+  $files: [FileInput]
+  $roleIds: [Int]
+) {
+  createCharacter(
+    title: $title
+    text: $text
+    files: $files
+    roleIds: $roleIds
+  ) {
+    id
+    title
+    text
+    uploadURLs
+    roles {
+      id
+      title
+    }
+  }
+}

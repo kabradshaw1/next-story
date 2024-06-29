@@ -1,7 +1,7 @@
 'use client';
 import type { Dispatch, SetStateAction } from 'react';
 
-import { useOrganizationQuery } from '@/generated/graphql';
+import { useOrganizationsQuery } from '@/generated/graphql';
 
 type RolesProps = {
   selectedRoles: number[];
@@ -18,7 +18,7 @@ export default function Roles({
   selectedRoles,
   setSelectedRoles,
 }: RolesProps): JSX.Element {
-  const { data, loading, error } = useOrganizationQuery();
+  const { data, loading, error } = useOrganizationsQuery();
 
   const organizations = data?.organizations;
 

@@ -411,14 +411,67 @@ export type UpdateRoleInput = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type OrganizationQueryVariables = Exact<{ [key: string]: never; }>;
+export type CreateCharacterMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  text?: InputMaybe<Scalars['String']['input']>;
+  files?: InputMaybe<Array<InputMaybe<FileInput>> | InputMaybe<FileInput>>;
+  roleIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>> | InputMaybe<Scalars['Int']['input']>>;
+}>;
 
 
-export type OrganizationQuery = { __typename?: 'Query', organizations?: Array<{ __typename?: 'Organization', title: string, roles?: Array<{ __typename?: 'Role', id?: number | null, title: string } | null> | null } | null> | null };
+export type CreateCharacterMutation = { __typename?: 'Mutation', createCharacter?: { __typename?: 'Character', id?: number | null, title: string, text?: string | null, uploadURLs?: Array<string | null> | null, roles?: Array<{ __typename?: 'Role', id?: number | null, title: string } | null> | null } | null };
+
+export type OrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const OrganizationDocument = gql`
-    query organization {
+export type OrganizationsQuery = { __typename?: 'Query', organizations?: Array<{ __typename?: 'Organization', title: string, roles?: Array<{ __typename?: 'Role', id?: number | null, title: string } | null> | null } | null> | null };
+
+
+export const CreateCharacterDocument = gql`
+    mutation createCharacter($title: String!, $text: String, $files: [FileInput], $roleIds: [Int]) {
+  createCharacter(title: $title, text: $text, files: $files, roleIds: $roleIds) {
+    id
+    title
+    text
+    uploadURLs
+    roles {
+      id
+      title
+    }
+  }
+}
+    `;
+export type CreateCharacterMutationFn = Apollo.MutationFunction<CreateCharacterMutation, CreateCharacterMutationVariables>;
+
+/**
+ * __useCreateCharacterMutation__
+ *
+ * To run a mutation, you first call `useCreateCharacterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCharacterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCharacterMutation, { data, loading, error }] = useCreateCharacterMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      text: // value for 'text'
+ *      files: // value for 'files'
+ *      roleIds: // value for 'roleIds'
+ *   },
+ * });
+ */
+export function useCreateCharacterMutation(baseOptions?: Apollo.MutationHookOptions<CreateCharacterMutation, CreateCharacterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCharacterMutation, CreateCharacterMutationVariables>(CreateCharacterDocument, options);
+      }
+export type CreateCharacterMutationHookResult = ReturnType<typeof useCreateCharacterMutation>;
+export type CreateCharacterMutationResult = Apollo.MutationResult<CreateCharacterMutation>;
+export type CreateCharacterMutationOptions = Apollo.BaseMutationOptions<CreateCharacterMutation, CreateCharacterMutationVariables>;
+export const OrganizationsDocument = gql`
+    query organizations {
   organizations {
     title
     roles {
@@ -430,33 +483,33 @@ export const OrganizationDocument = gql`
     `;
 
 /**
- * __useOrganizationQuery__
+ * __useOrganizationsQuery__
  *
- * To run a query within a React component, call `useOrganizationQuery` and pass it any options that fit your needs.
- * When your component renders, `useOrganizationQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useOrganizationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useOrganizationQuery({
+ * const { data, loading, error } = useOrganizationsQuery({
  *   variables: {
  *   },
  * });
  */
-export function useOrganizationQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
+export function useOrganizationsQuery(baseOptions?: Apollo.QueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, options);
+        return Apollo.useQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, options);
       }
-export function useOrganizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
+export function useOrganizationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, options);
+          return Apollo.useLazyQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, options);
         }
-export function useOrganizationSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
+export function useOrganizationsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<OrganizationsQuery, OrganizationsQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, options);
+          return Apollo.useSuspenseQuery<OrganizationsQuery, OrganizationsQueryVariables>(OrganizationsDocument, options);
         }
-export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery>;
-export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
-export type OrganizationSuspenseQueryHookResult = ReturnType<typeof useOrganizationSuspenseQuery>;
-export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
+export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQuery>;
+export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
+export type OrganizationsSuspenseQueryHookResult = ReturnType<typeof useOrganizationsSuspenseQuery>;
+export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
