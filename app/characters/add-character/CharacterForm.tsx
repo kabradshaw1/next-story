@@ -35,13 +35,16 @@ export default function CharacterForm(): JSX.Element {
     resolver: zodResolver(validationSchema),
   });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(event.target.files || []);
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const selectedFiles =
+      event.target.files !== null ? Array.from(event.target.files) : [];
     setFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
     setValue('files', [...files, ...selectedFiles]);
   };
 
-  const handleRemoveFile = (fileToRemove: File) => {
+  const handleRemoveFile = (fileToRemove: File): void => {
     const updatedFiles = files.filter((file) => file !== fileToRemove);
     setFiles(updatedFiles);
     setValue('files', updatedFiles);

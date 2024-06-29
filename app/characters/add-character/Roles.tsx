@@ -38,8 +38,6 @@ export default function Roles({
       return acc.concat(processedRoles);
     }, [] as ProcessedRoles) ?? [];
 
-  console.log(roles);
-
   const handleRoleChange = (roleId: number): void => {
     setSelectedRoles((prevSelectedRoles) => {
       if (prevSelectedRoles.includes(roleId)) {
