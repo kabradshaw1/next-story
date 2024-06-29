@@ -1,4 +1,4 @@
-import Dropdown from '@/components/Header/Dropdown';
+import Dropdown from '@/components/Header/Dropdown/Dropdown';
 
 import NavBar from './NavBar/NavBar';
 

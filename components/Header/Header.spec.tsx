@@ -5,10 +5,6 @@ import StoreProvider from '@/lib/StoreProvider';
 import Header from './Header';
 
 describe('Header', () => {
-  // jest.mock('next/navigation', () => {
-  //   usePathname: () => '/login';
-  // });
-
   beforeEach(() => {
     render(
       <StoreProvider>
