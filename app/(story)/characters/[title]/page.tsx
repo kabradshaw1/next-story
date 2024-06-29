@@ -71,7 +71,7 @@ export default async function SingleCharacterPage({
         {character.roles.map((role: { title: string }) => (
           <Link
             className="mr-1"
-            href={`/role/${createSlug(role.title)}`}
+            href={`/roles/${createSlug(role.title)}`}
             key={role.title}
           >
             {role.title}
