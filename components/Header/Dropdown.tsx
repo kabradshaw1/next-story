@@ -11,12 +11,14 @@ export default function Dropdown(): JSX.Element {
   const { token } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const user = token !== null ? jwtDecode(token) : null;
   console.log(user);
+
   const handleLogout = (): void => {
     dispatch(authSlice.actions.logout());
   };
-  const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = (): void => {
     setIsOpen(!isOpen);
@@ -30,18 +32,34 @@ export default function Dropdown(): JSX.Element {
       >
         Menu
       </button>
-      <Link className="dark-gray" href="/login">
-        Login
-      </Link>
-      <Link className="dark-gray" href="/register">
-        Register
-      </Link>
-      <Link className="dark-gray" href="/update-profile">
-        Update Profile
-      </Link>
-      <a className="dark-gray" onClick={handleLogout}>
-        Logout
-      </a>
+      {isOpen && (
+        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+          <Link
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+            href="/login"
+          >
+            Login
+          </Link>
+          <Link
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+            href="/register"
+          >
+            Register
+          </Link>
+          <Link
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+            href="/update-profile"
+          >
+            Update Profile
+          </Link>
+          <a
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+            onClick={handleLogout}
+          >
+            Logout
+          </a>
+        </div>
+      )}
     </div>
   );
 }

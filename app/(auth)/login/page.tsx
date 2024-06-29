@@ -44,7 +44,6 @@ export default function Login(): JSX.Element {
     try {
       setMessage('Logging in...');
       const response = await axiosAuthInstance.post('/login', data);
-      console.log(response);
       if (response.status === 200) {
         dispatch(setAuth({ token: response.data.token }));
         router.push('/');
