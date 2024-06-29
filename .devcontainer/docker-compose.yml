@@ -12,8 +12,8 @@ services:
       - "3001:3001"
       - "9229:9229"
     environment:
-      - NEXT_PUBLIC_AUTH_URL=http://host.docker.internal:4002
-      - NEXT_PUBLIC_STORY_URL=http://host.docker.internal:4000
+      - NEXT_PUBLIC_AUTH_URL=http://localhost:4002
+      - NEXT_PUBLIC_STORY_URL=http://localhost:4000
     
   # playwright:
   #   image: next-app-playwright

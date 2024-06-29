@@ -2,9 +2,6 @@
 import type { Dispatch, SetStateAction } from 'react';
 
 import { useOrganizationQuery } from '@/generated/graphql';
-// import { useQuery } from '@tanstack/react-query';
-
-// import getRoles from '@/requests/queryRoles';
 
 type RolesProps = {
   selectedRoles: number[];
@@ -22,12 +19,13 @@ export default function Roles({
   setSelectedRoles,
 }: RolesProps): JSX.Element {
   const { data, loading, error } = useOrganizationQuery();
-  console.log(data);
+
   const organizations = data?.organizations;
-  // const { data, isLoading, isError, error } = useQuery({
-  //   queryFn: async () => await getRoles(),
-  //   queryKey: ['roles'],
-  // });
+
+  if (loading) return <p>Loading...</p>;
+  if (error !== null && error !== undefined) {
+    return <p>Error: {error?.message}</p>;
+  }
 
   const roles: ProcessedRoles =
     organizations?.reduce((acc, org) => {
@@ -41,9 +39,6 @@ export default function Roles({
     }, [] as ProcessedRoles) ?? [];
 
   console.log(roles);
-
-  if (loading === true) return <p>Loading...</p>;
-  if (error !== null) return <p>Error: {error?.message}</p>;
 
   const handleRoleChange = (roleId: number): void => {
     setSelectedRoles((prevSelectedRoles) => {

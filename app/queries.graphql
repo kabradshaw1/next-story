@@ -1,4 +1,4 @@
-query organization {
+query organizations {
   organizations {
     title
     roles {
