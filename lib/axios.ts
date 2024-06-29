@@ -45,11 +45,8 @@ axiosClientInstance.interceptors.request.use(async (config) => {
 const handleTokenRefresh = async (): Promise<void> => {
   try {
     const response = await axiosAuthInstance.post('/refresh');
-
-    const newToken = response.headers?.authorization?.split(' ')[1] ?? '';
-
-    if (newToken !== '' && newToken !== undefined) {
-      store.dispatch(setAuth({ token: newToken }));
+    if (response.status === 200) {
+      store.dispatch(setAuth({ token: response.data.token }));
     }
   } catch (error) {
     store.dispatch(logout());

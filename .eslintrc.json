@@ -16,8 +16,7 @@
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:jest/recommended",
-    "plugin:@tanstack/eslint-plugin-query/recommended"
+    "plugin:jest/recommended"
   ],
   "plugins": [
     "@typescript-eslint",
@@ -26,8 +25,7 @@
     "jest",
     "promise",
     "n",
-    "prettier",
-    "@tanstack/query"
+    "prettier"
   ],
   "env": {
     "browser": true,
