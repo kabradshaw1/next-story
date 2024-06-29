@@ -14,8 +14,7 @@ import { useCreateCharacterMutation } from '@/generated/graphql';
 import Roles from './Roles';
 
 export default function CharacterForm(): JSX.Element {
-  const [createCharacter, { loading: mutationLoading, error }] =
-    useCreateCharacterMutation();
+  const [createCharacter, { error }] = useCreateCharacterMutation();
 
   const router = useRouter();
   const [message, setMessage] = useState('');
@@ -64,8 +63,9 @@ export default function CharacterForm(): JSX.Element {
       ) {
         const uploadURLs = response.data.createCharacter.uploadURLs;
         const uploadPromises = files.map(async (file, index) => {
-          if (uploadURLs[index] !== null) {
-            await fetch(uploadURLs[index], {
+          const uploadUrl = uploadURLs[index];
+          if (uploadUrl !== null) {
+            await fetch(uploadUrl, {
               method: 'PUT',
               body: file,
             });
