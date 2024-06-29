@@ -1,9 +1,10 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { jwtDecode } from 'jwt-decode';
 import Link from 'next/link';
 
+import { setupInterceptors } from '@/lib/axios';
 import authSlice from '@/lib/store/slices/authSlice';
 import { useAppSelector, useAppDispatch } from '@/lib/store/store';
 
@@ -31,6 +32,13 @@ export default function Dropdown(): JSX.Element {
   const toggleDropdown = (): void => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    // Set up Axios interceptors
+    setupInterceptors().catch((error) => {
+      console.error('Error setting up interceptors:', error);
+    });
+  }, []);
 
   return (
     <div className="relative">
