@@ -34,8 +34,12 @@ export default async function singleOrganizationPage({
         }
         roles {
           title
-          superior
-          subordinates
+          superior {
+            title
+          }
+          subordinates {
+            title
+          }
         }
       }
     }
