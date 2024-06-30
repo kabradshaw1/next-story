@@ -34,7 +34,7 @@ export default function RootLayout({
         <StoreProvider>
           <ApolloProvider>
             <Header />
-            <main className="w-full flex flex-wrap justify-center items-center bg-slate-700">
+            <main className="flex flex-wrap justify-center items-center bg-slate-700">
               {children}
             </main>
             <Footer />
