@@ -1,10 +1,7 @@
 import Link from 'next/link';
 
 import { slugToTitle } from '@/lib/createSlug';
-
-type Title = {
-  title: string;
-};
+import type { Title } from '@/lib/types';
 
 export default async function ListHeader({
   title,
