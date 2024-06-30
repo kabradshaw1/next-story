@@ -1,13 +1,13 @@
 import Link from 'next/link';
 
 import { slugToTitle } from '@/lib/createSlug';
-type GenericLayoutProps = {
+type Title = {
   title: string;
 };
 
-export default async function GenericListPage({
+export default async function ListHeader({
   title,
-}: GenericLayoutProps): Promise<JSX.Element> {
+}: Title): Promise<JSX.Element> {
   return (
     <div className="flex flex-col items-center mb-4">
       <div className="flex items-center mb-2">
