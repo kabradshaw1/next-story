@@ -46,7 +46,24 @@ export default async function singleOrganizationPage({
     variables: { title },
   });
 
-  const character = response.data.data.organization;
+  const organization = response.data.data.organization;
 
-  return <></>;
+  const images = organization.downloadURLs.map((url: string) => ({
+    imageUrl: url,
+    alt: `${organization.title} image`,
+  }));
+
+  return (
+    <div className="card">
+      <ImageList images={images} />
+      <h2>{organization.title}</h2>
+      <p>{organization.text}</p>
+      <p>{organization.headquerters}</p>
+      <p>Created by: {organization.user}</p>
+      <p>Created at: {organization.createdAt}</p>
+      <LinksCard title="Scenes" items={organization.scenes} />
+      <LinksCard title="Locations" items={organization.locations} />
+      <LinksCard title="Conflicts" items={organization.conflicts} />
+    </div>
+  );
 }
