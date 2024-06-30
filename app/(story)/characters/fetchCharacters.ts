@@ -1,13 +1,9 @@
 import { gql } from 'graphql-tag';
 
+import { type List } from '@/lib/types';
 import axiosInstance from '@/lib/serverAxios';
 
-export type Character = {
-  title: string;
-  imageUrl: string | undefined;
-};
-
-const fetchCharacters = async (): Promise<Character[]> => {
+const fetchCharacters = async (): Promise<List[]> => {
   const query = gql`
     query Characters {
       characters {
