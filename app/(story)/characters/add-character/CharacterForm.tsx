@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import Logo from '@/components/Logo/Logo';
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateCharacterMutation } from '@/generated/graphql';
@@ -135,11 +134,6 @@ export default function CharacterForm(): JSX.Element {
           </button>
           {message !== null && <p className="mt-2 text-center">{message}</p>}
         </form>
-      </div>
-      <div className="w-full max-w-xs mt-4">
-        <div className="card">
-          <Logo />
-        </div>
       </div>
     </>
   );
