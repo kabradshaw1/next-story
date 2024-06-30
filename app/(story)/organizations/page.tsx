@@ -1,11 +1,10 @@
 import Link from 'next/link';
 
 import List from '@/components/main/List';
-
-import fetchOrganizations from './fetchOrganizations';
+import fetchList from '@/lib/fetchList';
 
 export default async function OrganizationsPage(): Promise<JSX.Element> {
-  const organizations = await fetchOrganizations();
+  const organizations = await fetchList('organizations');
   return (
     <div className="card mx-auto mt-8">
       <h2 className="text-xl font-bold mb-4">Organizations</h2>

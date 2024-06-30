@@ -1,14 +1,13 @@
 import Link from 'next/link';
 
 import List from '@/components/main/List';
-
-import fetchCharacters from './fetchCharacters';
+import fetchList from '@/lib/fetchList';
 
 export default async function CharactersPage(): Promise<JSX.Element> {
-  const characters = await fetchCharacters();
+  const characters = await fetchList('characters');
 
   return (
-    <div className="card mx-auto mt-8">
+    <div className="mx-auto mt-8">
       <h2 className="text-xl font-bold mb-4">Characters</h2>
       <div className="mb-4">
         <Link className="btn glow-on-hover" href="/characters/add-character">
