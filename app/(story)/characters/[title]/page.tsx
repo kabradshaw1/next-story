@@ -1,19 +1,14 @@
 import { gql } from 'graphql-tag';
-import Link from 'next/link';
 
 import ImageList from '@/components/ImageList/ImageList';
-import { slugToTitle, createSlug } from '@/lib/createSlug';
+import LinksCard from '@/components/LinksCard/LinksCard';
+import { slugToTitle } from '@/lib/createSlug';
 import axiosInstance from '@/lib/serverAxios';
-
-type Props = {
-  params: {
-    title: string;
-  };
-};
+import type { Params } from '@/lib/types';
 
 export default async function SingleCharacterPage({
   params,
-}: Props): Promise<JSX.Element> {
+}: Params): Promise<JSX.Element> {
   const { title: slug } = params;
   const title = slugToTitle(slug);
 
@@ -54,30 +49,8 @@ export default async function SingleCharacterPage({
       <p>{character.text}</p>
       <p>Created by: {character.user}</p>
       <p>Created at: {character.createdAt}</p>
-      <h3>Scenes</h3>
-      <div className="card">
-        {character.scenes.map((scene: { title: string }) => (
-          <Link
-            className="mr-1"
-            href={`/scenes/${createSlug(scene.title)}`}
-            key={scene.title}
-          >
-            {scene.title}
-          </Link>
-        ))}
-      </div>
-      <h3>Roles</h3>
-      <div className="card">
-        {character.roles.map((role: { title: string }) => (
-          <Link
-            className="mr-1"
-            href={`/roles/${createSlug(role.title)}`}
-            key={role.title}
-          >
-            {role.title}
-          </Link>
-        ))}
-      </div>
+      <LinksCard title="Scenes" items={character.scenes} />
+      <LinksCard title="Roles" items={character.roles} />
     </div>
   );
 }

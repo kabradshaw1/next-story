@@ -5,7 +5,6 @@ import { createSlug } from '@/lib/createSlug';
 type LinksCardProps = {
   title: string;
   items: Array<{ title: string }>;
-  routePrefix: string;
 };
 
 const LinksCard: React.FC<LinksCardProps> = ({ title, items }) => {
