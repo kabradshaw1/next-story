@@ -10,13 +10,28 @@ mutation createCharacter(
     files: $files
     roleIds: $roleIds
   ) {
-    id
-    title
-    text
     uploadURLs
-    roles {
-      id
-      title
-    }
+  }
+}
+
+mutation createOrganization(
+  $title: String!
+  $text: String
+  $files: [FileInput]
+  $roleCreate: [CreateRoleInput]
+  $conflictIds: [Int]
+  $headquartersId: Int
+  $locationIds: [Int]
+) {
+  createOrganization(
+    title: $title
+    text: $text
+    files: $files
+    rolesCreate: $roleCreate
+    conflictIds: $conflictIds
+    headquartersId: $headquartersId
+    locationIds: $locationIds
+  ) {
+    uploadURLs
   }
 }
