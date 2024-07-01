@@ -439,6 +439,11 @@ export type OrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type OrganizationsQuery = { __typename?: 'Query', organizations?: Array<{ __typename?: 'Organization', title: string, roles?: Array<{ __typename?: 'Role', id?: number | null, title: string } | null> | null } | null> | null };
 
+export type ForOrganizationFormQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ForOrganizationFormQuery = { __typename?: 'Query', conflicts?: Array<{ __typename?: 'Conflict', id?: number | null, title: string } | null> | null, locations?: Array<{ __typename?: 'Location', id?: number | null, title: string } | null> | null };
+
 
 export const CreateCharacterDocument = gql`
     mutation createCharacter($title: String!, $text: String, $files: [FileInput], $roleIds: [Int]) {
@@ -566,3 +571,47 @@ export type OrganizationsQueryHookResult = ReturnType<typeof useOrganizationsQue
 export type OrganizationsLazyQueryHookResult = ReturnType<typeof useOrganizationsLazyQuery>;
 export type OrganizationsSuspenseQueryHookResult = ReturnType<typeof useOrganizationsSuspenseQuery>;
 export type OrganizationsQueryResult = Apollo.QueryResult<OrganizationsQuery, OrganizationsQueryVariables>;
+export const ForOrganizationFormDocument = gql`
+    query forOrganizationForm {
+  conflicts {
+    id
+    title
+  }
+  locations {
+    id
+    title
+  }
+}
+    `;
+
+/**
+ * __useForOrganizationFormQuery__
+ *
+ * To run a query within a React component, call `useForOrganizationFormQuery` and pass it any options that fit your needs.
+ * When your component renders, `useForOrganizationFormQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useForOrganizationFormQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useForOrganizationFormQuery(baseOptions?: Apollo.QueryHookOptions<ForOrganizationFormQuery, ForOrganizationFormQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ForOrganizationFormQuery, ForOrganizationFormQueryVariables>(ForOrganizationFormDocument, options);
+      }
+export function useForOrganizationFormLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ForOrganizationFormQuery, ForOrganizationFormQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ForOrganizationFormQuery, ForOrganizationFormQueryVariables>(ForOrganizationFormDocument, options);
+        }
+export function useForOrganizationFormSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ForOrganizationFormQuery, ForOrganizationFormQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ForOrganizationFormQuery, ForOrganizationFormQueryVariables>(ForOrganizationFormDocument, options);
+        }
+export type ForOrganizationFormQueryHookResult = ReturnType<typeof useForOrganizationFormQuery>;
+export type ForOrganizationFormLazyQueryHookResult = ReturnType<typeof useForOrganizationFormLazyQuery>;
+export type ForOrganizationFormSuspenseQueryHookResult = ReturnType<typeof useForOrganizationFormSuspenseQuery>;
+export type ForOrganizationFormQueryResult = Apollo.QueryResult<ForOrganizationFormQuery, ForOrganizationFormQueryVariables>;

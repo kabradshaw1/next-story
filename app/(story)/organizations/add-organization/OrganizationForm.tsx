@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 
@@ -29,7 +30,7 @@ const validationSchema = z.object({
 });
 
 type OrganizationProps = z.infer<typeof validationSchema>;
-export default function OrganizationFOrm(): JSX.Element {
+export default function OrganizationForm(): JSX.Element {
   const [createOrganization, { error }] = useCreateOrganizationMutation();
 
   const router = useRouter();
@@ -126,6 +127,12 @@ export default function OrganizationFOrm(): JSX.Element {
             placeholder="Description"
             error={errors.title?.message}
             register={register}
+          />
+          <FileUploader<OrganizationProps>
+            files={files}
+            setFiles={setFiles}
+            setValue={setValue}
+            error={errors.files?.message}
           />
         </div>
         <button type="submit" className="btn glow-on-hover" disabled={loading}>
