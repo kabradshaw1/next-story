@@ -6,12 +6,6 @@ import { z } from 'zod';
 
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 
-type RoleInput = {
-  title: string;
-  text?: string;
-  superiorTitle?: string;
-  subordinatesTitles?: string[];
-};
 export default function OrganizationFOrm(): JSX.Element {
   const [createOrganization, { error }] = useCreateOrganizationMutation();
 
@@ -24,15 +18,24 @@ export default function OrganizationFOrm(): JSX.Element {
   const [selectedConflicts, setSelectedConflicts] = useState<number[]>([]);
   const [selectedHeadquarters, setSelectedHeadquarters] = useState<number>();
 
+  const RoleInputSchema = z.object({
+    title: z.string().min(1, 'Title is required'),
+    text: z.string().optional(),
+    superiorTitle: z.string().optional(),
+    subordinatesTitles: z.array(z.string()).optional(),
+  });
+
   const validationSchema = z.object({
     title: z.string().min(1, 'Name is required'),
     text: z.string().min(1, 'Description is required'),
     files: z.array(z.instanceof(File)).optional(),
-    roles: z.array(z.number()).optional(),
+    roles: z.array(RoleInputSchema).optional(),
     locations: z.array(z.number()).optional(),
     conflicts: z.array(z.number()).optional(),
     headquarters: z.number().optional(),
   });
+
+  type OrganizationProps = z.infer<typeof validationSchema>;
 
   return <></>;
 }

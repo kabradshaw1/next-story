@@ -8,3 +8,13 @@ query organizations {
   }
 }
 
+query forOrganizationForm {
+  conflicts {
+    id
+    title
+  }
+  locations {
+    id
+    title
+  }
+}
