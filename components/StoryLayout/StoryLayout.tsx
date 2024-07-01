@@ -14,10 +14,10 @@ export default function StoryLayout({
         <div className="hidden lg:block">
           <Logo />
           <p>
-            The {routeName.toLowerCase()}s in galaxy voyagers are all made by
-            fans. Anyone can create a {routeName.toLowerCase()}. The
-            {routeName.toLowerCase()}s will be made cannon, based on their
-            popularity.
+            The {routeName}s in galaxy voyagers are all made by fans. Anyone can
+            create a {routeName}. And the most popular
+            {routeName}s will be made cannon. Connon scenes will be featured in
+            The Galaxy Voyager video game!
           </p>
         </div>
         <div>{children}</div>

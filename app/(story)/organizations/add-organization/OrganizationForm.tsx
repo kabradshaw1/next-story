@@ -129,7 +129,7 @@ export default function OrganizationFOrm(): JSX.Element {
           />
         </div>
         <button type="submit" className="btn glow-on-hover" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Character'}
+          {loading ? 'Creating...' : 'Create Organization'}
         </button>
         {message !== null && <p className="mt-2 text-center">{message}</p>}
       </form>
