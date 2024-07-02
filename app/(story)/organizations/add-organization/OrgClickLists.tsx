@@ -3,6 +3,8 @@ import type { Dispatch, SetStateAction } from 'react';
 import CheckBoxList from '@/components/CheckBoxList/CheckBoxList';
 import { useForOrganizationFormQuery } from '@/generated/graphql';
 
+import HeadquartersDropdown from './HeadquartersDowndown';
+
 type Props = {
   selectedConflicts: number[];
   setSelectedConflicts: Dispatch<SetStateAction<number[]>>;
@@ -22,6 +24,11 @@ export default function OrgClickLists({
 }: Props): JSX.Element {
   const { data, loading, error } = useForOrganizationFormQuery();
 
+  if (loading) return <p>Loading...</p>;
+  if (error !== null && error !== undefined) {
+    return <p>Error: {error?.message}</p>;
+  }
+
   const locations = data?.locations?.map((location) => ({
     id: location?.id ?? 0,
     title: location?.title ?? '',
@@ -32,10 +39,10 @@ export default function OrgClickLists({
     title: conflict?.title ?? '',
   }));
 
-  if (loading) return <p>Loading...</p>;
-  if (error !== null && error !== undefined) {
-    return <p>Error: {error?.message}</p>;
-  }
+  const availableLocations = locations?.filter(
+    (location) => location.id !== selectedHeadquarters
+  );
+
   return (
     <>
       {conflicts !== undefined && (
@@ -46,12 +53,19 @@ export default function OrgClickLists({
           idPrefix="conflict"
         />
       )}
-      {locations !== undefined && (
+      {availableLocations !== undefined && (
         <CheckBoxList
-          data={locations}
+          data={availableLocations}
           selected={selectedLocations}
           setSelected={setSelectedLocations}
           idPrefix="location"
+        />
+      )}
+      {locations !== undefined && (
+        <HeadquartersDropdown
+          data={locations}
+          selected={selectedHeadquarters}
+          setSelected={setSelectedHeadquarters}
         />
       )}
     </>
