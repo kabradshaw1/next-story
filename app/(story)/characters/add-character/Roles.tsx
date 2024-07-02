@@ -12,7 +12,6 @@ type RolesProps = {
 type ProcessedRoles = Array<{
   id: number;
   title: string;
-  organization: string;
 }>;
 
 export default function Roles({
@@ -33,8 +32,7 @@ export default function Roles({
       const processedRoles =
         org?.roles?.map((role) => ({
           id: role?.id ?? 0,
-          title: role?.title ?? '',
-          organization: org?.title ?? '',
+          title: `${role?.title} of ${org?.title}` ?? '',
         })) ?? [];
       return acc.concat(processedRoles);
     }, [] as ProcessedRoles) ?? [];
