@@ -1,9 +1,11 @@
 import type { Dispatch, SetStateAction } from 'react';
+
 type Props = {
   data: Array<{ title: string; id: number }>;
   setSelected: Dispatch<SetStateAction<number[]>>;
   selected: number[];
   idPrefix?: string;
+  singleSelect?: boolean; // New prop to handle single selection
 };
 
 export default function CheckBoxList({
@@ -11,16 +13,20 @@ export default function CheckBoxList({
   setSelected,
   selected,
   idPrefix = 'checkbox',
+  singleSelect = false, // Default to multi-select
 }: Props): JSX.Element {
   const handleChange = (Id: number): void => {
-    setSelected((prevSelecteIds) => {
-      if (prevSelecteIds.includes(Id)) {
-        return prevSelecteIds.filter((id) => id !== Id);
+    setSelected((prevSelectedIds) => {
+      if (singleSelect) {
+        return [Id]; // Only allow one selection
+      } else if (prevSelectedIds.includes(Id)) {
+        return prevSelectedIds.filter((id) => id !== Id);
       } else {
-        return [...prevSelecteIds, Id];
+        return [...prevSelectedIds, Id];
       }
     });
   };
+
   return (
     <>
       {data.map((item) => (

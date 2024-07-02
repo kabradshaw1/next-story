@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react';
 
+import CheckBoxList from '@/components/CheckBoxList/CheckBoxList';
 import { useForOrganizationFormQuery } from '@/generated/graphql';
 
 type Props = {
@@ -21,13 +22,38 @@ export default function OrgClickLists({
 }: Props): JSX.Element {
   const { data, loading, error } = useForOrganizationFormQuery();
 
-  const locations = data?.locations;
+  const locations = data?.locations?.map((location) => ({
+    id: location?.id ?? 0,
+    title: location?.title ?? '',
+  }));
 
-  const conflicts = data?.conflicts;
+  const conflicts = data?.conflicts?.map((conflict) => ({
+    id: conflict?.id ?? 0,
+    title: conflict?.title ?? '',
+  }));
 
   if (loading) return <p>Loading...</p>;
   if (error !== null && error !== undefined) {
     return <p>Error: {error?.message}</p>;
   }
-  return <></>;
+  return (
+    <>
+      {conflicts !== undefined && (
+        <CheckBoxList
+          data={conflicts}
+          selected={selectedConflicts}
+          setSelected={setSelectedConflicts}
+          idPrefix="conflict"
+        />
+      )}
+      {locations !== undefined && (
+        <CheckBoxList
+          data={locations}
+          selected={selectedLocations}
+          setSelected={setSelectedLocations}
+          idPrefix="location"
+        />
+      )}
+    </>
+  );
 }
