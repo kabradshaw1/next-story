@@ -44,6 +44,7 @@ export default function Roles({
       data={roles}
       selected={selectedRoles}
       setSelected={setSelectedRoles}
+      idPrefix="role"
     />
   );
 }

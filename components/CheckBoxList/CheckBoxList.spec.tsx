@@ -23,6 +23,7 @@ describe('CheckBoxList Component', () => {
         data={data}
         selected={selected}
         setSelected={setSelectedMock}
+        idPrefix="test"
       />
     );
 
@@ -31,6 +32,10 @@ describe('CheckBoxList Component', () => {
     expect(checkboxes[0]).toBeChecked();
     expect(checkboxes[1]).not.toBeChecked();
     expect(checkboxes[2]).toBeChecked();
+
+    expect(checkboxes[0].id).toBe('test-1');
+    expect(checkboxes[1].id).toBe('test-2');
+    expect(checkboxes[2].id).toBe('test-3');
   });
 
   test('handles checkbox change correctly', () => {

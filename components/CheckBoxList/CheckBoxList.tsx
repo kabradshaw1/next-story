@@ -31,7 +31,6 @@ export default function CheckBoxList({
           >
             <input
               type="checkbox"
-              className="form-checkbox"
               value={item.id}
               id={`${idPrefix}-${item.id}`}
               checked={selected.includes(item.id)}

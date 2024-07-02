@@ -36,15 +36,15 @@ describe('CharacterForm Component', () => {
       createCharacterMock,
       { error: null },
     ]);
+    mockUseRouter.mockReturnValue({ push: pushMock });
+  });
+
+  test('renders the form correctly', () => {
     mockUseOrganizationsQuery.mockReturnValue({
       data: { organizations: [] },
       loading: false,
       error: null,
     });
-    mockUseRouter.mockReturnValue({ push: pushMock });
-  });
-
-  test('renders the form correctly', () => {
     render(
       <MockedProvider mocks={[]} addTypename={false}>
         <CharacterForm />
@@ -59,6 +59,11 @@ describe('CharacterForm Component', () => {
   });
 
   test('handles form submission correctly', async () => {
+    mockUseOrganizationsQuery.mockReturnValue({
+      data: { organizations: [] },
+      loading: false,
+      error: null,
+    });
     createCharacterMock.mockResolvedValue({
       data: {
         createCharacter: {
@@ -97,6 +102,11 @@ describe('CharacterForm Component', () => {
   });
 
   test('handles file upload correctly', async () => {
+    mockUseOrganizationsQuery.mockReturnValue({
+      data: { organizations: [] },
+      loading: false,
+      error: null,
+    });
     render(
       <MockedProvider mocks={[]} addTypename={false}>
         <CharacterForm />
@@ -116,6 +126,15 @@ describe('CharacterForm Component', () => {
   });
 
   test('handles role selection correctly', async () => {
+    mockUseOrganizationsQuery.mockReturnValue({
+      data: {
+        organizations: [
+          { title: 'Org 1', id: 1, roles: [{ title: 'Role 1', id: 1 }] },
+        ],
+      },
+      loading: false,
+      error: null,
+    });
     render(
       <MockedProvider mocks={[]} addTypename={false}>
         <CharacterForm />

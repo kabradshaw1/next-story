@@ -116,14 +116,17 @@ export default function CharacterForm(): JSX.Element {
               setValue={setValue}
               error={errors.files?.message}
             />
-            <label htmlFor="roles" className="label mt-4">
+            <label id="roles-label" htmlFor="roles" className="label mt-4">
               Roles
             </label>
-            <Roles
-              selectedRoles={selectedRoles}
-              setSelectedRoles={setSelectedRoles}
-            />
+            <div aria-labelledby="roles-label">
+              <Roles
+                selectedRoles={selectedRoles}
+                setSelectedRoles={setSelectedRoles}
+              />
+            </div>
           </div>
+
           <button
             type="submit"
             className="btn glow-on-hover"
