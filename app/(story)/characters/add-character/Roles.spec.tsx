@@ -3,7 +3,6 @@ import React from 'react';
 import { MockedProvider } from '@apollo/client/testing';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-import '@testing-library/jest-dom';
 import { useOrganizationsQuery } from '@/generated/graphql';
 
 import Roles from './Roles';
@@ -94,9 +93,17 @@ describe('Roles Component', () => {
 
     // Test checkbox interaction
     fireEvent.click(checkboxes[1]);
-    expect(setSelectedRolesMock).toHaveBeenCalledWith([1, 3, 2]);
+
+    // Check the updater function
+    expect(setSelectedRolesMock).toHaveBeenCalled();
+    const updaterFunction = setSelectedRolesMock.mock.calls[0][0];
+    expect(updaterFunction([1, 3])).toEqual([1, 3, 2]);
 
     fireEvent.click(checkboxes[0]);
-    expect(setSelectedRolesMock).toHaveBeenCalledWith([3]);
+
+    // Check the updater function again
+    expect(setSelectedRolesMock).toHaveBeenCalledTimes(2);
+    const updaterFunction2 = setSelectedRolesMock.mock.calls[1][0];
+    expect(updaterFunction2([1, 3])).toEqual([3]);
   });
 });
