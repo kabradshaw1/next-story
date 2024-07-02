@@ -3,12 +3,14 @@ type Props = {
   data: Array<{ title: string; id: number }>;
   setSelected: Dispatch<SetStateAction<number[]>>;
   selected: number[];
+  idPrefix?: string;
 };
 
 export default function CheckBoxList({
   data,
   setSelected,
   selected,
+  idPrefix = 'checkbox',
 }: Props): JSX.Element {
   const handleChange = (Id: number): void => {
     setSelected((prevSelecteIds) => {
@@ -23,11 +25,15 @@ export default function CheckBoxList({
     <>
       {data.map((item) => (
         <div key={item.id} className="mb-2">
-          <label className="inline-flex items-center">
+          <label
+            className="inline-flex items-center"
+            htmlFor={`${idPrefix}-${item.id}`}
+          >
             <input
               type="checkbox"
               className="form-checkbox"
               value={item.id}
+              id={`${idPrefix}-${item.id}`}
               checked={selected.includes(item.id)}
               onChange={() => {
                 handleChange(item.id);

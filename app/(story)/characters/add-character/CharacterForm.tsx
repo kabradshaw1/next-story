@@ -53,7 +53,7 @@ export default function CharacterForm(): JSX.Element {
           title: data.title,
           text: data.text,
           files: fileInputs,
-          roleIds: selectedRoles, // Include selectedRoles in the mutation variables
+          roleIds: selectedRoles,
         },
       });
 
@@ -124,7 +124,6 @@ export default function CharacterForm(): JSX.Element {
               setSelectedRoles={setSelectedRoles}
             />
           </div>
-
           <button
             type="submit"
             className="btn glow-on-hover"
