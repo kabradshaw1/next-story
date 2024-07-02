@@ -1,6 +1,7 @@
 'use client';
 import type { Dispatch, SetStateAction } from 'react';
 
+import CheckBoxList from '@/components/CheckBoxList/CheckBoxList';
 import { useOrganizationsQuery } from '@/generated/graphql';
 
 type RolesProps = {
@@ -38,42 +39,11 @@ export default function Roles({
       return acc.concat(processedRoles);
     }, [] as ProcessedRoles) ?? [];
 
-  const handleRoleChange = (roleId: number): void => {
-    setSelectedRoles((prevSelectedRoles) => {
-      if (prevSelectedRoles.includes(roleId)) {
-        return prevSelectedRoles.filter((id) => id !== roleId);
-      } else {
-        return [...prevSelectedRoles, roleId];
-      }
-    });
-  };
-
   return (
-    <>
-      {roles?.map((role) => (
-        <div key={role?.id} className="mb-2">
-          <label className="inline-flex items-center">
-            <input
-              type="checkbox"
-              className="form-checkbox"
-              value={role?.id ?? undefined}
-              checked={
-                role?.id !== undefined &&
-                role?.id !== null &&
-                selectedRoles.includes(role.id)
-              }
-              onChange={() => {
-                if (role?.id !== undefined && role?.id !== null) {
-                  handleRoleChange(role.id);
-                }
-              }}
-            />
-            <span className="ml-2">
-              {role?.title} of {role?.organization}
-            </span>
-          </label>
-        </div>
-      ))}
-    </>
+    <CheckBoxList
+      data={roles}
+      selected={selectedRoles}
+      setSelected={setSelectedRoles}
+    />
   );
 }
