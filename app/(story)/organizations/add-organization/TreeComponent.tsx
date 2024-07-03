@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import * as d3 from 'd3';
 
-import { useAppSelector } from '@/lib/store/store';
+import { useAppDispatch, useAppSelector } from '@/lib/store/store';
 
 import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
@@ -48,18 +48,19 @@ const TreeComponent = (): JSX.Element => {
     const marginLeft = 60;
     const dx = 20;
 
-    const root = d3.hierarchy(
-      convertToHierarchy(data[0], data),
-      (d) => d.children
-    );
+    const root: d3.HierarchyNode<RoleInput & { children?: RoleInput[] }> =
+      d3.hierarchy(convertToHierarchy(data[0], data), (d) => d.children);
 
     const dy = (width - marginRight - marginLeft) / (1 + root.height);
 
-    const tree = d3.tree().nodeSize([dx, dy]);
+    const tree = d3.tree<RoleInput>().nodeSize([dx, dy]);
     const diagonal = d3
-      .linkHorizontal()
-      .x((d: any) => d.y)
-      .y((d: any) => d.x);
+      .linkHorizontal<
+        d3.HierarchyPointLink<RoleInput>,
+        d3.HierarchyPointNode<RoleInput>
+      >()
+      .x((d) => d.y)
+      .y((d) => d.x);
 
     tree(root);
 
@@ -85,7 +86,7 @@ const TreeComponent = (): JSX.Element => {
       .attr('cursor', 'pointer')
       .attr('pointer-events', 'all');
 
-    const update = (source: any) => {
+    const update = (source: d3.HierarchyPointNode<RoleInput>): void => {
       const nodes = root.descendants().reverse();
       const links = root.links();
 
@@ -93,7 +94,7 @@ const TreeComponent = (): JSX.Element => {
 
       let left = root;
       let right = root;
-      root.eachBefore((node: any) => {
+      root.eachBefore((node) => {
         if (node.x < left.x) left = node;
         if (node.x > right.x) right = node;
       });
@@ -106,12 +107,14 @@ const TreeComponent = (): JSX.Element => {
         .attr('height', height)
         .attr('viewBox', [-marginLeft, left.x - marginTop, width, height]);
 
-      const node = gNode.selectAll('g').data(nodes, (d: any) => d.id);
+      const node = gNode
+        .selectAll<SVGGElement, d3.HierarchyPointNode<RoleInput>>('g')
+        .data(nodes, (d) => d.id as string | number);
 
       const nodeEnter = node
         .enter()
         .append('g')
-        .attr('transform', (d: any) => `translate(${source.y0},${source.x0})`)
+        .attr('transform', () => `translate(${source.y0},${source.x0})`)
         .attr('fill-opacity', 0)
         .attr('stroke-opacity', 0)
         .on('click', (event, d) => {
@@ -122,15 +125,15 @@ const TreeComponent = (): JSX.Element => {
       nodeEnter
         .append('circle')
         .attr('r', 5)
-        .attr('fill', (d: any) => (d._children ? '#555' : '#999'))
+        .attr('fill', (d) => (d._children ? '#555' : '#999'))
         .attr('stroke-width', 10);
 
       nodeEnter
         .append('text')
         .attr('dy', '0.31em')
-        .attr('x', (d: any) => (d._children ? -10 : 10))
-        .attr('text-anchor', (d: any) => (d._children ? 'end' : 'start'))
-        .text((d: any) => d.data.title)
+        .attr('x', (d) => (d._children ? -10 : 10))
+        .attr('text-anchor', (d) => (d._children ? 'end' : 'start'))
+        .text((d) => d.data.title)
         .attr('stroke-linejoin', 'round')
         .attr('stroke-width', 3)
         .attr('stroke', 'white')
@@ -139,8 +142,8 @@ const TreeComponent = (): JSX.Element => {
       nodeEnter
         .append('text')
         .attr('dy', '1.31em')
-        .attr('x', (d: any) => (d._children ? -10 : 10))
-        .attr('text-anchor', (d: any) => (d._children ? 'end' : 'start'))
+        .attr('x', (d) => (d._children ? -10 : 10))
+        .attr('text-anchor', (d) => (d._children ? 'end' : 'start'))
         .text('+')
         .attr('stroke-linejoin', 'round')
         .attr('stroke-width', 3)
@@ -154,7 +157,7 @@ const TreeComponent = (): JSX.Element => {
       const nodeUpdate = node
         .merge(nodeEnter)
         .transition(transition)
-        .attr('transform', (d: any) => `translate(${d.y},${d.x})`)
+        .attr('transform', (d) => `translate(${d.y},${d.x})`)
         .attr('fill-opacity', 1)
         .attr('stroke-opacity', 1);
 
@@ -162,16 +165,18 @@ const TreeComponent = (): JSX.Element => {
         .exit()
         .transition(transition)
         .remove()
-        .attr('transform', (d: any) => `translate(${source.y},${source.x})`)
+        .attr('transform', (d) => `translate(${source.y},${source.x})`)
         .attr('fill-opacity', 0)
         .attr('stroke-opacity', 0);
 
-      const link = gLink.selectAll('path').data(links, (d: any) => d.target.id);
+      const link = gLink
+        .selectAll<SVGPathElement, d3.HierarchyPointLink<RoleInput>>('path')
+        .data(links, (d) => d.target.id as string | number);
 
       const linkEnter = link
         .enter()
         .append('path')
-        .attr('d', (d: any) => {
+        .attr('d', () => {
           const o = { x: source.x0, y: source.y0 };
           return diagonal({ source: o, target: o });
         });
@@ -182,12 +187,12 @@ const TreeComponent = (): JSX.Element => {
         .exit()
         .transition(transition)
         .remove()
-        .attr('d', (d: any) => {
+        .attr('d', () => {
           const o = { x: source.x, y: source.y };
           return diagonal({ source: o, target: o });
         });
 
-      root.eachBefore((d: any) => {
+      root.eachBefore((d) => {
         d.x0 = d.x;
         d.y0 = d.y;
       });
@@ -195,7 +200,7 @@ const TreeComponent = (): JSX.Element => {
 
     root.x0 = dy / 2;
     root.y0 = 0;
-    root.descendants().forEach((d: any, i: number) => {
+    root.descendants().forEach((d, i) => {
       d.id = i;
       d._children = d.children;
       if (d.depth && d.data.title.length !== 7) d.children = null;
@@ -209,7 +214,7 @@ const TreeComponent = (): JSX.Element => {
   return (
     <div>
       <div id="tree" />
-      {showForm && selectedNode && (
+      {showForm && selectedNode !== null && (
         <RoleForm superiorTitle={selectedNode.title} />
       )}
     </div>
