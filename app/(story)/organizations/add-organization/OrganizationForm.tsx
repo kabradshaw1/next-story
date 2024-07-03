@@ -10,18 +10,17 @@ import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 
-import OrgClickLists from './OrgClickLists';
-import TreeComponent from './TreeComponent';
 import Button from './ButtonForRoles';
+import OrgClickLists from './OrgClickLists';
 
-const RoleInputSchema = z.object({
+export const RoleInputSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   text: z.string().optional(),
   superiorTitle: z.string().optional(),
   subordinatesTitles: z.array(z.string()).optional(),
 });
 
-type RoleInput = z.infer<typeof RoleInputSchema>;
+export type RoleInput = z.infer<typeof RoleInputSchema>;
 
 const validationSchema = z.object({
   title: z.string().min(1, 'Name is required'),
@@ -34,6 +33,7 @@ const validationSchema = z.object({
 });
 
 type OrganizationProps = z.infer<typeof validationSchema>;
+
 export default function OrganizationForm(): JSX.Element {
   const [createOrganization, { error }] = useCreateOrganizationMutation();
 

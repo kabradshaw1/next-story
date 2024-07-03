@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import * as d3 from 'd3';
 
 type NodeData = {
@@ -233,7 +234,7 @@ const TreeComponent = (): JSX.Element => {
           <button type="submit">Add Role</button>
         </form>
       )}
-      <div id="tree"></div>
+      <div id="tree" />
     </div>
   );
 };
