@@ -2,29 +2,42 @@ import React, { useState, useEffect } from 'react';
 
 import * as d3 from 'd3';
 
+import { useAppSelector } from '@/lib/store/store';
+
 import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
 
-type Data = RoleInput[];
-
 const TreeComponent = (): JSX.Element => {
-  const [data, setData] = useState<Data>([
-    { title: 'Create A Role', subordinates: null, superior: null, text: null },
-  ]);
-  const [newNodeName, setNewNodeName] = useState('');
+  const data = useAppSelector((state) => state.roles.roles);
+
   const [showForm, setShowForm] = useState(false);
-  const [selectedNode, setSelectedNode] = useState<NodeData | null>(null);
+  const [selectedNode, setSelectedNode] = useState<RoleInput | null>(null);
 
   useEffect(() => {
-    renderTree(data);
+    if (data.length > 0) {
+      renderTree(data);
+    }
   }, [data]);
 
-  const handleAddNode = (node: RoleInput) => {
+  const handleAddNode = (node: RoleInput): void => {
     setSelectedNode(node);
     setShowForm(true);
   };
 
-  const renderTree = (data: Data): void => {
+  const convertToHierarchy = (
+    node: RoleInput,
+    allNodes: RoleInput[]
+  ): RoleInput & { children?: RoleInput[] } => {
+    const subordinates = node.subordinatesTitles
+      ?.map((title) => {
+        const foundNode = allNodes.find((item) => item.title === title);
+        return foundNode ? convertToHierarchy(foundNode, allNodes) : null;
+      })
+      .filter((item) => item !== null) as RoleInput[];
+    return { ...node, children: subordinates };
+  };
+
+  const renderTree = (data: RoleInput[]): void => {
     d3.select('#tree').select('svg').remove();
 
     const width = 1200;
@@ -34,17 +47,19 @@ const TreeComponent = (): JSX.Element => {
     const marginBottom = 20;
     const marginLeft = 60;
     const dx = 20;
-    const dy =
-      (width - marginRight - marginLeft) /
-      (1 + d3.hierarchy(data[0], (d) => d.subordinates).height);
+
+    const root = d3.hierarchy(
+      convertToHierarchy(data[0], data),
+      (d) => d.children
+    );
+
+    const dy = (width - marginRight - marginLeft) / (1 + root.height);
 
     const tree = d3.tree().nodeSize([dx, dy]);
     const diagonal = d3
       .linkHorizontal()
       .x((d: any) => d.y)
       .y((d: any) => d.x);
-
-    const root = d3.hierarchy(data[0], (d) => d.subordinates);
 
     tree(root);
 
@@ -188,17 +203,14 @@ const TreeComponent = (): JSX.Element => {
 
     update(root);
 
-    document.getElementById('tree').appendChild(svg.node());
+    document.getElementById('tree')?.appendChild(svg.node());
   };
 
   return (
     <div>
       <div id="tree" />
-      {showForm && (
-        <RoleForm
-          subordinatesTitles={['need to make a function for this']}
-          superiorTitle="hi"
-        />
+      {showForm && selectedNode && (
+        <RoleForm superiorTitle={selectedNode.title} />
       )}
     </div>
   );
