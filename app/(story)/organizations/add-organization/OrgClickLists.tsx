@@ -10,8 +10,8 @@ type Props = {
   setSelectedConflicts: Dispatch<SetStateAction<number[]>>;
   selectedLocations: number[];
   setSelectedLocations: Dispatch<SetStateAction<number[]>>;
-  selectedHeadquarters: number;
-  setSelectedHeadquarters: Dispatch<SetStateAction<number>>;
+  selectedHeadquarters: number | undefined;
+  setSelectedHeadquarters: Dispatch<SetStateAction<number | undefined>>;
 };
 
 export default function OrgClickLists({
@@ -45,6 +45,7 @@ export default function OrgClickLists({
 
   return (
     <>
+      <h3>Conflicts</h3>
       {conflicts !== undefined && (
         <CheckBoxList
           data={conflicts}
@@ -53,6 +54,7 @@ export default function OrgClickLists({
           idPrefix="conflict"
         />
       )}
+      <h3>Headquarters</h3>
       {availableLocations !== undefined && (
         <CheckBoxList
           data={availableLocations}
@@ -61,6 +63,7 @@ export default function OrgClickLists({
           idPrefix="location"
         />
       )}
+      <h3>Locations</h3>
       {locations !== undefined && (
         <HeadquartersDropdown
           data={locations}

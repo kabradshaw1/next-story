@@ -2,8 +2,8 @@ import type { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   data: Array<{ title: string; id: number }>;
-  selected: number;
-  setSelected: Dispatch<SetStateAction<number>>;
+  selected: number | undefined;
+  setSelected: Dispatch<SetStateAction<number | undefined>>;
   idPrefix?: string;
 };
 

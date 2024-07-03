@@ -10,6 +10,10 @@ import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 
+import OrgClickLists from './OrgClickLists';
+import TreeComponent from './TreeComponent';
+import Button from './ButtonForRoles';
+
 const RoleInputSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   text: z.string().optional(),
@@ -134,6 +138,15 @@ export default function OrganizationForm(): JSX.Element {
             setValue={setValue}
             error={errors.files?.message}
           />
+          <OrgClickLists
+            selectedConflicts={selectedConflicts}
+            setSelectedConflicts={setSelectedConflicts}
+            selectedLocations={selectedLocations}
+            setSelectedLocations={setSelectedLocations}
+            selectedHeadquarters={selectedHeadquarters}
+            setSelectedHeadquarters={setSelectedHeadquarters}
+          />
+          <Button />
         </div>
         <button type="submit" className="btn glow-on-hover" disabled={loading}>
           {loading ? 'Creating...' : 'Create Organization'}
