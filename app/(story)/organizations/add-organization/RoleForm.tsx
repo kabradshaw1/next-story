@@ -5,13 +5,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 
 import InputField from '@/components/main/forms/FormInput/InputField';
+import { addRole } from '@/lib/store/slices/rolesSlice';
+import store from '@/lib/store/store';
 
 import { RoleInputSchema, type RoleInput } from './OrganizationForm';
 
 export default function RoleForm(): JSX.Element {
   const {
-    register,
     handleSubmit,
+    register,
     formState: { errors },
   } = useForm<RoleInput>({
     resolver: zodResolver(RoleInputSchema),
@@ -20,8 +22,12 @@ export default function RoleForm(): JSX.Element {
   const [message, setMessage] = useState<string | null>(null);
 
   const formSubmit: SubmitHandler<RoleInput> = async (data) => {
-    console.log(data);
-    setMessage('Role added successfully.');
+    try {
+      store.dispatch(addRole(data));
+      setMessage('Role added successfully');
+    } catch (error) {
+      setMessage('Error adding role');
+    }
   };
 
   return (

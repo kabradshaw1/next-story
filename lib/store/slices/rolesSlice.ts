@@ -3,9 +3,9 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 export type RoleState = {
   roles: Array<{
     title: string;
-    text: string;
-    superiorTitle: string;
-    subordinatesTitles: string[];
+    text?: string;
+    superiorTitle?: string;
+    subordinatesTitles?: string[];
   }>;
 };
 
