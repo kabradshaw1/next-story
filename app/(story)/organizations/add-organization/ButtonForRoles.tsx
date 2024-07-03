@@ -12,7 +12,7 @@ export default function Button(): JSX.Element {
   return (
     <div>
       <button className="btn glow-on-hover" onClick={toggleOverlay}>
-        Open Tree
+        Roles
       </button>
       {showOverlay && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">

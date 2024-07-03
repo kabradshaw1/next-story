@@ -2,14 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 import * as d3 from 'd3';
 
-type NodeData = {
-  title: string;
-  subordinates: string[] | null;
-  superior: string | null;
-  text: string | null;
-};
+import { type RoleInput } from './OrganizationForm';
+import RoleForm from './RoleForm';
 
-type Data = NodeData[];
+type Data = RoleInput[];
 
 const TreeComponent = (): JSX.Element => {
   const [data, setData] = useState<Data>([
@@ -28,33 +24,7 @@ const TreeComponent = (): JSX.Element => {
     setShowForm(true);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newNodeName.trim()) {
-      const newNode: NodeData = {
-        title: newNodeName,
-        subordinates: null,
-        superior: selectedNode?.title || null,
-        text: null,
-      };
-      const updatedData = [...data];
-      if (selectedNode) {
-        if (!selectedNode.subordinates) {
-          selectedNode.subordinates = [];
-        }
-        selectedNode.subordinates.push(newNode.title);
-      } else {
-        updatedData.push(newNode);
-      }
-      updatedData.push(newNode);
-      setData(updatedData);
-      setNewNodeName('');
-      setShowForm(false);
-      setSelectedNode(null);
-    }
-  };
-
-  const renderTree = (data: Data) => {
+  const renderTree = (data: Data): void => {
     d3.select('#tree').select('svg').remove();
 
     const width = 1200;
@@ -223,18 +193,8 @@ const TreeComponent = (): JSX.Element => {
 
   return (
     <div>
-      {showForm && (
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={newNodeName}
-            onChange={(e) => setNewNodeName(e.target.value)}
-            placeholder="Enter role name"
-          />
-          <button type="submit">Add Role</button>
-        </form>
-      )}
       <div id="tree" />
+      {showForm && <RoleForm />}
     </div>
   );
 };
