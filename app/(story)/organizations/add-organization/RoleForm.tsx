@@ -10,7 +10,12 @@ import store from '@/lib/store/store';
 
 import { RoleInputSchema, type RoleInput } from './OrganizationForm';
 
-export default function RoleForm(): JSX.Element {
+type RoleProps = {
+  subordinatesTitles?: string[];
+  superiorTitle?: string;
+};
+
+export default function RoleForm(props: RoleProps): JSX.Element {
   const {
     handleSubmit,
     register,
@@ -22,8 +27,9 @@ export default function RoleForm(): JSX.Element {
   const [message, setMessage] = useState<string | null>(null);
 
   const formSubmit: SubmitHandler<RoleInput> = async (data) => {
+    const role = { ...data, ...props };
     try {
-      store.dispatch(addRole(data));
+      store.dispatch(addRole({ roles: [role] }));
       setMessage('Role added successfully');
     } catch (error) {
       setMessage('Error adding role');

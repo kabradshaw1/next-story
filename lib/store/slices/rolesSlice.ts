@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export type RoleState = {
+export type RolesState = {
   roles: Array<{
     title: string;
     text?: string;
@@ -9,19 +9,19 @@ export type RoleState = {
   }>;
 };
 
-const initialState: RoleState = { roles: [] };
+const initialState: RolesState = { roles: [] };
 
 const rolesSlice = createSlice({
   name: 'role',
   initialState,
   reducers: {
-    addRole(state: RoleState, action: PayloadAction<RoleState>) {
+    addRole(state: RolesState, action: PayloadAction<RolesState>) {
       state.roles.push(action.payload.roles[0]);
     },
-    removeRole(state: RoleState, action: PayloadAction<string>) {
+    removeRole(state: RolesState, action: PayloadAction<string>) {
       state.roles = state.roles.filter((role) => role.title !== action.payload);
     },
-    removeAllRoles(state: RoleState) {
+    removeAllRoles(state: RolesState) {
       state.roles = [];
     },
   },
