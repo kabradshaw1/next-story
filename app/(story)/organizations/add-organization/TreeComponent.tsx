@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as d3 from 'd3';
 
-import { useAppDispatch, useAppSelector } from '@/lib/store/store';
+import { useAppSelector } from '@/lib/store/store';
 
 import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
   const data = useAppSelector((state) => state.roles.roles);
-
   const [showForm, setShowForm] = useState(false);
   const [selectedNode, setSelectedNode] = useState<RoleInput | null>(null);
 
@@ -22,19 +21,6 @@ const TreeComponent = (): JSX.Element => {
   const handleAddNode = (node: RoleInput): void => {
     setSelectedNode(node);
     setShowForm(true);
-  };
-
-  const convertToHierarchy = (
-    node: RoleInput,
-    allNodes: RoleInput[]
-  ): RoleInput & { children?: RoleInput[] } => {
-    const subordinates = node.subordinatesTitles
-      ?.map((title) => {
-        const foundNode = allNodes.find((item) => item.title === title);
-        return foundNode ? convertToHierarchy(foundNode, allNodes) : null;
-      })
-      .filter((item) => item !== null) as RoleInput[];
-    return { ...node, children: subordinates };
   };
 
   const renderTree = (data: RoleInput[]): void => {

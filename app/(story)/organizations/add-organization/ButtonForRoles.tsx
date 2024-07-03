@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import TreeComponent from './TreeComponent';
 
@@ -8,6 +8,14 @@ export default function Button(): JSX.Element {
   const toggleOverlay = (): void => {
     setShowOverlay(!showOverlay);
   };
+
+  useEffect(() => {
+    if (showOverlay) {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 300);
+    }
+  }, [showOverlay]);
 
   return (
     <div>
