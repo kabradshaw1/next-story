@@ -126,7 +126,7 @@ export default function OrganizationForm(): JSX.Element {
             register={register}
           />
           <InputField<OrganizationProps>
-            id="title"
+            id="text"
             label="Back Ground"
             placeholder="Description"
             error={errors.title?.message}
