@@ -15,7 +15,10 @@ type RoleProps = {
   superiorTitle?: string;
 };
 
-export default function RoleForm(props: RoleProps): JSX.Element {
+export default function RoleForm({
+  subordinatesTitles,
+  superiorTitle,
+}: RoleProps): JSX.Element {
   const {
     handleSubmit,
     register,
@@ -27,7 +30,7 @@ export default function RoleForm(props: RoleProps): JSX.Element {
   const [message, setMessage] = useState<string | null>(null);
 
   const formSubmit: SubmitHandler<RoleInput> = async (data) => {
-    const role = { ...data, ...props };
+    const role = { ...data, subordinatesTitles, superiorTitle };
     try {
       store.dispatch(addRole({ roles: [role] }));
       setMessage('Role added successfully');

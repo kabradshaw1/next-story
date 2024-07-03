@@ -19,7 +19,7 @@ const TreeComponent = (): JSX.Element => {
     renderTree(data);
   }, [data]);
 
-  const handleAddNode = (node: NodeData) => {
+  const handleAddNode = (node: RoleInput) => {
     setSelectedNode(node);
     setShowForm(true);
   };
@@ -194,7 +194,12 @@ const TreeComponent = (): JSX.Element => {
   return (
     <div>
       <div id="tree" />
-      {showForm && <RoleForm />}
+      {showForm && (
+        <RoleForm
+          subordinatesTitles={['need to make a function for this']}
+          superiorTitle="hi"
+        />
+      )}
     </div>
   );
 };
