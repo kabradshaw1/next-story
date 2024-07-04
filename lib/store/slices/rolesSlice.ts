@@ -24,7 +24,7 @@ const rolesSlice = createSlice({
       state.roles = state.roles.filter((role) => role.title !== action.payload);
     },
     removeAllRoles(state: RolesState) {
-      state.roles = [];
+      state.roles = [{ title: 'Create A Role' }];
     },
   },
 });

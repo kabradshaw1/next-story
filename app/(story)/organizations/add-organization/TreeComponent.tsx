@@ -1,3 +1,4 @@
+'use client';
 /* eslint-disable @typescript-eslint/indent */
 import React, { useState, useCallback } from 'react';
 
