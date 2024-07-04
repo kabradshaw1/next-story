@@ -1,5 +1,5 @@
-import { type RoleInput } from './app/(story)/organizations/add-organization/OrganizationForm';
 import { convertToHierarchy } from './orgHelper';
+import { type RoleInput } from '../app/(story)/organizations/add-organization/OrganizationForm';
 
 describe('TreeComponent', () => {
   describe('convertToHierarchy', () => {
@@ -7,6 +7,7 @@ describe('TreeComponent', () => {
       const args: RoleInput[] = [
         {
           title: 'King',
+          text: 'King of the land',
         },
         {
           title: 'Knight',
@@ -26,23 +27,20 @@ describe('TreeComponent', () => {
 
       const expected = {
         title: 'King',
-        superiorTitle: null,
-        text: null,
+        text: 'King of the land',
         children: [
           {
             title: 'Knight',
             superiorTitle: 'King',
-            text: null,
             children: [
               {
                 title: 'Squires',
                 superiorTitle: 'Knight',
-                text: null,
                 children: [
                   {
                     title: 'Peasants',
                     superiorTitle: 'Squires',
-                    text: null,
+                    children: [],
                   },
                 ],
               },

@@ -1,4 +1,4 @@
-import { type RoleInput } from './app/(story)/organizations/add-organization/OrganizationForm';
+import { type RoleInput } from '../app/(story)/organizations/add-organization/OrganizationForm';
 
 export const convertToHierarchy = (
   allNodes: RoleInput[]
@@ -18,7 +18,10 @@ export const convertToHierarchy = (
       const superiorNode = nodeMap.get(node.superiorTitle);
       if (superiorNode !== undefined) {
         superiorNode.children = superiorNode.children ?? [];
-        superiorNode.children.push(nodeMap.get(node.title)!);
+        const currentNode = nodeMap.get(node.title);
+        if (currentNode !== undefined) {
+          superiorNode.children.push(currentNode);
+        }
       }
     } else {
       rootNode = nodeMap.get(node.title);

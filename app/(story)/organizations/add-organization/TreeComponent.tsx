@@ -6,6 +6,7 @@ import { useAppSelector } from '@/lib/store/store';
 
 import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
+import { convertToHierarchy } from '@/lib/orgHelper';
 
 const TreeComponent = (): JSX.Element => {
   const data = useAppSelector((state) => state.roles.roles);
