@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import * as d3 from 'd3';
 
+import { convertToHierarchy } from '@/lib/orgHelper';
 import { useAppSelector } from '@/lib/store/store';
 
 import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
-import { convertToHierarchy } from '@/lib/orgHelper';
 
 const TreeComponent = (): JSX.Element => {
   const data = useAppSelector((state) => state.roles.roles);
+  console.log('state', data);
   const [showForm, setShowForm] = useState(false);
   const [selectedNode, setSelectedNode] = useState<RoleInput | null>(null);
 
@@ -35,8 +36,7 @@ const TreeComponent = (): JSX.Element => {
     const marginLeft = 60;
     const dx = 20;
 
-    const root: d3.HierarchyNode<RoleInput & { children?: RoleInput[] }> =
-      d3.hierarchy(convertToHierarchy(data[0], data), (d) => d.children);
+    const root = d3.hierarchy(convertToHierarchy(data));
 
     const dy = (width - marginRight - marginLeft) / (1 + root.height);
 
