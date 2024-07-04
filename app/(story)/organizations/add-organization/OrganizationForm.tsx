@@ -9,6 +9,7 @@ import { z } from 'zod';
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
+import { useAppSelector } from '@/lib/store/store';
 
 import Button from './ButtonForRoles';
 import OrgClickLists from './OrgClickLists';
@@ -41,7 +42,7 @@ export default function OrganizationForm(): JSX.Element {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const [roles, setRoles] = useState<RoleInput[]>([]);
+  const roles = useAppSelector((state) => state.roles.roles);
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
   const [selectedConflicts, setSelectedConflicts] = useState<number[]>([]);
   const [selectedHeadquarters, setSelectedHeadquarters] = useState<number>();
