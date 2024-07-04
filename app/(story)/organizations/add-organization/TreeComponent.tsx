@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/indent */
+import React, { useState, useCallback } from 'react';
 
 import * as d3 from 'd3';
 
@@ -14,18 +15,12 @@ const TreeComponent = (): JSX.Element => {
   const [showForm, setShowForm] = useState(false);
   const [selectedNode, setSelectedNode] = useState<RoleInput | null>(null);
 
-  useEffect(() => {
-    if (data.length > 0) {
-      renderTree(data);
-    }
-  }, [data]);
-
   const handleAddNode = (node: RoleInput): void => {
     setSelectedNode(node);
     setShowForm(true);
   };
 
-  const renderTree = (data: RoleInput[]): void => {
+  const renderTree = useCallback((data: RoleInput[]): void => {
     d3.select('#tree').select('svg').remove();
 
     const width = 1200;
@@ -36,7 +31,8 @@ const TreeComponent = (): JSX.Element => {
     const marginLeft = 60;
     const dx = 20;
 
-    const root = d3.hierarchy(convertToHierarchy(data));
+    const root: d3.HierarchyNode<RoleInput & { children?: RoleInput[] }> =
+      d3.hierarchy(convertToHierarchy(data));
 
     const dy = (width - marginRight - marginLeft) / (1 + root.height);
 
@@ -196,7 +192,7 @@ const TreeComponent = (): JSX.Element => {
     update(root);
 
     document.getElementById('tree')?.appendChild(svg.node());
-  };
+  }, []);
 
   return (
     <div>

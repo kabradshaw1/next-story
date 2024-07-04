@@ -1,22 +1,24 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+export type Role = {
+  title: string;
+  text?: string;
+  superiorTitle?: string;
+  subordinatesTitles?: string[];
+};
+
 export type RolesState = {
-  roles: Array<{
-    title: string;
-    text?: string;
-    superiorTitle?: string;
-    subordinatesTitles?: string[];
-  }>;
+  roles: Role[];
 };
 
 const initialState: RolesState = { roles: [{ title: 'Create A Role' }] };
 
 const rolesSlice = createSlice({
-  name: 'role',
+  name: 'roles',
   initialState,
   reducers: {
-    addRole(state: RolesState, action: PayloadAction<RolesState>) {
-      state.roles.push(action.payload.roles[0]);
+    addRole(state: RolesState, action: PayloadAction<Role>) {
+      state.roles.push(action.payload);
     },
     removeRole(state: RolesState, action: PayloadAction<string>) {
       state.roles = state.roles.filter((role) => role.title !== action.payload);

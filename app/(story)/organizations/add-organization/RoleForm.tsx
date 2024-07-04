@@ -32,7 +32,7 @@ export default function RoleForm({
   const formSubmit: SubmitHandler<RoleInput> = async (data) => {
     const role = { ...data, subordinatesTitles, superiorTitle };
     try {
-      store.dispatch(addRole({ roles: [role] }));
+      store.dispatch(addRole(role));
       setMessage('Role added successfully');
     } catch (error) {
       setMessage('Error adding role');
