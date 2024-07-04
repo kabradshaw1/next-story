@@ -11,7 +11,9 @@ export type RolesState = {
   roles: Role[];
 };
 
-const initialState: RolesState = { roles: [{ title: 'Create A Role' }] };
+const initialState: RolesState = {
+  roles: [{ title: 'Create A Role' }],
+};
 
 const rolesSlice = createSlice({
   name: 'roles',

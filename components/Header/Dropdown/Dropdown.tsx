@@ -23,7 +23,6 @@ export default function Dropdown(): JSX.Element {
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   const user = token !== null ? (jwtDecode(token) as DecodedToken) : null;
-  console.log('decoded token', user);
 
   const handleLogout = (): void => {
     dispatch(authSlice.actions.logout());

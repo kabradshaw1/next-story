@@ -11,8 +11,8 @@ import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
-  const data = useAppSelector((state) => state.roles.roles);
-  console.log('state', data);
+  const { roles } = useAppSelector((state) => state.roles);
+  console.log('state', roles);
   const [showForm, setShowForm] = useState(false);
   const [selectedNode, setSelectedNode] = useState<RoleInput | null>(null);
 
@@ -198,9 +198,7 @@ const TreeComponent = (): JSX.Element => {
   return (
     <div>
       <div id="tree" />
-      {showForm && selectedNode !== null && (
-        <RoleForm superiorTitle={selectedNode.title} />
-      )}
+      <RoleForm superiorTitle={'hi'} />
     </div>
   );
 };
