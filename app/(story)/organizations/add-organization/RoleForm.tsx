@@ -6,7 +6,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { addRole } from '@/lib/store/slices/rolesSlice';
-import store from '@/lib/store/store';
+import { useAppDispatch } from '@/lib/store/store';
 
 import { RoleInputSchema, type RoleInput } from './OrganizationForm';
 
@@ -26,13 +26,13 @@ export default function RoleForm({
   } = useForm<RoleInput>({
     resolver: zodResolver(RoleInputSchema),
   });
-
+  const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string | null>(null);
 
   const formSubmit: SubmitHandler<RoleInput> = async (data) => {
     const role = { ...data, subordinatesTitles, superiorTitle };
     try {
-      store.dispatch(addRole(role));
+      dispatch(addRole(role));
       setMessage('Role added successfully');
     } catch (error) {
       setMessage('Error adding role');
