@@ -49,12 +49,15 @@ export default function RoleForm({
       <form
         noValidate
         className="card"
-        onSubmit={handleSubmit(formSubmit)} // Directly call handleSubmit with formSubmit
+        onSubmit={(e) => {
+          e.preventDefault();
+          void handleSubmit(formSubmit)();
+        }}
       >
         <InputField<RoleInput>
           id="title"
           label="Role"
-          placeholder="Role title"
+          placeholder="Role description"
           error={errors.title?.message}
           register={register}
         />

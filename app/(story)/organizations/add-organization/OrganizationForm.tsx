@@ -37,7 +37,6 @@ type OrganizationProps = z.infer<typeof validationSchema>;
 
 export default function OrganizationForm(): JSX.Element {
   const [createOrganization, { error }] = useCreateOrganizationMutation();
-
   const router = useRouter();
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
