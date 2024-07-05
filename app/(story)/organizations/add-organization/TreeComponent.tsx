@@ -5,7 +5,7 @@ import React, { useState, useCallback } from 'react';
 import * as d3 from 'd3';
 
 import { convertToHierarchy } from '@/lib/orgHelper';
-import { useAppSelector } from '@/lib/store/store';
+import { useAppDispatch, useAppSelector } from '@/lib/store/store';
 
 import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
