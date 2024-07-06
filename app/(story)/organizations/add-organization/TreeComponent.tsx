@@ -7,7 +7,7 @@ import * as d3 from 'd3';
 import { convertToHierarchy } from '@/lib/orgHelper';
 import { useAppSelector } from '@/lib/store/store';
 
-import { type RoleInput } from './OrganizationForm';
+import { type RoleInput } from './RoleForm';
 import RoleForm from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {

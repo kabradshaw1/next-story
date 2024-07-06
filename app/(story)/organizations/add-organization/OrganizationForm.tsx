@@ -13,15 +13,7 @@ import { useAppSelector } from '@/lib/store/store';
 
 import ButtonForRoles from './ButtonForRoles';
 import OrgClickLists from './OrgClickLists';
-
-export const RoleInputSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  text: z.string().optional(),
-  superiorTitle: z.string().optional(),
-  subordinatesTitles: z.array(z.string()).optional(),
-});
-
-export type RoleInput = z.infer<typeof RoleInputSchema>;
+import { RoleInputSchema } from './RoleForm';
 
 const validationSchema = z.object({
   title: z.string().min(1, 'Name is required'),
