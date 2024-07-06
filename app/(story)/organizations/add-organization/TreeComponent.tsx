@@ -1,27 +1,25 @@
 'use client';
 /* eslint-disable @typescript-eslint/indent */
-import React, { useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
 
 import * as d3 from 'd3';
 
 import { convertToHierarchy } from '@/lib/orgHelper';
-import { useAppDispatch, useAppSelector } from '@/lib/store/store';
+import { useAppSelector } from '@/lib/store/store';
 
 import { type RoleInput } from './OrganizationForm';
 import RoleForm from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
   const { roles } = useAppSelector((state) => state.roles);
-  console.log('state', roles);
-  const [showForm, setShowForm] = useState(false);
-  const [selectedNode, setSelectedNode] = useState<RoleInput | null>(null);
 
-  const handleAddNode = (node: RoleInput): void => {
-    setSelectedNode(node);
-    setShowForm(true);
-  };
+  useEffect(() => {
+    if (roles.length > 0) {
+      renderTree(roles);
+    }
+  }, [roles]);
 
-  const renderTree = useCallback((data: RoleInput[]): void => {
+  const renderTree = (roles: RoleInput[]): void => {
     d3.select('#tree').select('svg').remove();
 
     const width = 1200;
@@ -32,8 +30,7 @@ const TreeComponent = (): JSX.Element => {
     const marginLeft = 60;
     const dx = 20;
 
-    const root: d3.HierarchyNode<RoleInput & { children?: RoleInput[] }> =
-      d3.hierarchy(convertToHierarchy(data));
+    const root = d3.hierarchy(convertToHierarchy(roles));
 
     const dy = (width - marginRight - marginLeft) / (1 + root.height);
 
@@ -50,12 +47,12 @@ const TreeComponent = (): JSX.Element => {
 
     const svg = d3
       .create('svg')
-      .attr('width', width)
-      .attr('height', height)
+      .attr('width', '100%')
+      .attr('height', '100%')
       .attr('viewBox', [-marginLeft, -marginTop, width, height])
       .attr(
         'style',
-        'max-width: 100%; height: auto; font: 12px sans-serif; user-select: none;'
+        'max-width: 100%; height: auto; font: 1em sans-serif; user-select: none;'
       );
 
     const gLink = svg
@@ -123,21 +120,6 @@ const TreeComponent = (): JSX.Element => {
         .attr('stroke', 'white')
         .attr('paint-order', 'stroke');
 
-      nodeEnter
-        .append('text')
-        .attr('dy', '1.31em')
-        .attr('x', (d) => (d._children ? -10 : 10))
-        .attr('text-anchor', (d) => (d._children ? 'end' : 'start'))
-        .text('+')
-        .attr('stroke-linejoin', 'round')
-        .attr('stroke-width', 3)
-        .attr('stroke', 'white')
-        .attr('paint-order', 'stroke')
-        .on('click', (event, d) => {
-          event.stopPropagation();
-          handleAddNode(d.data);
-        });
-
       const nodeUpdate = node
         .merge(nodeEnter)
         .transition(transition)
@@ -193,8 +175,7 @@ const TreeComponent = (): JSX.Element => {
     update(root);
 
     document.getElementById('tree')?.appendChild(svg.node());
-  }, []);
-
+  };
   return (
     <div>
       <div id="tree" />
