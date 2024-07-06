@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { addRole, removeAllRoles } from '@/lib/store/slices/rolesSlice';
-import { useAppDispatch } from '@/lib/store/store';
+import { useAppDispatch, useAppSelector } from '@/lib/store/store';
 
 export const RoleInputSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -27,12 +27,14 @@ export default function RoleForm({
   subordinatesTitles,
   superiorTitle,
 }: RoleProps): JSX.Element {
+  const { roles } = useAppSelector((state) => state.roles);
   const {
     register,
     getValues,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<RoleInput>({
     resolver: zodResolver(RoleInputSchema),
+    mode: 'onChange', // Enable validation on change
   });
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string | null>(null);
@@ -71,12 +73,13 @@ export default function RoleForm({
           register={register}
         />
         <button
-          type="button" // Change button type to button
+          type="button"
           className="btn glow-on-hover mr-1"
           onClick={(e) => {
             e.preventDefault();
             formSubmit();
           }}
+          disabled={!isValid} // Disable button if form is invalid
         >
           Add Role
         </button>
