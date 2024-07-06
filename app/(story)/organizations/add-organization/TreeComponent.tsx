@@ -1,22 +1,21 @@
 'use client';
 /* eslint-disable @typescript-eslint/indent */
 import React, { useEffect, useState, useCallback } from 'react';
-
 import * as d3 from 'd3';
-
 import { convertToHierarchy } from '@/lib/orgHelper';
 import { useAppSelector } from '@/lib/store/store';
-
 import RoleForm, { type RoleInput } from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
   const { roles } = useAppSelector((state) => state.roles);
+  console.log(roles);
   const [selectedNode, setSelectedNode] =
     useState<d3.HierarchyPointNode<RoleInput> | null>(null);
 
   const handleNodeClick = useCallback(
     (d: d3.HierarchyPointNode<RoleInput>): void => {
       setSelectedNode(d);
+      console.log(d.data); // Print the role data associated with the node
     },
     []
   );
@@ -27,14 +26,13 @@ const TreeComponent = (): JSX.Element => {
 
       const width = 1200;
       const height = 800;
-      const marginTop = 20;
-      const marginRight = 20;
-      const marginBottom = 20;
-      const marginLeft = 60;
+      const margin = { top: 20, right: 20, bottom: 20, left: 60 };
       const dx = 20;
+      const dy = width / 6;
 
       const root = d3.hierarchy(convertToHierarchy(roles));
-      const dy = (width - marginRight - marginLeft) / (1 + root.height);
+      root.x0 = height / 2;
+      root.y0 = 0;
 
       const tree = d3.tree<RoleInput>().nodeSize([dx, dy]);
       const diagonal = d3
@@ -45,13 +43,11 @@ const TreeComponent = (): JSX.Element => {
         .x((d) => d.y)
         .y((d) => d.x);
 
-      tree(root);
-
       const svg = d3
         .create('svg')
-        .attr('width', '100%')
-        .attr('height', '100%')
-        .attr('viewBox', [-marginLeft, -marginTop, width, height])
+        .attr('width', width)
+        .attr('height', height)
+        .attr('viewBox', [-margin.left, -margin.top, width, height])
         .attr(
           'style',
           'max-width: 100%; height: auto; font: 1em sans-serif; user-select: none;'
@@ -82,20 +78,17 @@ const TreeComponent = (): JSX.Element => {
           if (node.x > right.x) right = node;
         });
 
-        const calculatedHeight = right.x - left.x + marginTop + marginBottom;
+        const heightValue = Math.max(
+          500,
+          right.x - left.x + margin.top + margin.bottom
+        );
 
-        const heightValue = isNaN(calculatedHeight) ? height : calculatedHeight;
-
-        const transition = svg
-          .transition()
-          .duration(250)
+        svg
           .attr('height', heightValue)
-          .attr('viewBox', [
-            -marginLeft,
-            left.x - marginTop,
-            width,
-            heightValue,
-          ]);
+          .attr(
+            'viewBox',
+            [-margin.left, left.x - margin.top, width, heightValue].join(' ')
+          );
 
         const node = gNode
           .selectAll<SVGGElement, d3.HierarchyPointNode<RoleInput>>('g')
@@ -109,6 +102,7 @@ const TreeComponent = (): JSX.Element => {
           .attr('stroke-opacity', 0)
           .on('click', (event, d) => {
             handleNodeClick(d);
+            update(d); // Update the node color immediately
           });
 
         nodeEnter
@@ -130,7 +124,6 @@ const TreeComponent = (): JSX.Element => {
 
         const nodeUpdate = node
           .merge(nodeEnter)
-          .transition(transition)
           .attr('transform', (d) => `translate(${d.y},${d.x})`)
           .attr('fill-opacity', 1)
           .attr('stroke-opacity', 1);
@@ -147,7 +140,6 @@ const TreeComponent = (): JSX.Element => {
 
         const nodeExit = node
           .exit()
-          .transition(transition)
           .remove()
           .attr('transform', (d) => `translate(${source.y},${source.x})`)
           .attr('fill-opacity', 0)
@@ -165,11 +157,10 @@ const TreeComponent = (): JSX.Element => {
             return diagonal({ source: o, target: o });
           });
 
-        link.merge(linkEnter).transition(transition).attr('d', diagonal);
+        link.merge(linkEnter).attr('d', diagonal);
 
         link
           .exit()
-          .transition(transition)
           .remove()
           .attr('d', () => {
             const o = { x: source.x, y: source.y };
@@ -181,14 +172,6 @@ const TreeComponent = (): JSX.Element => {
           d.y0 = d.y;
         });
       };
-
-      root.x0 = dy / 2;
-      root.y0 = 0;
-      root.descendants().forEach((d, i) => {
-        d.id = i;
-        d._children = d.children;
-        if (d.depth && d.data.title.length !== 7) d.children = null;
-      });
 
       update(root);
 
@@ -206,7 +189,7 @@ const TreeComponent = (): JSX.Element => {
   return (
     <div>
       <div id="tree" />
-      <RoleForm superiorTitle={'hi'} />
+      <RoleForm superiorTitle={''} />
     </div>
   );
 };
