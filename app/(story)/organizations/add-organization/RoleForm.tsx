@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { addRole, removeAllRoles } from '@/lib/store/slices/rolesSlice';
@@ -20,8 +20,8 @@ export default function RoleForm({
   superiorTitle,
 }: RoleProps): JSX.Element {
   const {
-    handleSubmit,
     register,
+    getValues,
     formState: { errors },
   } = useForm<RoleInput>({
     resolver: zodResolver(RoleInputSchema),
@@ -29,7 +29,8 @@ export default function RoleForm({
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string | null>(null);
 
-  const formSubmit: SubmitHandler<RoleInput> = (data) => {
+  const formSubmit = (): void => {
+    const data = getValues();
     const role = { ...data, subordinatesTitles, superiorTitle };
     try {
       dispatch(addRole(role));
@@ -46,18 +47,11 @@ export default function RoleForm({
 
   return (
     <div className="w-full max-w-lg">
-      <form
-        noValidate
-        className="card"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void handleSubmit(formSubmit)();
-        }}
-      >
+      <form noValidate className="card">
         <InputField<RoleInput>
           id="title"
           label="Role"
-          placeholder="Role description"
+          placeholder="Role title"
           error={errors.title?.message}
           register={register}
         />
@@ -68,7 +62,14 @@ export default function RoleForm({
           error={errors.text?.message}
           register={register}
         />
-        <button type="submit" className="btn glow-on-hover mr-1">
+        <button
+          type="button" // Change button type to button
+          className="btn glow-on-hover mr-1"
+          onClick={(e) => {
+            e.preventDefault();
+            formSubmit();
+          }}
+        >
           Add Role
         </button>
         <button onClick={clearState} className="btn glow-on-hover">
