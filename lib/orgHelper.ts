@@ -1,4 +1,4 @@
-import { type RoleInput } from '../app/(story)/organizations/add-organization/OrganizationForm';
+import { type RoleInput } from '../app/(story)/organizations/add-organization/RoleForm';
 
 export const convertToHierarchy = (
   allNodes: RoleInput[]
@@ -29,7 +29,7 @@ export const convertToHierarchy = (
   });
 
   if (rootNode === undefined) {
-    throw new Error('No root node found');
+    return allNodes[0];
   }
 
   return rootNode;

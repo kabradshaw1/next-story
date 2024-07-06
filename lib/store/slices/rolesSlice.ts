@@ -12,7 +12,7 @@ export type RolesState = {
 };
 
 const initialState: RolesState = {
-  roles: [{ title: 'Create A Role' }],
+  roles: [],
 };
 
 const rolesSlice = createSlice({
@@ -26,7 +26,7 @@ const rolesSlice = createSlice({
       state.roles = state.roles.filter((role) => role.title !== action.payload);
     },
     removeAllRoles(state: RolesState) {
-      state.roles = [{ title: 'Create A Role' }];
+      state.roles = [];
     },
   },
 });

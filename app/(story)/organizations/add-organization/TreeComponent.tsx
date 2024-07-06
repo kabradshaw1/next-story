@@ -1,17 +1,13 @@
 'use client';
 /* eslint-disable @typescript-eslint/indent */
 import React, { useEffect, useState, useCallback } from 'react';
-
 import * as d3 from 'd3';
-
 import { convertToHierarchy } from '@/lib/orgHelper';
 import { useAppSelector } from '@/lib/store/store';
-
 import RoleForm, { type RoleInput } from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
   const { roles } = useAppSelector((state) => state.roles);
-  console.log(roles);
   const [selectedNode, setSelectedNode] =
     useState<d3.HierarchyPointNode<RoleInput> | null>(null);
 
@@ -28,13 +24,12 @@ const TreeComponent = (): JSX.Element => {
       d3.select('#tree').select('svg').remove();
 
       const width = 1200;
-      const height = 800;
       const margin = { top: 20, right: 20, bottom: 20, left: 60 };
       const dx = 20;
       const dy = width / 6;
 
       const root = d3.hierarchy(convertToHierarchy(roles));
-      root.x0 = height / 2;
+      root.x0 = 0;
       root.y0 = 0;
 
       const tree = d3.tree<RoleInput>().nodeSize([dx, dy]);
@@ -49,8 +44,7 @@ const TreeComponent = (): JSX.Element => {
       const svg = d3
         .create('svg')
         .attr('width', width)
-        .attr('height', height)
-        .attr('viewBox', [-margin.left, -margin.top, width, height])
+        .attr('viewBox', [-margin.left, -margin.top, width, 0])
         .attr(
           'style',
           'max-width: 100%; height: auto; font: 1em sans-serif; user-select: none;'
@@ -76,15 +70,14 @@ const TreeComponent = (): JSX.Element => {
 
         let left = root;
         let right = root;
+        let bottom = root;
         root.eachBefore((node) => {
           if (node.x < left.x) left = node;
           if (node.x > right.x) right = node;
+          if (node.depth > bottom.depth) bottom = node;
         });
 
-        const heightValue = Math.max(
-          500,
-          right.x - left.x + margin.top + margin.bottom
-        );
+        const heightValue = bottom.x + margin.top + margin.bottom;
 
         svg
           .attr('height', heightValue)

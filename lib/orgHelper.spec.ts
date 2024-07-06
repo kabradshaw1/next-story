@@ -1,5 +1,5 @@
 import { convertToHierarchy } from './orgHelper';
-import { type RoleInput } from '../app/(story)/organizations/add-organization/OrganizationForm';
+import { type RoleInput } from '../app/(story)/organizations/add-organization/RoleForm';
 
 describe('TreeComponent', () => {
   describe('convertToHierarchy', () => {
