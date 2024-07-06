@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import TreeComponent from './TreeComponent';
 
-export default function Button(): JSX.Element {
+export default function ButtonForRoles(): JSX.Element {
   const [showOverlay, setShowOverlay] = useState(false);
 
   const toggleOverlay = (): void => {

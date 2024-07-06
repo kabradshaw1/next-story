@@ -11,7 +11,7 @@ import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 import { useAppSelector } from '@/lib/store/store';
 
-import Button from './ButtonForRoles';
+import ButtonForRoles from './ButtonForRoles';
 import OrgClickLists from './OrgClickLists';
 
 export const RoleInputSchema = z.object({
@@ -146,7 +146,7 @@ export default function OrganizationForm(): JSX.Element {
             selectedHeadquarters={selectedHeadquarters}
             setSelectedHeadquarters={setSelectedHeadquarters}
           />
-          <Button />
+          <ButtonForRoles />
         </div>
         <button type="submit" className="btn glow-on-hover" disabled={loading}>
           {loading ? 'Creating...' : 'Create Organization'}

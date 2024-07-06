@@ -47,7 +47,7 @@ export default function RoleForm({
 
   return (
     <div className="w-full max-w-lg">
-      <form noValidate className="card">
+      <div className="card">
         <InputField<RoleInput>
           id="title"
           label="Role"
@@ -72,11 +72,15 @@ export default function RoleForm({
         >
           Add Role
         </button>
-        <button onClick={clearState} className="btn glow-on-hover">
+        <button
+          type="button"
+          onClick={clearState}
+          className="btn glow-on-hover"
+        >
           Clear All Roles
         </button>
         {message !== null && <p className="mt-2 text-center">{message}</p>}
-      </form>
+      </div>
     </div>
   );
 }

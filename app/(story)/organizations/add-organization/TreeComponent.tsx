@@ -12,6 +12,7 @@ import RoleForm from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
   const { roles } = useAppSelector((state) => state.roles);
+  console.log('roles from tree', roles);
 
   useEffect(() => {
     if (roles.length > 0) {
