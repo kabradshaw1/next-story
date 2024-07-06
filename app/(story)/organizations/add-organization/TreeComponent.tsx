@@ -1,9 +1,12 @@
 'use client';
 /* eslint-disable @typescript-eslint/indent */
 import React, { useEffect, useState, useCallback } from 'react';
+
 import * as d3 from 'd3';
+
 import { convertToHierarchy } from '@/lib/orgHelper';
 import { useAppSelector } from '@/lib/store/store';
+
 import RoleForm, { type RoleInput } from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
@@ -189,7 +192,7 @@ const TreeComponent = (): JSX.Element => {
   return (
     <div>
       <div id="tree" />
-      <RoleForm superiorTitle={''} />
+      <RoleForm />
     </div>
   );
 };

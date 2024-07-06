@@ -17,15 +17,8 @@ const baseRoleInputSchema = z.object({
 });
 
 export type RoleInput = z.infer<typeof baseRoleInputSchema>;
-type RoleProps = {
-  subordinatesTitles?: string[];
-  superiorTitle?: string;
-};
 
-export default function RoleForm({
-  subordinatesTitles,
-  superiorTitle,
-}: RoleProps): JSX.Element {
+export default function RoleForm(): JSX.Element {
   const { roles } = useAppSelector((state) => state.roles);
   const existingTitles = roles.map((role) => role.title);
 
@@ -50,7 +43,7 @@ export default function RoleForm({
 
   const formSubmit = (): void => {
     const data = getValues();
-    const role = { ...data, subordinatesTitles, superiorTitle };
+    const role = { ...data };
     try {
       dispatch(addRole(role));
       setMessage('Role added successfully');
@@ -79,6 +72,13 @@ export default function RoleForm({
           label="Role Description"
           placeholder="Role description"
           error={errors.text?.message}
+          register={register}
+        />
+        <InputField<RoleInput>
+          id="superiorTitle"
+          label="Superior Role"
+          placeholder="Superior Role Title"
+          error={errors.superiorTitle?.message}
           register={register}
         />
         <button
