@@ -13,13 +13,11 @@ import { useAppSelector } from '@/lib/store/store';
 
 import ButtonForRoles from './ButtonForRoles';
 import OrgClickLists from './OrgClickLists';
-import { RoleInputSchema } from './RoleForm';
 
 const validationSchema = z.object({
   title: z.string().min(1, 'Name is required'),
   text: z.string().min(1, 'Description is required'),
   files: z.array(z.instanceof(File)).optional(),
-  roles: z.array(RoleInputSchema).optional(),
   locations: z.array(z.number()).optional(),
   conflicts: z.array(z.number()).optional(),
   headquarters: z.number().optional(),

@@ -9,15 +9,6 @@ import InputField from '@/components/main/forms/FormInput/InputField';
 import { addRole, removeAllRoles } from '@/lib/store/slices/rolesSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/store/store';
 
-export const RoleInputSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  text: z.string().optional(),
-  superiorTitle: z.string().optional(),
-  subordinatesTitles: z.array(z.string()).optional(),
-});
-
-export type RoleInput = z.infer<typeof RoleInputSchema>;
-
 type RoleProps = {
   subordinatesTitles?: string[];
   superiorTitle?: string;
@@ -28,6 +19,21 @@ export default function RoleForm({
   superiorTitle,
 }: RoleProps): JSX.Element {
   const { roles } = useAppSelector((state) => state.roles);
+  const existingTitles = roles.map((role) => role.title);
+  const RoleInputSchema = z.object({
+    title: z
+      .string()
+      .min(1, 'Title is required')
+      .refine((title) => !existingTitles.includes(title), {
+        message: 'Title must be unique',
+      }),
+    text: z.string().optional(),
+    superiorTitle: z.string().optional(),
+    subordinatesTitles: z.array(z.string()).optional(),
+  });
+
+  type RoleInput = z.infer<typeof RoleInputSchema>;
+
   const {
     register,
     getValues,
