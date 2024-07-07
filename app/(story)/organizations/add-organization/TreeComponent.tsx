@@ -1,23 +1,24 @@
 'use client';
 /* eslint-disable @typescript-eslint/indent */
 import React, { useState, useCallback, useRef, useLayoutEffect } from 'react';
-
 import * as d3 from 'd3';
-
 import { convertToHierarchy } from '@/lib/orgHelper';
 import { useAppSelector } from '@/lib/store/store';
-
 import RoleForm, { type RoleInput } from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
   const { roles } = useAppSelector((state) => state.roles);
   const [selectedNode, setSelectedNode] =
     useState<d3.HierarchyPointNode<RoleInput> | null>(null);
+  const [superiorTitle, setSuperiorTitle] = useState<string | undefined>(
+    undefined
+  );
   const treeContainerRef = useRef<HTMLDivElement>(null);
 
   const handleNodeClick = useCallback(
     (d: d3.HierarchyPointNode<RoleInput>): void => {
       setSelectedNode(d);
+      setSuperiorTitle(d.data.title); // Set the superior title based on the clicked node
       console.log(d.data); // Print the role data associated with the node
     },
     []
@@ -26,6 +27,14 @@ const TreeComponent = (): JSX.Element => {
   const renderTree = useCallback(
     (roles: RoleInput[]): void => {
       d3.select('#tree').select('svg').remove();
+
+      if (roles.length === 0) {
+        // If roles are empty, ensure the container is cleared and height reset
+        if (treeContainerRef.current) {
+          treeContainerRef.current.style.height = '0px';
+        }
+        return;
+      }
 
       const width = 1200;
       const margin = { top: 20, right: 20, bottom: 20, left: 60 };
@@ -195,15 +204,13 @@ const TreeComponent = (): JSX.Element => {
   );
 
   useLayoutEffect(() => {
-    if (roles.length > 0) {
-      renderTree(roles);
-    }
+    renderTree(roles);
   }, [roles, renderTree]);
 
   return (
     <div className="flex flex-col">
       <div id="tree" ref={treeContainerRef} className="w-full" />
-      <RoleForm />
+      <RoleForm superiorTitle={superiorTitle} />
     </div>
   );
 };

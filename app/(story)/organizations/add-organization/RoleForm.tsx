@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -18,7 +18,13 @@ const baseRoleInputSchema = z.object({
 
 export type RoleInput = z.infer<typeof baseRoleInputSchema>;
 
-export default function RoleForm(): JSX.Element {
+type RoleFormProps = {
+  superiorTitle?: string;
+};
+
+export default function RoleForm({
+  superiorTitle,
+}: RoleFormProps): JSX.Element {
   const { roles } = useAppSelector((state) => state.roles);
   const existingTitles = roles.map((role) => role.title);
 
@@ -33,6 +39,7 @@ export default function RoleForm(): JSX.Element {
   const {
     register,
     getValues,
+    setValue,
     formState: { errors, isValid },
   } = useForm<RoleInput>({
     resolver: zodResolver(RoleInputSchema),
@@ -40,6 +47,12 @@ export default function RoleForm(): JSX.Element {
   });
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (superiorTitle !== undefined) {
+      setValue('superiorTitle', superiorTitle);
+    }
+  }, [superiorTitle, setValue]);
 
   const formSubmit = (): void => {
     const data = getValues();
@@ -54,12 +67,21 @@ export default function RoleForm(): JSX.Element {
 
   const clearState = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
+    setMessage('Roles Cleared and Not Submitted');
     dispatch(removeAllRoles());
   };
 
   return (
     <div className="w-full max-w-lg">
       <div className="card">
+        <InputField<RoleInput>
+          id="superiorTitle"
+          label="Superior Role (Click To Select)"
+          placeholder="Select a Superior Role by clicking a node"
+          error={errors.superiorTitle?.message}
+          register={register}
+          readOnly={true} // Make this input read-only
+        />
         <InputField<RoleInput>
           id="title"
           label="Role"
@@ -72,13 +94,6 @@ export default function RoleForm(): JSX.Element {
           label="Role Description"
           placeholder="Role description"
           error={errors.text?.message}
-          register={register}
-        />
-        <InputField<RoleInput>
-          id="superiorTitle"
-          label="Superior Role"
-          placeholder="Superior Role Title"
-          error={errors.superiorTitle?.message}
           register={register}
         />
         <button

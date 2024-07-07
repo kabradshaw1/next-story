@@ -122,7 +122,6 @@ export default function OrganizationForm(): JSX.Element {
             id="text"
             label="Back Ground"
             placeholder="Description"
-            error={errors.title?.message}
             register={register}
           />
           <FileUploader<OrganizationProps>

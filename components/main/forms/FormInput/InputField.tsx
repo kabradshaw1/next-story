@@ -8,6 +8,7 @@ type InputFieldProps<T extends FieldValues> = {
   placeholder: string;
   error?: string;
   register: UseFormRegister<T>;
+  readOnly?: boolean; // Add readOnly prop
 };
 
 const InputField = <T extends FieldValues>({
@@ -16,6 +17,7 @@ const InputField = <T extends FieldValues>({
   placeholder,
   error,
   register,
+  readOnly = false, // Default value is false
 }: InputFieldProps<T>): JSX.Element => {
   return (
     <div className="mb-4">
@@ -28,6 +30,7 @@ const InputField = <T extends FieldValues>({
         placeholder={placeholder}
         className="input bg-gray-700"
         {...register(id)}
+        readOnly={readOnly} // Apply readOnly prop
       />
       {error !== null && <p className="error-message">{error}</p>}
     </div>
