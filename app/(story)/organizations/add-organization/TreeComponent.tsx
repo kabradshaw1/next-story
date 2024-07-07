@@ -76,10 +76,20 @@ const TreeComponent = (): JSX.Element => {
         let right = root;
         let bottom = root;
         root.eachBefore((node) => {
-          if (node.x < left.x) left = node;
-          if (node.x > right.x) right = node;
-          if (node.depth > bottom.depth) bottom = node;
+          if (
+            node.x !== undefined &&
+            left.x !== undefined &&
+            right.x !== undefined
+          ) {
+            if (node.x < left.x) left = node;
+            if (node.x > right.x) right = node;
+            if (node.depth > bottom.depth) bottom = node;
+          }
         });
+
+        if (left.x === undefined || right.x === undefined) {
+          return;
+        }
 
         const heightValue = right.x - left.x + margin.top + margin.bottom;
 

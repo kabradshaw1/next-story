@@ -9,7 +9,8 @@ import { z } from 'zod';
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
-import { useAppSelector } from '@/lib/store/store';
+import { removeAllRoles } from '@/lib/store/slices/rolesSlice';
+import { useAppSelector, useAppDispatch } from '@/lib/store/store';
 
 import ButtonForRoles from './ButtonForRoles';
 import OrgClickLists from './OrgClickLists';
@@ -32,6 +33,7 @@ export default function OrganizationForm(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const { roles } = useAppSelector((state) => state.roles);
+  const dispatch = useAppDispatch();
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
   const [selectedConflicts, setSelectedConflicts] = useState<number[]>([]);
   const [selectedHeadquarters, setSelectedHeadquarters] = useState<number>();
@@ -86,6 +88,7 @@ export default function OrganizationForm(): JSX.Element {
         });
 
         await Promise.all(uploadPromises);
+        dispatch(removeAllRoles());
         router.push('/organizations');
       }
     } catch (e) {
