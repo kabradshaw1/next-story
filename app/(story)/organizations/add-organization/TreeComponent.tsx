@@ -1,6 +1,6 @@
 'use client';
 /* eslint-disable @typescript-eslint/indent */
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useLayoutEffect } from 'react';
 
 import * as d3 from 'd3';
 
@@ -11,9 +11,9 @@ import RoleForm, { type RoleInput } from './RoleForm';
 
 const TreeComponent = (): JSX.Element => {
   const { roles } = useAppSelector((state) => state.roles);
-  console.log(roles);
   const [selectedNode, setSelectedNode] =
     useState<d3.HierarchyPointNode<RoleInput> | null>(null);
+  const treeContainerRef = useRef<HTMLDivElement>(null);
 
   const handleNodeClick = useCallback(
     (d: d3.HierarchyPointNode<RoleInput>): void => {
@@ -81,7 +81,7 @@ const TreeComponent = (): JSX.Element => {
           if (node.depth > bottom.depth) bottom = node;
         });
 
-        const heightValue = bottom.x + margin.top + margin.bottom;
+        const heightValue = right.x - left.x + margin.top + margin.bottom;
 
         svg
           .attr('height', heightValue)
@@ -171,6 +171,10 @@ const TreeComponent = (): JSX.Element => {
           d.x0 = d.x;
           d.y0 = d.y;
         });
+
+        if (treeContainerRef.current) {
+          treeContainerRef.current.style.height = `${heightValue}px`;
+        }
       };
 
       update(root);
@@ -180,15 +184,15 @@ const TreeComponent = (): JSX.Element => {
     [selectedNode, handleNodeClick]
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (roles.length > 0) {
       renderTree(roles);
     }
   }, [roles, renderTree]);
 
   return (
-    <div>
-      <div id="tree" />
+    <div className="flex flex-col">
+      <div id="tree" ref={treeContainerRef} className="w-full" />
       <RoleForm />
     </div>
   );

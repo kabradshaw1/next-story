@@ -8,9 +8,9 @@ const AboutSection = (): JSX.Element => {
           <Logo />
         </div>
         <div className="flex-grow">
-          <h1 className="text-white text-xl xl:text-2xl font-bold mb-4">
+          <h2 className="text-white text-xl xl:text-2xl font-bold mb-4">
             About Galaxy Voyagers
-          </h1>
+          </h2>
           <p className="text-gray-300 text-sm xl:text-base mb-3">
             Welcome to a revolutionary new platform for storytelling where
             imagination meets the infinite possibilities of collaboration. Our
