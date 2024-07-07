@@ -14,7 +14,7 @@ export const convertToHierarchy = (
 
   // Build the hierarchy
   allNodes.forEach((node) => {
-    if (node.superiorTitle !== undefined) {
+    if (node.superiorTitle !== undefined && node.superiorTitle !== '') {
       const superiorNode = nodeMap.get(node.superiorTitle);
       if (superiorNode !== undefined) {
         superiorNode.children = superiorNode.children ?? [];
@@ -24,12 +24,33 @@ export const convertToHierarchy = (
         }
       }
     } else {
-      rootNode = nodeMap.get(node.title);
+      if (rootNode === undefined) {
+        rootNode = nodeMap.get(node.title);
+      } else {
+        // Multiple root nodes case: attach to a virtual root
+        const currentNode = nodeMap.get(node.title);
+        if (currentNode !== undefined) {
+          if (rootNode.children === undefined) {
+            rootNode.children = [];
+          }
+          rootNode.children.push(currentNode);
+        }
+      }
     }
   });
 
+  // If no rootNode found, create a virtual root node
+  if (rootNode === undefined && allNodes.length > 0) {
+    rootNode = { ...allNodes[0], children: [] };
+    nodeMap.forEach((node) => {
+      if (node !== rootNode) {
+        rootNode?.children?.push(node);
+      }
+    });
+  }
+
   if (rootNode === undefined) {
-    return allNodes[0];
+    throw new Error('Root node not found');
   }
 
   return rootNode;
