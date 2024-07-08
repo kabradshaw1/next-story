@@ -5,7 +5,7 @@ import fetchList from '@/lib/fetchList';
 export default async function OrganizationsPage(): Promise<JSX.Element> {
   const organizations = await fetchList('organizations');
   return (
-    <div className="card mx-auto mt-8">
+    <div className="container mx-auto mt-8">
       <ListHeader title="organization" />
       <div>
         <List props={organizations} route="organizations" />
