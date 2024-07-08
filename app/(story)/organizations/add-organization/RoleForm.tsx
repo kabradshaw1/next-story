@@ -40,6 +40,7 @@ export default function RoleForm({
     register,
     getValues,
     setValue,
+    reset,
     formState: { errors, isValid },
   } = useForm<RoleInput>({
     resolver: zodResolver(RoleInputSchema),
@@ -69,6 +70,7 @@ export default function RoleForm({
     e.preventDefault();
     setMessage('Roles Cleared and Not Submitted');
     dispatch(removeAllRoles());
+    reset(); // Reset the form values
   };
 
   return (
