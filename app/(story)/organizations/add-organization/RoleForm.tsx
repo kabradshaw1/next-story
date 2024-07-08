@@ -80,7 +80,7 @@ export default function RoleForm({
         <InputField<RoleInput>
           id="superiorTitle"
           label="Superior Role (Click To Select)"
-          placeholder="Select a Superior Role by clicking a node"
+          placeholder="Click A Superior"
           error={errors.superiorTitle?.message}
           register={register}
           readOnly={true} // Make this input read-only
