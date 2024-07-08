@@ -60,6 +60,7 @@ export default function RoleForm({
     const role = { ...data };
     try {
       dispatch(addRole(role));
+      reset();
       setMessage('Role added successfully');
     } catch (error) {
       setMessage('Error adding role');

@@ -12,7 +12,6 @@ import RoleForm, { type RoleInput } from './RoleForm';
 type CustomHierarchyNode = d3.HierarchyNode<RoleInput> & {
   x0: number;
   y0: number;
-  x: number; // Ensure x is always a number
 };
 
 const TreeComponent = (): JSX.Element => {
@@ -28,7 +27,6 @@ const TreeComponent = (): JSX.Element => {
     (d: d3.HierarchyPointNode<RoleInput>): void => {
       setSelectedNode(d);
       setSuperiorTitle(d.data.title); // Set the superior title based on the clicked node
-      console.log(d.data); // Print the role data associated with the node
     },
     []
   );
@@ -55,8 +53,6 @@ const TreeComponent = (): JSX.Element => {
       ) as CustomHierarchyNode;
       root.x0 = 0;
       root.y0 = 0;
-      root.x = root.x ?? 0; // Ensure x is initialized
-      root.y = root.y ?? 0; // Ensure y is initialized
 
       const tree = d3.tree<RoleInput>().nodeSize([dx, dy]);
       const diagonal = d3

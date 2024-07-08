@@ -41,7 +41,7 @@ export default function CharacterForm(): JSX.Element {
 
   const formSubmit: SubmitHandler<CharacterProps> = async (data) => {
     setLoading(true);
-    console.log(data);
+
     try {
       const fileInputs = files.map((file) => ({
         fileName: file.name,
