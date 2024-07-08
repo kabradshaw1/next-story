@@ -17,7 +17,7 @@ import OrgClickLists from './OrgClickLists';
 
 const validationSchema = z.object({
   title: z.string().min(1, 'Name is required'),
-  text: z.string().min(1, 'Description is required'),
+  text: z.string().optional(),
   files: z.array(z.instanceof(File)).optional(),
   locations: z.array(z.number()).optional(),
   conflicts: z.array(z.number()).optional(),
