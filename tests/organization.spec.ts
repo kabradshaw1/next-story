@@ -41,17 +41,21 @@ test.describe('Organization Page', () => {
   }) => {
     await page.goto('/organizations/add-organization');
 
+    const organizationTitle = `Org ${generateRandomTitle(10)}`;
+    const roleTitle = `Role ${generateRandomTitle(10)}`;
+    const role2Title = `Role ${generateRandomTitle(10)}`;
     // Fill out the organization form
-    await page.fill('#title', 'New Organization');
+    await page.fill('#title', organizationTitle);
     await page.fill('#text', 'Description of the new organization');
 
     // Open the roles overlay
     await page.click('text=Roles');
 
     // Fill out the roles form
-    await page.fill('#superiorTitle', 'Superior Role');
-    await page.fill('#title', 'Role Title');
+    await page.fill('#title', roleTitle);
     await page.fill('#text', 'Role Description');
+    await page.click(`text=${roleTitle}`);
+    await page.fill('#title', role2Title);
     await page.click('text=Add Role');
 
     // Close the roles overlay
