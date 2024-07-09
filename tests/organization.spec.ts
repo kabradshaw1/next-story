@@ -54,19 +54,29 @@ test.describe('Organization Page', () => {
     // Fill out the roles form
     await page.fill('#title', roleTitle);
     await page.fill('#text', 'Role Description');
-    await page.click(`text=${roleTitle}`);
+
+    // Ensure the "Add Role" button is enabled before clicking it
+    const addRoleButton = page.locator('text=Add Role');
+    await expect(addRoleButton).toBeEnabled();
+
+    // Click the "Add Role" button
+    await addRoleButton.click();
+
     await page.fill('#title', role2Title);
-    await page.click('text=Add Role');
+    await expect(addRoleButton).toBeEnabled();
+    await addRoleButton.click();
 
     // Close the roles overlay
     await page.click('text=Done');
 
     // Submit the organization form
-    await page.click('button[type="submit"]');
+    const submitButton = page.locator('button[type="submit"]');
+    await expect(submitButton).toBeEnabled();
+    await submitButton.click();
 
     // Check for successful creation message or redirection to the organizations list
-    await page.waitForNavigation();
+    await page.waitForURL('/organizations');
     await expect(page).toHaveURL('/organizations');
-    await expect(page.locator('text=New Organization')).toBeVisible();
+    await expect(page.locator(`text=${organizationTitle}`)).toBeVisible();
   });
 });

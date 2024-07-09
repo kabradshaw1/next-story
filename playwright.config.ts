@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests', // Directory where your tests are located
-  timeout: 30000,
+  timeout: 5000,
   use: {
     baseURL: 'http://localhost:3000', // The base URL of your Next.js app
     headless: true, // Set to false if you want to see the browser action
