@@ -10,7 +10,8 @@ import { addRole, removeAllRoles } from '@/lib/store/slices/rolesSlice';
 import { useAppDispatch, useAppSelector } from '@/lib/store/store';
 
 const baseRoleInputSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
+  // I've opted to use roleTitle here to avoid confusion with the title of the organization
+  roleTitle: z.string().min(1, 'Title is required'),
   text: z.string().optional(),
   superiorTitle: z.string().optional(),
   subordinatesTitles: z.array(z.string()).optional(),
@@ -29,7 +30,7 @@ export default function RoleForm({
   const existingTitles = roles.map((role) => role.title);
 
   const RoleInputSchema = baseRoleInputSchema.refine(
-    (data) => !existingTitles.includes(data.title),
+    (data) => !existingTitles.includes(data.roleTitle),
     {
       message: 'Title must be unique',
       path: ['title'],
@@ -86,10 +87,10 @@ export default function RoleForm({
           readOnly={true} // Make this input read-only
         />
         <InputField<RoleInput>
-          id="title"
+          id="roleTitle"
           label="Role"
           placeholder="Role title"
-          error={errors.title?.message}
+          error={errors.roleTitle?.message}
           register={register}
         />
         <InputField<RoleInput>

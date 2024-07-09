@@ -1,14 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-export type Role = {
-  title: string;
-  text?: string;
-  superiorTitle?: string;
-  subordinatesTitles?: string[];
-};
+import type { RoleInput } from '@/app/(story)/organizations/add-organization/RoleForm';
 
 export type RolesState = {
-  roles: Role[];
+  roles: RoleInput[];
 };
 
 const initialState: RolesState = {
@@ -19,11 +14,13 @@ const rolesSlice = createSlice({
   name: 'roles',
   initialState,
   reducers: {
-    addRole(state: RolesState, action: PayloadAction<Role>) {
+    addRole(state: RolesState, action: PayloadAction<RoleInput>) {
       state.roles.push(action.payload);
     },
     removeRole(state: RolesState, action: PayloadAction<string>) {
-      state.roles = state.roles.filter((role) => role.title !== action.payload);
+      state.roles = state.roles.filter(
+        (role) => role.roleTitle !== action.payload
+      );
     },
     removeAllRoles(state: RolesState) {
       state.roles = [];
