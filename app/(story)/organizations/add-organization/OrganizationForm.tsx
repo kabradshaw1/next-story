@@ -37,7 +37,6 @@ export default function OrganizationForm(): JSX.Element {
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
   const [selectedConflicts, setSelectedConflicts] = useState<number[]>([]);
   const [selectedHeadquarters, setSelectedHeadquarters] = useState<number>();
-  console.log('loading', loading);
   const {
     register,
     handleSubmit,
@@ -48,7 +47,6 @@ export default function OrganizationForm(): JSX.Element {
   });
 
   const formSubmit: SubmitHandler<OrganizationProps> = async (data) => {
-    console.log('Form submitted', data);
     setLoading(true);
     setMessage('');
     try {

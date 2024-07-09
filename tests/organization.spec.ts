@@ -21,31 +21,44 @@ test.describe('Organization Page', () => {
 
     await expect(organization1).toBeVisible();
   });
-  test('should navigate to create organization form and create a new organization', async ({
+
+  test('organizations should have a create button that should navigate to the create organization form', async ({
     page,
   }: {
     page: Page;
   }) => {
     await page.goto('/organizations');
-
-    // Click the 'Create Organization' button
     await page.click('text=Create Organization');
+    await expect(page).toHaveURL('/organizations/add-organization');
+  });
 
-    // Fill out the form
+  test('should navigate to create organization form and create a new organization', async ({
+    page,
+  }: {
+    page: Page;
+  }) => {
+    await page.goto('/organizations/add-organization');
+
+    // Fill out the organization form
     await page.fill('#title', 'New Organization');
     await page.fill('#text', 'Description of the new organization');
 
-    // Assuming you have a file input for uploading files
-    // await page.setInputFiles('input[type="file"]', 'path/to/your/file.png');
+    // Open the roles overlay
+    await page.click('text=Roles');
 
-    // Select values for other fields if necessary
-    // Example: await page.selectOption('#headquarters', '1');
+    // Fill out the roles form
+    await page.fill('#superiorTitle', 'Superior Role');
+    await page.fill('#title', 'Role Title');
+    await page.fill('#text', 'Role Description');
+    await page.click('text=Add Role');
 
-    // Submit the form
+    // Close the roles overlay
+    await page.click('text=Done');
+
+    // Submit the organization form
     await page.click('button[type="submit"]');
 
     // Check for successful creation message or redirection to the organizations list
-    // Example: Check for the presence of the new organization in the list
     await page.waitForNavigation();
     await expect(page).toHaveURL('/organizations');
     await expect(page.locator('text=New Organization')).toBeVisible();
