@@ -6,19 +6,19 @@ describe('TreeComponent', () => {
     it('givenProperlyFormattedArgument_whenCalled_thenItShouldReturnHierarchy', () => {
       const args: RoleInput[] = [
         {
-          title: 'King',
+          roleTitle: 'King',
           text: 'King of the land',
         },
         {
-          title: 'Knight',
+          roleTitle: 'Knight',
           superiorTitle: 'King',
         },
         {
-          title: 'Squires',
+          roleTitle: 'Squires',
           superiorTitle: 'Knight',
         },
         {
-          title: 'Peasants',
+          roleTitle: 'Peasants',
           superiorTitle: 'Squires',
         },
       ];
@@ -26,19 +26,19 @@ describe('TreeComponent', () => {
       const result = convertToHierarchy(args);
 
       const expected = {
-        title: 'King',
+        roleTitle: 'King',
         text: 'King of the land',
         children: [
           {
-            title: 'Knight',
+            roleTitle: 'Knight',
             superiorTitle: 'King',
             children: [
               {
-                title: 'Squires',
+                roleTitle: 'Squires',
                 superiorTitle: 'Knight',
                 children: [
                   {
-                    title: 'Peasants',
+                    roleTitle: 'Peasants',
                     superiorTitle: 'Squires',
                     children: [],
                   },

@@ -26,7 +26,7 @@ const TreeComponent = (): JSX.Element => {
   const handleNodeClick = useCallback(
     (d: d3.HierarchyPointNode<RoleInput>): void => {
       setSelectedNode(d);
-      setSuperiorTitle(d.data.title); // Set the superior title based on the clicked node
+      setSuperiorTitle(d.data.roleTitle); // Set the superior title based on the clicked node
     },
     []
   );
@@ -150,7 +150,7 @@ const TreeComponent = (): JSX.Element => {
           .attr('dy', '0.31em')
           .attr('x', (d) => (d._children ? -10 : 10))
           .attr('text-anchor', (d) => (d._children ? 'end' : 'start'))
-          .text((d) => d.data.title)
+          .text((d) => d.data.roleTitle)
           .attr('stroke-linejoin', 'round')
           .attr('stroke-width', 3)
           .attr('stroke', 'white')

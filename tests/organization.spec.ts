@@ -52,30 +52,28 @@ test.describe('Organization Page', () => {
     await page.click('text=Roles');
 
     // Fill out the roles form
-    await page.fill('#title', roleTitle);
+    await page.fill('#roleTitle', roleTitle);
     await page.fill('#text', 'Role Description');
+    await page.click('text=Add Role');
 
-    // Ensure the "Add Role" button is enabled before clicking it
-    const addRoleButton = page.locator('text=Add Role');
-    await expect(addRoleButton).toBeEnabled();
+    // Wait for the role to be added and displayed in the SVG
+    const roleInSvg = page.locator(`text=${roleTitle}`);
+    await expect(roleInSvg).toBeVisible();
 
-    // Click the "Add Role" button
-    await addRoleButton.click();
+    // Click the role in the SVG
+    await roleInSvg.click();
 
-    await page.fill('#title', role2Title);
-    await expect(addRoleButton).toBeEnabled();
-    await addRoleButton.click();
+    // Fill out the second role
+    await page.fill('#roleTitle', role2Title);
+    await page.click('text=Add Role');
 
     // Close the roles overlay
     await page.click('text=Done');
 
     // Submit the organization form
-    const submitButton = page.locator('button[type="submit"]');
-    await expect(submitButton).toBeEnabled();
-    await submitButton.click();
+    await page.click('button[type="submit"]');
 
     // Check for successful creation message or redirection to the organizations list
-    await page.waitForURL('/organizations');
     await expect(page).toHaveURL('/organizations');
     await expect(page.locator(`text=${organizationTitle}`)).toBeVisible();
   });

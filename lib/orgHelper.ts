@@ -7,7 +7,7 @@ export const convertToHierarchy = (
 
   // Initialize all nodes with their titles and empty children array
   allNodes.forEach((node) => {
-    nodeMap.set(node.title, { ...node, children: [] });
+    nodeMap.set(node.roleTitle, { ...node, children: [] });
   });
 
   let rootNode: (RoleInput & { children?: RoleInput[] }) | undefined;
@@ -18,17 +18,17 @@ export const convertToHierarchy = (
       const superiorNode = nodeMap.get(node.superiorTitle);
       if (superiorNode !== undefined) {
         superiorNode.children = superiorNode.children ?? [];
-        const currentNode = nodeMap.get(node.title);
+        const currentNode = nodeMap.get(node.roleTitle);
         if (currentNode !== undefined) {
           superiorNode.children.push(currentNode);
         }
       }
     } else {
       if (rootNode === undefined) {
-        rootNode = nodeMap.get(node.title);
+        rootNode = nodeMap.get(node.roleTitle);
       } else {
         // Multiple root nodes case: attach to a virtual root
-        const currentNode = nodeMap.get(node.title);
+        const currentNode = nodeMap.get(node.roleTitle);
         if (currentNode !== undefined) {
           if (rootNode.children === undefined) {
             rootNode.children = [];
