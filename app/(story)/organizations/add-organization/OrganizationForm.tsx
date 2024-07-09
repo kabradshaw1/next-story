@@ -61,7 +61,7 @@ export default function OrganizationForm(): JSX.Element {
           text: data.text,
           files: fileInputs,
           roleCreate: roles.map((role) => ({
-            title: role.title,
+            title: role.roleTitle,
             text: role.text,
             superiorTitle: role.superiorTitle,
             subordinatesTitles: role.subordinatesTitles,

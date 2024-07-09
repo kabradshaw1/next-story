@@ -27,7 +27,7 @@ export default function RoleForm({
   superiorTitle,
 }: RoleFormProps): JSX.Element {
   const { roles } = useAppSelector((state) => state.roles);
-  const existingTitles = roles.map((role) => role.title);
+  const existingTitles = roles.map((role) => role.roleTitle);
 
   const RoleInputSchema = baseRoleInputSchema.refine(
     (data) => !existingTitles.includes(data.roleTitle),
