@@ -20,7 +20,11 @@ export default function ButtonForRoles(): JSX.Element {
 
   return (
     <div>
-      <button className="btn glow-on-hover" onClick={toggleOverlay}>
+      <button
+        type="button"
+        className="btn glow-on-hover"
+        onClick={toggleOverlay}
+      >
         Roles
       </button>
       {showOverlay && (

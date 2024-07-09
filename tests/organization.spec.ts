@@ -1,5 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
+import { generateRandomTitle } from './helper';
+
 test.describe('Organization Page', () => {
   test('should display a list of organizations', async ({
     page,
