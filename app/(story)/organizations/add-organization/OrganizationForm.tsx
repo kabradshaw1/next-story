@@ -65,15 +65,13 @@ export default function OrganizationForm(): JSX.Element {
             title: role.roleTitle,
             text: role.text,
             superiorTitle: role.superiorTitle,
-            subordinatesTitles: role.subordinatesTitles,
           })),
           locationIds: selectedLocations,
           conflictIds: selectedConflicts,
           headquartersId: selectedHeadquarters,
         },
       });
-      dispatch(addOrg(response.data?.createOrganization?.organization));
-      console.log('Mutation response:', response);
+      dispatch(addOrg(response.data?.createOrganization));
       if (
         response.data?.createOrganization?.uploadURLs !== null &&
         response.data?.createOrganization?.uploadURLs !== undefined

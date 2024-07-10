@@ -1,9 +1,14 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { Organization } from '@/generated/graphql';
+import type { CreateOrganizationMutation } from '@/generated/graphql';
+
+type OrganizationWithoutUploadURLs = Omit<
+  CreateOrganizationMutation['createOrganization'],
+  'uploadURLs'
+>;
 
 type RoleState = {
-  organization: Organization | null;
+  organization: OrganizationWithoutUploadURLs | null;
 };
 
 const initialState: RoleState = {
@@ -14,7 +19,10 @@ const orgSlice = createSlice({
   name: 'organzations',
   initialState,
   reducers: {
-    addOrg(state: RoleState, action: PayloadAction<Organization>) {
+    addOrg(
+      state: RoleState,
+      action: PayloadAction<OrganizationWithoutUploadURLs>
+    ) {
       state.organization = action.payload;
     },
     removeOrg(state: RoleState) {
