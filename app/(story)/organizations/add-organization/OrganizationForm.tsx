@@ -9,6 +9,7 @@ import { z } from 'zod';
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
+import { addOrg } from '@/lib/store/slices/orgSclice';
 import { removeAllRoles } from '@/lib/store/slices/rolesSlice';
 import { useAppSelector, useAppDispatch } from '@/lib/store/store';
 
@@ -71,6 +72,7 @@ export default function OrganizationForm(): JSX.Element {
           headquartersId: selectedHeadquarters,
         },
       });
+      dispatch(addOrg(response.data?.createOrganization?.organization));
       console.log('Mutation response:', response);
       if (
         response.data?.createOrganization?.uploadURLs !== null &&

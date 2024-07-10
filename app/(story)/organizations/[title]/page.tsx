@@ -37,9 +37,6 @@ export default async function singleOrganizationPage({
           superior {
             title
           }
-          subordinates {
-            title
-          }
         }
       }
     }

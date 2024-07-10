@@ -32,6 +32,27 @@ mutation createOrganization(
     headquartersId: $headquartersId
     locationIds: $locationIds
   ) {
-    uploadURLs
+    organization {
+      title
+      text
+      createdAt
+      user
+      uploadURLs
+      conflicts {
+        title
+      }
+      headquarters {
+        title
+      }
+      locations {
+        title
+      }
+      roles {
+        title
+        superior {
+          title
+        }
+      }
+    }
   }
 }
