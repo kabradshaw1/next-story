@@ -48,7 +48,6 @@ export type Conflict = {
 };
 
 export type CreateRoleInput = {
-  subordinatesTitles?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   superiorTitle?: InputMaybe<Scalars['String']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
@@ -405,7 +404,6 @@ export type Ship = {
 
 export type UpdateRoleInput = {
   id: Scalars['Int']['input'];
-  subordinatesTitles?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   superiorTitle?: InputMaybe<Scalars['String']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
@@ -432,7 +430,7 @@ export type CreateOrganizationMutationVariables = Exact<{
 }>;
 
 
-export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization?: { __typename?: 'Organization', uploadURLs?: Array<string | null> | null } | null };
+export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization?: { __typename?: 'Organization', title: string, text?: string | null, createdAt?: string | null, user: string, uploadURLs?: Array<string | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, headquarters?: { __typename?: 'Location', title: string } | null, locations?: Array<{ __typename?: 'Location', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, superior?: { __typename?: 'Role', title: string } | null } | null> | null } | null };
 
 export type OrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -492,7 +490,26 @@ export const CreateOrganizationDocument = gql`
     headquartersId: $headquartersId
     locationIds: $locationIds
   ) {
+    title
+    text
+    createdAt
+    user
     uploadURLs
+    conflicts {
+      title
+    }
+    headquarters {
+      title
+    }
+    locations {
+      title
+    }
+    roles {
+      title
+      superior {
+        title
+      }
+    }
   }
 }
     `;

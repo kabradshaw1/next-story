@@ -10,7 +10,13 @@ mutation createCharacter(
     files: $files
     roleIds: $roleIds
   ) {
+    title
+    text
+    createdAt
     uploadURLs
+    roles {
+      title
+    }
   }
 }
 
@@ -32,26 +38,24 @@ mutation createOrganization(
     headquartersId: $headquartersId
     locationIds: $locationIds
   ) {
-    organization {
+    title
+    text
+    createdAt
+    user
+    uploadURLs
+    conflicts {
       title
-      text
-      createdAt
-      user
-      uploadURLs
-      conflicts {
+    }
+    headquarters {
+      title
+    }
+    locations {
+      title
+    }
+    roles {
+      title
+      superior {
         title
-      }
-      headquarters {
-        title
-      }
-      locations {
-        title
-      }
-      roles {
-        title
-        superior {
-          title
-        }
       }
     }
   }
