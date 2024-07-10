@@ -71,7 +71,7 @@ export default function OrganizationForm(): JSX.Element {
           headquartersId: selectedHeadquarters,
         },
       });
-
+      console.log('Mutation response:', response);
       if (
         response.data?.createOrganization?.uploadURLs !== null &&
         response.data?.createOrganization?.uploadURLs !== undefined
@@ -88,9 +88,10 @@ export default function OrganizationForm(): JSX.Element {
         });
 
         await Promise.all(uploadPromises);
-        dispatch(removeAllRoles());
-        router.push('/organizations');
       }
+      dispatch(removeAllRoles());
+      console.log('Redirecting to /organizations');
+      router.push('/organizations');
     } catch (e) {
       console.log(e);
       if (error?.message !== undefined) {
