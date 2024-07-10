@@ -78,7 +78,8 @@ export default function OrganizationForm(): JSX.Element {
         response.data?.createOrganization?.uploadURLs !== undefined
       ) {
         const { uploadURLs, ...orgData } = response.data.createOrganization;
-        dispatch(addOrg(orgData));
+        const imageUrls = files.map((file) => URL.createObjectURL(file));
+        dispatch(addOrg({ organization: orgData, images: imageUrls }));
         const uploadPromises = files.map(async (file, index) => {
           const uploadUrl = uploadURLs[index];
           if (uploadUrl !== null) {
@@ -92,7 +93,7 @@ export default function OrganizationForm(): JSX.Element {
         await Promise.all(uploadPromises);
       }
       dispatch(removeAllRoles());
-      console.log('Redirecting to /organizations');
+
       if (response.data?.createOrganization?.title !== undefined) {
         router.push(
           `/organizations/${createSlug(response.data?.createOrganization?.title)}`
