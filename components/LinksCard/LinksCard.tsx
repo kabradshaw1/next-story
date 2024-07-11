@@ -11,6 +11,9 @@ const LinksCard: React.FC<LinksCardProps> = ({ title, items }) => {
   return (
     <div className="card">
       <h3>{title}</h3>
+      <Link className="btn" href={`/${createSlug(title)}/add`}>
+        Add new
+      </Link>
       <div>
         {items.map((item) => (
           <Link

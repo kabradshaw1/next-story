@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect } from 'react';
 
 import * as d3 from 'd3';
 
-import type { RoleInput } from '@/app/(story)/organizations/add-organization/RoleForm';
+import type { RoleInput } from '@/app/(story)/organizations/add/RoleForm';
 import { convertToHierarchy } from '@/lib/orgHelper';
 
 /* eslint-disable @typescript-eslint/no-unsafe-argument  */

@@ -9,7 +9,6 @@ import { z } from 'zod';
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
-import { createSlug } from '@/lib/createSlug';
 import { addOrg } from '@/lib/store/slices/orgSlice';
 import { removeAllRoles } from '@/lib/store/slices/rolesSlice';
 import { useAppSelector, useAppDispatch } from '@/lib/store/store';
@@ -95,9 +94,7 @@ export default function OrganizationForm(): JSX.Element {
       dispatch(removeAllRoles());
 
       if (response.data?.createOrganization?.title !== undefined) {
-        router.push(
-          `/organizations/${createSlug(response.data?.createOrganization?.title)}`
-        );
+        router.push('/organizations/add-organization/review');
       } else {
         router.push('/organizations');
       }
