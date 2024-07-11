@@ -18,7 +18,7 @@ import {
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 import authSlice from './slices/authSlice';
-import orgSlice from './slices/orgSclice';
+import orgSlice from './slices/orgSlice';
 import rolesSlice from './slices/rolesSlice';
 
 const createNoopStorage = (): Storage => {

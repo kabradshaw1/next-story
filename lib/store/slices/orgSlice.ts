@@ -39,4 +39,4 @@ const orgSlice = createSlice({
 });
 
 export const { addOrg, removeOrg } = orgSlice.actions;
-export default orgSlice.reducer;
+export default orgSlice;
