@@ -6,7 +6,7 @@ exports[`ImageList Component renders ImageList correctly 1`] = `
     class="gap-2"
   >
     <img
-      alt="Image 1"
+      alt="Test Image"
       data-nimg="1"
       decoding="async"
       height="200"
@@ -17,7 +17,7 @@ exports[`ImageList Component renders ImageList correctly 1`] = `
       width="200"
     />
     <img
-      alt="Image 2"
+      alt="Test Image"
       data-nimg="1"
       decoding="async"
       height="200"

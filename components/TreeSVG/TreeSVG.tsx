@@ -1,3 +1,4 @@
+'use client';
 import React, { useRef, useCallback, useEffect } from 'react';
 
 import * as d3 from 'd3';

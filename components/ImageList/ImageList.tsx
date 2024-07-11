@@ -8,17 +8,18 @@ type Props = {
 const ImageList: React.FC<Props> = ({ downloadURLs, alt }) => {
   return (
     <div className="gap-2">
-      {downloadURLs !== null &&
-        downloadURLs !== undefined &&
-        downloadURLs.map((downloadURL) => (
-          <Image
-            key={downloadURL.imageUrl}
-            src={downloadURL.imageUrl}
-            alt={alt}
-            width={200}
-            height={200}
-          />
-        ))}
+      {downloadURLs?.map(
+        (downloadURL) =>
+          downloadURL !== null && (
+            <Image
+              key={downloadURL}
+              src={downloadURL}
+              alt={alt}
+              width={200}
+              height={200}
+            />
+          )
+      )}
     </div>
   );
 };
