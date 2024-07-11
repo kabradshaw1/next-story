@@ -447,7 +447,7 @@ export type OrganizationQueryVariables = Exact<{
 }>;
 
 
-export type OrganizationQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, headquarters?: { __typename?: 'Location', title: string } | null, locations?: Array<{ __typename?: 'Location', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, superior?: { __typename?: 'Role', title: string } | null } | null> | null } | null };
+export type OrganizationQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, headquarters?: { __typename?: 'Location', title: string } | null, locations?: Array<{ __typename?: 'Location', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, text?: string | null, superior?: { __typename?: 'Role', title: string } | null } | null> | null } | null };
 
 
 export const CreateCharacterDocument = gql`
@@ -667,6 +667,7 @@ export const OrganizationDocument = gql`
     }
     roles {
       title
+      text
       superior {
         title
       }

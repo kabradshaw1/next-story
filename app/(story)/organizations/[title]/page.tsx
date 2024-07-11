@@ -1,7 +1,4 @@
-import { gql } from 'graphql-tag';
-
 import SingleOrg from '@/components/singlePage/SingleOrg/SingleOrg';
-// import type { Organization } from '@/generated/graphql';
 import {
   OrganizationDocument,
   type OrganizationQuery,
@@ -23,7 +20,7 @@ export default async function singleOrganizationPage({
     variables: { title },
   });
 
-  const organization = response.data.data.organization;
+  const organization = response.data.data;
 
-  return <SingleOrg props={organization} />;
+  return <SingleOrg {...organization} />;
 }

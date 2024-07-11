@@ -1,4 +1,10 @@
-import { type RoleInput } from '../app/(story)/organizations/add-organization/RoleForm';
+import { type OrganizationQuery } from '@/generated/graphql';
+
+import { type RoleInput } from '../app/(story)/organizations/add/RoleForm';
+
+type Role = NonNullable<
+  NonNullable<OrganizationQuery['organization']>['roles']
+>[number];
 
 export const convertToHierarchy = (
   allNodes: RoleInput[]
@@ -54,4 +60,17 @@ export const convertToHierarchy = (
   }
 
   return rootNode;
+};
+
+export const transformRoles = (
+  roles: Role[] | null | undefined
+): RoleInput[] => {
+  if (roles === null || roles === undefined) {
+    return [];
+  }
+  return roles.map((role) => ({
+    roleTitle: role?.title ?? '',
+    text: role?.text ?? '',
+    superiorTitle: role?.superior?.title ?? undefined,
+  }));
 };

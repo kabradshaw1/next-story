@@ -14,7 +14,6 @@ const baseRoleInputSchema = z.object({
   roleTitle: z.string().min(1, 'Title is required'),
   text: z.string().optional(),
   superiorTitle: z.string().optional(),
-  subordinatesTitles: z.array(z.string()).optional(),
 });
 
 export type RoleInput = z.infer<typeof baseRoleInputSchema>;

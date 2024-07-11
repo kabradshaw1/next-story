@@ -40,6 +40,7 @@ query organization($title: String!) {
     }
     roles {
       title
+      text
       superior {
         title
       }
