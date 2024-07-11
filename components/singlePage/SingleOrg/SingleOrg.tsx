@@ -11,9 +11,9 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
       <p>{organization?.text}</p>
       <p>Created at: {organization?.createdAt}</p>
       <p>Created by: {organization?.user}</p>
-      <LinksCard items={organization?.scenes} />
-      <LinksCard items={organization?.locations} />
-      <LinksCard items={organization?.conflicts} />
+      <LinksCard type="Scenes" items={organization?.scenes} />
+      <LinksCard type="Locations" items={organization?.locations} />
+      <LinksCard type="Conflicts" items={organization?.conflicts} />
       <TreeSvg roles={organization?.roles} />
     </div>
   );
