@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
-import TreeComponent from './TreeComponent';
+import TreeComponent from './Popup';
 
 export default function ButtonForRoles(): JSX.Element {
   const [showOverlay, setShowOverlay] = useState(false);

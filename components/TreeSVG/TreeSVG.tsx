@@ -1,42 +1,33 @@
-'use client';
-/* eslint-disable @typescript-eslint/indent */
-import React, { useState, useCallback, useRef, useLayoutEffect } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 
 import * as d3 from 'd3';
 
+import type { RoleInput } from '@/app/(story)/organizations/add-organization/RoleForm';
 import { convertToHierarchy } from '@/lib/orgHelper';
-import { useAppSelector } from '@/lib/store/store';
 
-import RoleForm, { type RoleInput } from './RoleForm';
-
+/* eslint-disable @typescript-eslint/no-unsafe-argument  */
+/* eslint-disable @typescript-eslint/no-explicit-any  */
 type CustomHierarchyNode = d3.HierarchyNode<RoleInput> & {
   x0: number;
   y0: number;
+  x: number;
+  y: number; // Ensure y is always a number
+  _children?: CustomHierarchyNode[];
 };
 
-const TreeComponent = (): JSX.Element => {
-  const { roles } = useAppSelector((state) => state.roles);
-  const [selectedNode, setSelectedNode] =
-    useState<d3.HierarchyPointNode<RoleInput> | null>(null);
-  const [superiorTitle, setSuperiorTitle] = useState<string | undefined>(
-    undefined
-  );
-  const treeContainerRef = useRef<HTMLDivElement>(null);
+type TreeSvgProps = {
+  roles: RoleInput[];
+  onNodeClick?: (node: d3.HierarchyPointNode<RoleInput>) => void;
+};
 
-  const handleNodeClick = useCallback(
-    (d: d3.HierarchyPointNode<RoleInput>): void => {
-      setSelectedNode(d);
-      setSuperiorTitle(d.data.roleTitle); // Set the superior title based on the clicked node
-    },
-    []
-  );
+const TreeSvg: React.FC<TreeSvgProps> = ({ roles, onNodeClick = () => {} }) => {
+  const treeContainerRef = useRef<HTMLDivElement>(null);
 
   const renderTree = useCallback(
     (roles: RoleInput[]): void => {
       d3.select('#tree').select('svg').remove();
 
       if (roles.length === 0) {
-        // If roles are empty, ensure the container is cleared and height reset
         if (treeContainerRef.current !== null) {
           treeContainerRef.current.style.height = '0px';
         }
@@ -53,6 +44,8 @@ const TreeComponent = (): JSX.Element => {
       ) as CustomHierarchyNode;
       root.x0 = 0;
       root.y0 = 0;
+      root.x = 0;
+      root.y = 0; // Initialize y as a number
 
       const tree = d3.tree<RoleInput>().nodeSize([dx, dy]);
       const diagonal = d3
@@ -120,7 +113,12 @@ const TreeComponent = (): JSX.Element => {
           .attr(
             'viewBox',
             [-margin.left, left.x - margin.top, width, heightValue].join(' ')
-          );
+          ) as unknown as d3.Transition<
+          SVGSVGElement,
+          unknown,
+          null,
+          undefined
+        >;
 
         // Update the nodes…
         const node = gNode
@@ -135,99 +133,126 @@ const TreeComponent = (): JSX.Element => {
           .attr('fill-opacity', 0)
           .attr('stroke-opacity', 0)
           .on('click', (event, d) => {
-            handleNodeClick(d);
-            update(d); // Update the node color immediately
+            onNodeClick(d as d3.HierarchyPointNode<RoleInput>);
+            update(d);
           });
 
         nodeEnter
           .append('circle')
           .attr('r', 5)
-          .attr('fill', (d) => (d._children ? '#555' : '#999'))
+          .attr('fill', (d) =>
+            d._children !== undefined && d._children.length > 0
+              ? '#555'
+              : '#999'
+          ) // Explicit check for _children
           .attr('stroke-width', 10);
 
         nodeEnter
           .append('text')
           .attr('dy', '0.31em')
-          .attr('x', (d) => (d._children ? -10 : 10))
-          .attr('text-anchor', (d) => (d._children ? 'end' : 'start'))
+          .attr('x', (d) =>
+            d._children !== undefined && d._children.length > 0 ? -10 : 10
+          ) // Explicit check for _children
+          .attr('text-anchor', (d) =>
+            d._children !== undefined && d._children.length > 0
+              ? 'end'
+              : 'start'
+          ) // Explicit check for _children
           .text((d) => d.data.roleTitle)
           .attr('stroke-linejoin', 'round')
           .attr('stroke-width', 3)
           .attr('stroke', 'white')
           .attr('paint-order', 'stroke');
 
-        // Transition nodes to their new position.
         node
-          .merge(nodeEnter)
-          .transition(transition)
+          .merge(nodeEnter as any) // Use any to bypass type checking for merge
+          .transition(transition as any) // Use any to bypass type checking for transition
           .attr('transform', (d) => `translate(${d.y},${d.x})`)
           .attr('fill-opacity', 1)
           .attr('stroke-opacity', 1);
 
-        // Transition exiting nodes to the parent's new position.
         node
           .exit()
-          .transition(transition)
+          .transition(transition as any) // Use any to bypass type checking for transition
           .remove()
-          .attr('transform', (d) => `translate(${source.y},${source.x})`)
+          .attr('transform', () => `translate(${source.y},${source.x})`)
           .attr('fill-opacity', 0)
           .attr('stroke-opacity', 0);
 
-        // Update the links…
         const link = gLink
           .selectAll<SVGPathElement, d3.HierarchyPointLink<RoleInput>>('path')
           .data(links, (d) => d.target.id as string | number);
 
-        // Enter any new links at the parent's previous position.
         const linkEnter = link
           .enter()
           .append('path')
           .attr('d', () => {
-            const o = { x: source.x0, y: source.y0 };
+            const o = {
+              x: source.x0,
+              y: source.y0,
+              data: source.data,
+              depth: source.depth,
+              height: source.height,
+              parent: source.parent as d3.HierarchyPointNode<RoleInput>,
+              children: source.children as Array<
+                d3.HierarchyPointNode<RoleInput>
+              >,
+            };
+            // @ts-expect-error - Ignore error because I haven't been able to remove it, and it's not causing any issues
             return diagonal({ source: o, target: o });
           });
 
-        // Transition links to their new position.
-        link.merge(linkEnter).transition(transition).attr('d', diagonal);
+        link
+          .merge(linkEnter as any)
+          .transition(transition as any)
+          .attr('d', diagonal as any);
 
-        // Transition exiting nodes to the parent's new position.
         link
           .exit()
-          .transition(transition)
+          .transition(transition as any)
           .remove()
-          .attr('d', (d) => {
-            const o = { x: source.x, y: source.y };
+          .attr('d', () => {
+            const o = {
+              x: source.x,
+              y: source.y,
+              data: source.data,
+              depth: source.depth,
+              height: source.height,
+              parent: source.parent as d3.HierarchyPointNode<RoleInput>,
+              children: source.children as Array<
+                d3.HierarchyPointNode<RoleInput>
+              >,
+            };
+            // @ts-expect-error - Ignore error because I haven't been able to remove it, and it's not causing any issues
             return diagonal({ source: o, target: o });
           });
 
         root.eachBefore((d) => {
-          const n = d as CustomHierarchyPointNode;
+          const n = d;
           n.x0 = n.x;
           n.y0 = n.y;
         });
 
-        if (treeContainerRef.current) {
+        if (treeContainerRef.current !== null) {
           treeContainerRef.current.style.height = `${heightValue}px`;
         }
       };
 
       update(root);
-
-      document.getElementById('tree')?.appendChild(svg.node());
+      // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
+      const svgNode = svg.node() as SVGSVGElement;
+      if (svgNode !== null) {
+        document.getElementById('tree')?.appendChild(svgNode);
+      }
     },
-    [selectedNode, handleNodeClick]
+    [onNodeClick]
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     renderTree(roles);
   }, [roles, renderTree]);
 
-  return (
-    <div className="flex flex-col">
-      <div id="tree" ref={treeContainerRef} className="w-full" />
-      <RoleForm superiorTitle={superiorTitle} />
-    </div>
-  );
+  return <div id="tree" ref={treeContainerRef} className="w-full" />;
 };
 
-export default TreeComponent;
+export default TreeSvg;

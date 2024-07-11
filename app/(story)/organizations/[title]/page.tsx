@@ -2,6 +2,7 @@ import { gql } from 'graphql-tag';
 
 import ImageList from '@/components/ImageList/ImageList';
 import LinksCard from '@/components/LinksCard/LinksCard';
+// import type { Organization } from '@/generated/graphql';
 import { slugToTitle } from '@/lib/createSlug';
 import axiosInstance from '@/lib/serverAxios';
 import type { Params } from '@/lib/types';

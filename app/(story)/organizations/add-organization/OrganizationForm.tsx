@@ -10,7 +10,7 @@ import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 import { createSlug } from '@/lib/createSlug';
-import { addOrg } from '@/lib/store/slices/orgSclice';
+import { addOrg } from '@/lib/store/slices/orgSlice';
 import { removeAllRoles } from '@/lib/store/slices/rolesSlice';
 import { useAppSelector, useAppDispatch } from '@/lib/store/store';
 
