@@ -9,7 +9,7 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
 
   return (
     <div className="card">
-      <ImageList images={images} />
+      <ImageList alt="Organization" downloadURLs={organization?.downloadURLs} />
       <h2>{organization?.title}</h2>
       <p>{organization?.text}</p>
       <p>Created at: {organization?.createdAt}</p>
