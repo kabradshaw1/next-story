@@ -18,3 +18,31 @@ query forOrganizationForm {
     title
   }
 }
+
+query organization($title: String!) {
+  organization(title: $title) {
+    title
+    text
+    createdAt
+    user
+    downloadURLs
+    scenes {
+      title
+    }
+    conflicts {
+      title
+    }
+    headquarters {
+      title
+    }
+    locations {
+      title
+    }
+    roles {
+      title
+      superior {
+        title
+      }
+    }
+  }
+}
