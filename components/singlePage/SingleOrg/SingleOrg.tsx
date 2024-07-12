@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import ImageList from '@/components/ImageList/ImageList';
 import LinksCard from '@/components/LinksCard/LinksCard';
 import TreeSvg from '@/components/TreeSVG/TreeSVG';
@@ -17,7 +19,9 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
       <LinksCard type="Scenes" items={organization?.scenes} />
       <LinksCard type="Locations" items={organization?.locations} />
       <LinksCard type="Conflicts" items={organization?.conflicts} />
-      <TreeSvg roles={transformRoles(organization?.roles)} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TreeSvg roles={transformRoles(organization?.roles)} />
+      </Suspense>
     </div>
   );
 }
