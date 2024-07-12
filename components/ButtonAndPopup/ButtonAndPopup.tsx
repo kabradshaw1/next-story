@@ -3,19 +3,19 @@ import React, { useState, useEffect, type ReactNode } from 'react';
 
 import { type RoleInput } from '@/app/(story)/organizations/create/RoleForm';
 import TreeSvg from '@/components/TreeSVG/TreeSVG';
-import { useAppSelector } from '@/lib/store/store';
 
 type ButtonAndPopupProps = {
   children?: ReactNode;
-  handleNodeClick: (d: d3.HierarchyPointNode<RoleInput>) => void;
+  handleNodeClick?: (d: d3.HierarchyPointNode<RoleInput>) => void;
+  roles: RoleInput[];
 };
 
 export default function ButtonAndPopup({
   children,
   handleNodeClick,
+  roles,
 }: ButtonAndPopupProps): JSX.Element {
   const [showOverlay, setShowOverlay] = useState(false);
-  const { roles } = useAppSelector((state) => state.roles);
 
   const toggleOverlay = (): void => {
     setShowOverlay(!showOverlay);
