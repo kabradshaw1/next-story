@@ -7,8 +7,8 @@ import type {
 } from '@/generated/graphql';
 import { useAppSelector } from '@/lib/store/store';
 
-// Define the mapping function
-const mapRoleStateToOrganization = (
+// This is required because of the differences in the codegens for the mutation and query
+const mapMutationToQuery = (
   organization: CreateOrganizationMutation['createOrganization'] | null,
   images: string[]
 ): OrganizationQuery['organization'] | null => {
@@ -22,7 +22,7 @@ const mapRoleStateToOrganization = (
     text: organization.text ?? null,
     createdAt: organization.createdAt ?? null,
     user: organization.user,
-    downloadURLs: images.map((url) => url || null),
+    downloadURLs: images.map((url) => url ?? null),
     conflicts: organization.conflicts ?? null,
     headquarters: organization.headquarters ?? null,
     locations: organization.locations ?? null,
@@ -32,7 +32,7 @@ const mapRoleStateToOrganization = (
 
 export default function OrgCreatedReview(): JSX.Element {
   const { organization, images } = useAppSelector((state) => state.org);
-  const mappedOrganization = mapRoleStateToOrganization(organization, images);
+  const mappedOrganization = mapMutationToQuery(organization, images);
 
   return <SingleOrg organization={mappedOrganization} />;
 }

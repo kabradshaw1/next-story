@@ -20,7 +20,9 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
       <LinksCard type="Locations" items={organization?.locations} />
       <LinksCard type="Conflicts" items={organization?.conflicts} />
       <Suspense fallback={<div>Loading...</div>}>
-        <TreeSvg roles={transformRoles(organization?.roles)} />
+        <div className="">
+          <TreeSvg roles={transformRoles(organization?.roles)} />
+        </div>
       </Suspense>
     </div>
   );
