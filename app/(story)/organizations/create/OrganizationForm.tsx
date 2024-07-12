@@ -94,7 +94,7 @@ export default function OrganizationForm(): JSX.Element {
       dispatch(removeAllRoles());
 
       if (response.data?.createOrganization?.title !== undefined) {
-        router.push('/organizations/add/review');
+        router.push('/organizations/create/review');
       } else {
         router.push('/organizations');
       }
