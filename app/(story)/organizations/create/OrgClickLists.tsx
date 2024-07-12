@@ -4,7 +4,7 @@ import type { Dispatch, SetStateAction } from 'react';
 import CheckBoxList from '@/components/CheckBoxList/CheckBoxList';
 import { useForOrganizationFormQuery } from '@/generated/graphql';
 
-import HeadquartersDropdown from './HeadquartersDowndown';
+import HeadquartersDropdown from './HeadquartersDropdown';
 
 type Props = {
   selectedConflicts: number[];
