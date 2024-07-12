@@ -1,6 +1,6 @@
 import { type OrganizationQuery } from '@/generated/graphql';
 
-import { type RoleInput } from '../app/(story)/organizations/add/RoleForm';
+import { type RoleInput } from '../app/(story)/organizations/create/RoleForm';
 
 type Role = NonNullable<
   NonNullable<OrganizationQuery['organization']>['roles']

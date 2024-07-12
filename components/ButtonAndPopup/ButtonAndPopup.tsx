@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, type ReactNode } from 'react';
 
-import { type RoleInput } from '@/app/(story)/organizations/add/RoleForm';
+import { type RoleInput } from '@/app/(story)/organizations/create/RoleForm';
 import TreeSvg from '@/components/TreeSVG/TreeSVG';
 import { useAppSelector } from '@/lib/store/store';
 

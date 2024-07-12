@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { RoleInput } from '@/app/(story)/organizations/add/RoleForm';
+import type { RoleInput } from '@/app/(story)/organizations/create/RoleForm';
 
 export type RolesState = {
   roles: RoleInput[];
