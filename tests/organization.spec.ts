@@ -31,7 +31,7 @@ test.describe('Organization Page', () => {
   }) => {
     await page.goto('/organizations');
     await page.click('text=Create Organization');
-    await expect(page).toHaveURL('/organizations/add-organization');
+    await expect(page).toHaveURL('/organizations/create');
   });
 
   test('should navigate to create organization form and create a new organization', async ({
@@ -39,7 +39,7 @@ test.describe('Organization Page', () => {
   }: {
     page: Page;
   }) => {
-    await page.goto('/organizations/add-organization');
+    await page.goto('/organizations/create');
 
     const organizationTitle = `Org ${generateRandomTitle(10)}`;
     const roleTitle = `Role ${generateRandomTitle(10)}`;

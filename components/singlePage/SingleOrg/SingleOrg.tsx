@@ -11,13 +11,15 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
   let roles: RoleInput[] = [];
 
   if (organization?.roles !== null && organization?.roles !== undefined) {
-    roles = organization.roles.map((role): RoleInput => {
-      return {
-        roleTitle: role?.title ?? '',
-        superiorTitle: role?.superior?.title ?? undefined,
-        text: role?.text ?? undefined,
-      };
-    });
+    roles = organization.roles
+      .filter((role): role is NonNullable<typeof role> => role !== null) // Filter out null roles
+      .map((role): RoleInput => {
+        return {
+          roleTitle: role.title ?? '',
+          superiorTitle: role.superior?.title ?? undefined,
+          text: role.text ?? undefined,
+        };
+      });
   }
 
   return (
