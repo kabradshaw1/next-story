@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, type SubmitHandler } from 'react-hook-form';
-import { z, type ZodType } from 'zod';
+import {
+  useForm,
+  type SubmitHandler,
+  type FieldValues,
+  type UseFormRegister,
+  type FieldErrors,
+} from 'react-hook-form';
+import { type ZodType } from 'zod';
 
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
-import InputField from '@/components/main/forms/FormInput/InputField';
 
-type CommonFormProps<T> = {
+type CommonFormProps<T extends FieldValues> = {
   validationSchema: ZodType<T>;
   onSubmit: SubmitHandler<T>;
   initialFiles?: File[];
-  initialRoles?: number[];
-  children: React.ReactNode;
+  children: (props: {
+    register: UseFormRegister<T>;
+    errors: FieldErrors<T>;
+  }) => React.ReactNode;
 };
 
-export default function CommonForm<T>({
+export default function CommonForm<T extends FieldValues>({
   validationSchema,
   onSubmit,
   initialFiles = [],
-  initialRoles = [],
   children,
 }: CommonFormProps<T>): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [files, setFiles] = useState<File[]>(initialFiles);
-  const [selectedRoles, setSelectedRoles] = useState<number[]>(initialRoles);
 
   const {
     register,
@@ -41,7 +46,6 @@ export default function CommonForm<T>({
     setMessage(null);
     try {
       await onSubmit(data);
-      setMessage('Success!');
     } catch (error) {
       console.error(error);
       setMessage('An error occurred');
@@ -55,22 +59,19 @@ export default function CommonForm<T>({
       <form
         noValidate
         className="card"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void handleSubmit(handleFormSubmit)();
-        }}
+        onSubmit={handleSubmit(handleFormSubmit)}
       >
-        {children}
+        {children({ register, errors })}
         <FileUploader
           files={files}
           setFiles={setFiles}
           setValue={setValue}
-          error={errors.files?.message}
+          error={errors.files?.message as string | undefined}
         />
         <button type="submit" className="btn glow-on-hover" disabled={loading}>
           {loading ? 'Submitting...' : 'Submit'}
         </button>
-        {message && <p className="mt-2 text-center">{message}</p>}
+        {message !== null && <p className="mt-2 text-center">{message}</p>}
       </form>
     </div>
   );

@@ -1,15 +1,12 @@
 import React from 'react';
-
 import { MockedProvider } from '@apollo/client/testing';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
-
 import {
   useCreateOrganizationMutation,
   useForOrganizationFormQuery,
 } from '@/generated/graphql';
 import StoreProvider from '@/lib/StoreProvider';
-
 import OrganizationForm from './OrganizationForm';
 
 // Mock the GraphQL mutation and query
@@ -76,7 +73,7 @@ describe('OrganizationForm Component', () => {
 
     expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Back Ground/i)).toBeInTheDocument();
-    expect(screen.getByText(/Create Organization/i)).toBeInTheDocument();
+    expect(screen.getByText(/Submit/i)).toBeInTheDocument();
   });
 
   test('handles form submission correctly', async () => {
@@ -109,20 +106,22 @@ describe('OrganizationForm Component', () => {
       target: { value: 'Test Description' },
     });
 
-    fireEvent.click(screen.getByText(/Create Organization/i));
+    fireEvent.click(screen.getByText(/Submit/i));
 
     await waitFor(() => {
-      expect(createOrganizationMock).toHaveBeenCalledWith({
-        variables: {
-          title: 'Test Org',
-          text: 'Test Description',
-          files: [],
-          roleCreate: [],
-          locationIds: [],
-          conflictIds: [],
-          headquartersId: undefined,
-        },
-      });
+      expect(createOrganizationMock).toHaveBeenCalledTimes(1);
+    });
+
+    expect(createOrganizationMock).toHaveBeenCalledWith({
+      variables: {
+        title: 'Test Org',
+        text: 'Test Description',
+        files: [],
+        roleCreate: [],
+        locationIds: [],
+        conflictIds: [],
+        headquartersId: undefined,
+      },
     });
 
     expect(pushMock).toHaveBeenCalledWith('/organizations/create/review');

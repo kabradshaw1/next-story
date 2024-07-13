@@ -1,13 +1,12 @@
 'use client';
 import { useState } from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
-import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
+import CommonForm from '@/components/MainForm/CommonForm';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 import { addOrg } from '@/lib/store/slices/orgSlice';
 import { removeAllRoles } from '@/lib/store/slices/rolesSlice';
@@ -28,115 +27,86 @@ const validationSchema = z.object({
 type OrganizationProps = z.infer<typeof validationSchema>;
 
 export default function OrganizationForm(): JSX.Element {
-  const [createOrganization, { error }] = useCreateOrganizationMutation();
+  const [createOrganization] = useCreateOrganizationMutation();
   const router = useRouter();
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
   const { roles } = useAppSelector((state) => state.roles);
   const dispatch = useAppDispatch();
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
   const [selectedConflicts, setSelectedConflicts] = useState<number[]>([]);
   const [selectedHeadquarters, setSelectedHeadquarters] = useState<number>();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm<OrganizationProps>({
-    resolver: zodResolver(validationSchema),
-  });
 
-  const formSubmit: SubmitHandler<OrganizationProps> = async (data) => {
-    setLoading(true);
-    setMessage('');
-    try {
-      const fileInputs = files.map((file) => ({
-        fileName: file.name,
-        contentType: file.type,
-      }));
+  const onSubmit: SubmitHandler<OrganizationProps> = async (data) => {
+    const fileInputs = data.files?.map((file) => ({
+      fileName: file.name,
+      contentType: file.type,
+    }));
 
-      const response = await createOrganization({
-        variables: {
-          title: data.title,
-          text: data.text,
-          files: fileInputs,
-          roleCreate: roles.map((role) => ({
-            title: role.roleTitle,
-            text: role.text,
-            superiorTitle: role.superiorTitle,
-          })),
-          locationIds: selectedLocations,
-          conflictIds: selectedConflicts,
-          headquartersId: selectedHeadquarters,
-        },
+    const response = await createOrganization({
+      variables: {
+        title: data.title,
+        text: data.text,
+        files: fileInputs,
+        roleCreate: roles.map((role) => ({
+          title: role.roleTitle,
+          text: role.text,
+          superiorTitle: role.superiorTitle,
+        })),
+        locationIds: selectedLocations,
+        conflictIds: selectedConflicts,
+        headquartersId: selectedHeadquarters,
+      },
+    });
+
+    if (
+      response.data?.createOrganization?.uploadURLs !== null &&
+      response.data?.createOrganization?.uploadURLs !== undefined
+    ) {
+      const { uploadURLs, ...orgData } = response.data.createOrganization;
+      const imageUrls = data.files?.map((file) => URL.createObjectURL(file));
+      dispatch(addOrg({ organization: orgData, images: imageUrls ?? [] }));
+      const uploadPromises = data.files?.map(async (file, index) => {
+        const uploadUrl = uploadURLs[index];
+        if (uploadUrl !== null) {
+          await fetch(uploadUrl, {
+            method: 'PUT',
+            body: file,
+          });
+        }
       });
-
-      if (
-        response.data?.createOrganization?.uploadURLs !== null &&
-        response.data?.createOrganization?.uploadURLs !== undefined
-      ) {
-        const { uploadURLs, ...orgData } = response.data.createOrganization;
-        const imageUrls = files.map((file) => URL.createObjectURL(file));
-        dispatch(addOrg({ organization: orgData, images: imageUrls }));
-        const uploadPromises = files.map(async (file, index) => {
-          const uploadUrl = uploadURLs[index];
-          if (uploadUrl !== null) {
-            await fetch(uploadUrl, {
-              method: 'PUT',
-              body: file,
-            });
-          }
-        });
-
+      if (uploadPromises !== undefined && uploadPromises.length > 0) {
         await Promise.all(uploadPromises);
       }
-      dispatch(removeAllRoles());
+    }
+    dispatch(removeAllRoles());
 
-      if (response.data?.createOrganization?.title !== undefined) {
-        router.push('/organizations/create/review');
-      } else {
-        router.push('/organizations');
-      }
-    } catch (e) {
-      console.log(e);
-      if (error?.message !== undefined) {
-        setMessage(error.message);
-      }
-    } finally {
-      setLoading(false);
+    if (response.data?.createOrganization?.title !== undefined) {
+      router.push('/organizations/create/review');
+    } else {
+      router.push('/organizations');
     }
   };
 
   return (
-    <div className="w-full max-w-lg">
-      <form
-        noValidate
-        className="card"
-        onSubmit={(e) => {
-          e.preventDefault();
-          void handleSubmit(formSubmit)();
-        }}
-      >
+    <CommonForm<OrganizationProps>
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      initialFiles={[]}
+    >
+      {({ register, errors }) => (
         <div className="mb-4">
           <InputField<OrganizationProps>
             id="title"
             label="Name"
             placeholder="Name"
-            error={errors.title?.message}
             register={register}
+            error={errors.title?.message}
           />
           <InputField<OrganizationProps>
             id="text"
             label="Back Ground"
             placeholder="Description"
             register={register}
-          />
-          <FileUploader<OrganizationProps>
-            files={files}
-            setFiles={setFiles}
-            setValue={setValue}
-            error={errors.files?.message}
+            error={errors.text?.message}
           />
           <OrgClickLists
             selectedConflicts={selectedConflicts}
@@ -148,11 +118,7 @@ export default function OrganizationForm(): JSX.Element {
           />
           <ButtonForRoles />
         </div>
-        <button type="submit" className="btn glow-on-hover" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Organization'}
-        </button>
-        {message !== null && <p className="mt-2 text-center">{message}</p>}
-      </form>
-    </div>
+      )}
+    </CommonForm>
   );
 }
