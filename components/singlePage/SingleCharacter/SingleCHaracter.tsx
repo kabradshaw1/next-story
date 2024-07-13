@@ -3,6 +3,11 @@ import LinksCard from '@/components/LinksCard/LinksCard';
 import { type CharacterQuery } from '@/generated/graphql';
 
 export default function SingleCharacter(props: CharacterQuery): JSX.Element {
+  const character = props.character;
+
+  if (character === null || character === undefined) {
+    return <p>No data found</p>;
+  }
   return (
     <div className="card">
       <ImageList
