@@ -1,12 +1,15 @@
 import React from 'react';
+
 import { MockedProvider } from '@apollo/client/testing';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
+
 import {
   useCreateOrganizationMutation,
   useForOrganizationFormQuery,
 } from '@/generated/graphql';
 import StoreProvider from '@/lib/StoreProvider';
+
 import OrganizationForm from './OrganizationForm';
 
 // Mock the GraphQL mutation and query

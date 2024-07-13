@@ -59,6 +59,7 @@ export default function CommonForm<T extends FieldValues>({
       <form
         noValidate
         className="card"
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         {children({ register, errors })}

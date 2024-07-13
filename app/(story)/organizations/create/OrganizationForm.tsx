@@ -36,10 +36,11 @@ export default function OrganizationForm(): JSX.Element {
   const [selectedHeadquarters, setSelectedHeadquarters] = useState<number>();
 
   const onSubmit: SubmitHandler<OrganizationProps> = async (data) => {
-    const fileInputs = data.files?.map((file) => ({
-      fileName: file.name,
-      contentType: file.type,
-    }));
+    const fileInputs =
+      data.files?.map((file) => ({
+        fileName: file.name,
+        contentType: file.type,
+      })) ?? [];
 
     const response = await createOrganization({
       variables: {
