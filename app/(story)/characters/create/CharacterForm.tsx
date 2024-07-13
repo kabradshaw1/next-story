@@ -1,15 +1,15 @@
 'use client';
 import { useState } from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
 import InputField from '@/components/main/forms/FormInput/InputField';
 import CommonForm from '@/components/MainForm/CommonForm';
 import { useCreateCharacterMutation } from '@/generated/graphql';
-import { useAppSelector, useAppDispatch } from '@/lib/store/store';
+import { addChar } from '@/lib/store/slices/charSlice';
+import { useAppDispatch } from '@/lib/store/store';
 
 import Roles from './Roles';
 
@@ -23,56 +23,49 @@ const validationSchema = z.object({
 type CharacterProps = z.infer<typeof validationSchema>;
 
 export default function CharacterForm(): JSX.Element {
-  const [createCharacter, { error }] = useCreateCharacterMutation();
+  const [createCharacter] = useCreateCharacterMutation();
   const router = useRouter();
-  const { character } = useAppSelector((state) => state.character);
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [files, setFiles] = useState<File[]>([]);
+  const dispatch = useAppDispatch();
   const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
 
   const formSubmit: SubmitHandler<CharacterProps> = async (data) => {
-    setLoading(true);
-
-    try {
-      const fileInputs = files.map((file) => ({
+    const fileInputs =
+      data.files?.map((file) => ({
         fileName: file.name,
         contentType: file.type,
-      }));
+      })) ?? [];
 
-      const response = await createCharacter({
-        variables: {
-          title: data.title,
-          text: data.text,
-          files: fileInputs,
-          roleIds: selectedRoles,
-        },
+    const response = await createCharacter({
+      variables: {
+        title: data.title,
+        text: data.text,
+        files: fileInputs,
+        roleIds: selectedRoles,
+      },
+    });
+
+    if (
+      response.data?.createCharacter?.uploadURLs !== null &&
+      response.data?.createCharacter?.uploadURLs !== undefined
+    ) {
+      const { uploadURLs, ...charData } = response.data.createCharacter;
+      const imageUrls = data.files?.map((file) => URL.createObjectURL(file));
+      dispatch(addChar({ character: charData, images: imageUrls ?? [] }));
+      const uploadPromises = data.files?.map(async (file, index) => {
+        const uploadUrl = uploadURLs[index];
+        if (uploadUrl !== null) {
+          await fetch(uploadUrl, {
+            method: 'PUT',
+            body: file,
+          });
+        }
       });
 
-      if (
-        response.data?.createCharacter?.uploadURLs !== null &&
-        response.data?.createCharacter?.uploadURLs !== undefined
-      ) {
-        const uploadURLs = response.data.createCharacter.uploadURLs;
-        const uploadPromises = files.map(async (file, index) => {
-          const uploadUrl = uploadURLs[index];
-          if (uploadUrl !== null) {
-            await fetch(uploadUrl, {
-              method: 'PUT',
-              body: file,
-            });
-          }
-        });
-
+      if (uploadPromises !== undefined && uploadPromises.length > 0) {
         await Promise.all(uploadPromises);
-        router.push('/characters');
       }
-    } catch (e) {
-      console.log(e);
-      if (error?.message !== undefined) {
-        setMessage(error.message);
-      }
-      setLoading(false);
+
+      router.push('/characters');
     }
   };
 
@@ -81,7 +74,7 @@ export default function CharacterForm(): JSX.Element {
       <CommonForm<CharacterProps>
         validationSchema={validationSchema}
         onSubmit={formSubmit}
-        initialFiles={files}
+        initialFiles={[]}
       >
         {({ register, errors }) => (
           <div className="mb-4">

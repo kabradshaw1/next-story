@@ -8,6 +8,7 @@ import {
   useCreateCharacterMutation,
   useOrganizationsQuery,
 } from '@/generated/graphql';
+import StoreProvider from '@/lib/StoreProvider';
 
 import CharacterForm from './CharacterForm';
 
@@ -46,16 +47,18 @@ describe('CharacterForm Component', () => {
       error: null,
     });
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <CharacterForm />
-      </MockedProvider>
+      <StoreProvider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <CharacterForm />
+        </MockedProvider>
+      </StoreProvider>
     );
 
     expect(screen.getByLabelText(/Name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Back Ground/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Images/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Roles/i)).toBeInTheDocument();
-    expect(screen.getByText(/Create Character/i)).toBeInTheDocument();
+    expect(screen.getByText(/Submit/i)).toBeInTheDocument();
   });
 
   test('handles form submission correctly', async () => {
@@ -73,9 +76,11 @@ describe('CharacterForm Component', () => {
     });
 
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <CharacterForm />
-      </MockedProvider>
+      <StoreProvider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <CharacterForm />
+        </MockedProvider>
+      </StoreProvider>
     );
 
     fireEvent.change(screen.getByLabelText(/Name/i), {
@@ -85,7 +90,7 @@ describe('CharacterForm Component', () => {
       target: { value: 'Test Description' },
     });
 
-    fireEvent.click(screen.getByText(/Create Character/i));
+    fireEvent.click(screen.getByText(/Submit/i));
 
     await waitFor(() => {
       expect(createCharacterMock).toHaveBeenCalledWith({
@@ -108,9 +113,11 @@ describe('CharacterForm Component', () => {
       error: null,
     });
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <CharacterForm />
-      </MockedProvider>
+      <StoreProvider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <CharacterForm />
+        </MockedProvider>
+      </StoreProvider>
     );
 
     const fileInput = screen.getByLabelText(/Images/i);
@@ -136,9 +143,11 @@ describe('CharacterForm Component', () => {
       error: null,
     });
     render(
-      <MockedProvider mocks={[]} addTypename={false}>
-        <CharacterForm />
-      </MockedProvider>
+      <StoreProvider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <CharacterForm />
+        </MockedProvider>
+      </StoreProvider>
     );
 
     const checkbox = screen.getByLabelText(/Role 1 of Org 1/i);
