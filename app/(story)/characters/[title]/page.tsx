@@ -1,4 +1,4 @@
-import { gql } from 'graphql-tag';
+import { CharacterDocument, type CharacterQuery } from '@/generated/graphql';
 
 import ImageList from '@/components/ImageList/ImageList';
 import LinksCard from '@/components/LinksCard/LinksCard';
@@ -12,35 +12,12 @@ export default async function SingleCharacterPage({
   const { title: slug } = params;
   const title = slugToTitle(slug);
 
-  const query = gql`
-    query character($title: String!) {
-      character(title: $title) {
-        title
-        text
-        createdAt
-        user
-        downloadURLs
-        scenes {
-          title
-        }
-        roles {
-          title
-        }
-      }
-    }
-  `;
-
-  const response = await axiosInstance.post('', {
+  const query = CharacterDocument;
+  const response = await axiosInstance.post<{ data: CharacterQuery }>('', {
     query: query.loc?.source.body,
     variables: { title },
   });
   const character = response.data.data.character;
-
-  // Map the downloadURLs to the format expected by ImageList
-  const images = character.downloadURLs.map((url: string) => ({
-    imageUrl: url,
-    alt: `${character.title} image`,
-  }));
 
   return (
     <div className="card">

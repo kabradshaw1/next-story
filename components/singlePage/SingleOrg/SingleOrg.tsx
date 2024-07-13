@@ -21,7 +21,9 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
         };
       });
   }
-
+  if (organization?.roles === null || organization?.roles === undefined) {
+    return <p>No data found</p>;
+  }
   return (
     <div className="card">
       <ImageList

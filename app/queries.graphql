@@ -47,3 +47,19 @@ query organization($title: String!) {
     }
   }
 }
+
+query character($title: String!) {
+  character(title: $title) {
+    title
+    text
+    createdAt
+    user
+    downloadURLs
+    scenes {
+      title
+    }
+    roles {
+      title
+    }
+  }
+}
