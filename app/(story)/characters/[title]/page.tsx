@@ -1,4 +1,4 @@
-import SingleCharacter from '@/components/singlePage/SingleCharacter/SingleCHaracter';
+import SingleCharacter from '@/components/singlePage/SingleCharacter/SingleCharacter';
 import { CharacterDocument, type CharacterQuery } from '@/generated/graphql';
 import { slugToTitle } from '@/lib/createSlug';
 import axiosInstance from '@/lib/serverAxios';

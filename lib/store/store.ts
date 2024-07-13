@@ -18,6 +18,7 @@ import {
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 import authSlice from './slices/authSlice';
+import charSlice from './slices/charSlice';
 import orgSlice from './slices/orgSlice';
 import rolesSlice from './slices/rolesSlice';
 
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
   auth: authSlice.reducer,
   roles: rolesSlice.reducer,
   org: orgSlice.reducer,
+  char: charSlice.reducer,
 });
 
 const persistedReducer = persistReducer(
