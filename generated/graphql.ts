@@ -417,7 +417,7 @@ export type CreateCharacterMutationVariables = Exact<{
 }>;
 
 
-export type CreateCharacterMutation = { __typename?: 'Mutation', createCharacter?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, uploadURLs?: Array<string | null> | null, roles?: Array<{ __typename?: 'Role', title: string } | null> | null } | null };
+export type CreateCharacterMutation = { __typename?: 'Mutation', createCharacter?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, uploadURLs?: Array<string | null> | null, roles?: Array<{ __typename?: 'Role', title: string } | null> | null } | null };
 
 export type CreateOrganizationMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -463,6 +463,7 @@ export const CreateCharacterDocument = gql`
     title
     text
     createdAt
+    user
     uploadURLs
     roles {
       title

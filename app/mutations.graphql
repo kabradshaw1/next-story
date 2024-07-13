@@ -13,6 +13,7 @@ mutation createCharacter(
     title
     text
     createdAt
+    user
     uploadURLs
     roles {
       title

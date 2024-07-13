@@ -103,7 +103,7 @@ describe('CharacterForm Component', () => {
       });
     });
 
-    expect(pushMock).toHaveBeenCalledWith('/characters');
+    expect(pushMock).toHaveBeenCalledWith('/characters/create/review');
   });
 
   test('handles file upload correctly', async () => {

@@ -65,7 +65,7 @@ export default function CharacterForm(): JSX.Element {
         await Promise.all(uploadPromises);
       }
 
-      router.push('/characters');
+      router.push('/characters/create/review');
     }
   };
 
