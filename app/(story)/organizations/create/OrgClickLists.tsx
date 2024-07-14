@@ -46,7 +46,7 @@ export default function OrgClickLists({
 
   return (
     <>
-      <h3>Conflicts</h3>
+      <h3 className="label">Conflicts</h3>
       {conflicts !== undefined && (
         <CheckBoxList
           data={conflicts}
@@ -55,7 +55,7 @@ export default function OrgClickLists({
           idPrefix="conflict"
         />
       )}
-      <h3>Headquarters</h3>
+      <h3 className="label">Headquarters</h3>
       {availableLocations !== undefined && (
         <CheckBoxList
           data={availableLocations}
@@ -64,7 +64,7 @@ export default function OrgClickLists({
           idPrefix="location"
         />
       )}
-      <h3>Locations</h3>
+      <h3 className="label">Locations</h3>
       {locations !== undefined && (
         <HeadquartersDropdown
           data={locations}

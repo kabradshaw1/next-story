@@ -8,10 +8,9 @@ import {
   type UseFormRegister,
   type FieldErrors,
   type UseFormTrigger,
+  type UseFormSetValue,
 } from 'react-hook-form';
 import { type ZodType } from 'zod';
-
-import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 
 type CommonFormProps<T extends FieldValues> = {
   validationSchema: ZodType<T>;
@@ -21,18 +20,17 @@ type CommonFormProps<T extends FieldValues> = {
     register: UseFormRegister<T>;
     errors: FieldErrors<T>;
     trigger: UseFormTrigger<T>;
+    setValue: UseFormSetValue<T>;
   }) => React.ReactNode;
 };
 
 export default function CommonForm<T extends FieldValues>({
   validationSchema,
   onSubmit,
-  initialFiles = [],
   children,
 }: CommonFormProps<T>): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [files, setFiles] = useState<File[]>(initialFiles);
 
   const {
     register,
@@ -65,13 +63,7 @@ export default function CommonForm<T extends FieldValues>({
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        {children({ register, trigger, errors })}
-        <FileUploader
-          files={files}
-          setFiles={setFiles}
-          setValue={setValue}
-          error={errors.files?.message as string | undefined}
-        />
+        {children({ register, trigger, setValue, errors })}
         <button type="submit" className="btn glow-on-hover" disabled={loading}>
           {loading ? 'Submitting...' : 'Submit'}
         </button>

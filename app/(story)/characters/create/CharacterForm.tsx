@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
+import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import CommonForm from '@/components/MainForm/CommonForm';
 import { useCreateCharacterMutation } from '@/generated/graphql';
@@ -27,6 +28,7 @@ export default function CharacterForm(): JSX.Element {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
 
   const formSubmit: SubmitHandler<CharacterProps> = async (data) => {
     const fileInputs =
@@ -76,7 +78,7 @@ export default function CharacterForm(): JSX.Element {
         onSubmit={formSubmit}
         initialFiles={[]}
       >
-        {({ register, trigger, errors }) => (
+        {({ register, trigger, setValue, errors }) => (
           <div className="mb-4">
             <InputField<CharacterProps>
               id="title"
@@ -86,6 +88,7 @@ export default function CharacterForm(): JSX.Element {
               register={register}
               trigger={trigger}
             />
+
             <InputField<CharacterProps>
               id="text"
               label="Back Ground"
@@ -93,6 +96,12 @@ export default function CharacterForm(): JSX.Element {
               error={errors.text?.message}
               register={register}
               trigger={trigger}
+            />
+            <FileUploader
+              files={files}
+              setFiles={setFiles}
+              setValue={setValue}
+              error={errors.files?.message}
             />
             <label id="roles-label" htmlFor="roles" className="label mt-4">
               Roles

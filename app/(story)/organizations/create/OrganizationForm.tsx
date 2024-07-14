@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
+import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
 import CommonForm from '@/components/MainForm/CommonForm';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
@@ -34,6 +35,7 @@ export default function OrganizationForm(): JSX.Element {
   const [selectedLocations, setSelectedLocations] = useState<number[]>([]);
   const [selectedConflicts, setSelectedConflicts] = useState<number[]>([]);
   const [selectedHeadquarters, setSelectedHeadquarters] = useState<number>();
+  const [files, setFiles] = useState<File[]>([]);
 
   const onSubmit: SubmitHandler<OrganizationProps> = async (data) => {
     const fileInputs =
@@ -93,14 +95,21 @@ export default function OrganizationForm(): JSX.Element {
       onSubmit={onSubmit}
       initialFiles={[]}
     >
-      {({ register, errors }) => (
+      {({ register, trigger, setValue, errors }) => (
         <div className="mb-4">
+          <FileUploader
+            files={files}
+            setFiles={setFiles}
+            setValue={setValue}
+            error={errors.files?.message}
+          />
           <InputField<OrganizationProps>
             id="title"
             label="Name"
             placeholder="Name"
             register={register}
             error={errors.title?.message}
+            trigger={trigger}
           />
           <InputField<OrganizationProps>
             id="text"
@@ -108,6 +117,7 @@ export default function OrganizationForm(): JSX.Element {
             placeholder="Description"
             register={register}
             error={errors.text?.message}
+            trigger={trigger}
           />
           <OrgClickLists
             selectedConflicts={selectedConflicts}
