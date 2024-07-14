@@ -93,7 +93,6 @@ export default function OrganizationForm(): JSX.Element {
     <CommonForm<OrganizationProps>
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-      initialFiles={[]}
     >
       {({ register, trigger, setValue, errors }) => (
         <div className="mb-4">
