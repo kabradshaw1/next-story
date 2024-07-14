@@ -7,6 +7,7 @@ import {
   type FieldValues,
   type UseFormRegister,
   type FieldErrors,
+  type UseFormTrigger,
 } from 'react-hook-form';
 import { type ZodType } from 'zod';
 
@@ -19,6 +20,7 @@ type CommonFormProps<T extends FieldValues> = {
   children: (props: {
     register: UseFormRegister<T>;
     errors: FieldErrors<T>;
+    trigger: UseFormTrigger<T>;
   }) => React.ReactNode;
 };
 
@@ -36,6 +38,7 @@ export default function CommonForm<T extends FieldValues>({
     register,
     handleSubmit,
     formState: { errors },
+    trigger,
     setValue,
   } = useForm<T>({
     resolver: zodResolver(validationSchema),
@@ -62,7 +65,7 @@ export default function CommonForm<T extends FieldValues>({
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        {children({ register, errors })}
+        {children({ register, trigger, errors })}
         <FileUploader
           files={files}
           setFiles={setFiles}

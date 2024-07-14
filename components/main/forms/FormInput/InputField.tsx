@@ -1,6 +1,11 @@
 import React from 'react';
 
-import type { UseFormRegister, FieldValues, Path } from 'react-hook-form';
+import type {
+  UseFormRegister,
+  FieldValues,
+  Path,
+  UseFormTrigger,
+} from 'react-hook-form';
 
 type InputFieldProps<T extends FieldValues> = {
   id: Path<T>;
@@ -8,6 +13,7 @@ type InputFieldProps<T extends FieldValues> = {
   placeholder: string;
   error?: string;
   register: UseFormRegister<T>;
+  trigger: UseFormTrigger<T>;
   readOnly?: boolean; // Add readOnly prop
 };
 
@@ -17,6 +23,7 @@ const InputField = <T extends FieldValues>({
   placeholder,
   error,
   register,
+  trigger,
   readOnly = false, // Default value is false
 }: InputFieldProps<T>): JSX.Element => {
   return (
@@ -31,6 +38,10 @@ const InputField = <T extends FieldValues>({
         className="input bg-gray-700"
         {...register(id)}
         readOnly={readOnly} // Apply readOnly prop
+        onBlur={() => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          trigger(id);
+        }}
       />
       {error !== null && <p className="error-message">{error}</p>}
     </div>

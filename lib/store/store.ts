@@ -74,3 +74,12 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export default store;
+
+export const testStore = configureStore({
+  reducer: {
+    auth: authSlice.reducer,
+  },
+});
+
+export type TestState = ReturnType<typeof testStore.getState>;
+export type TestDispatch = typeof testStore.dispatch;

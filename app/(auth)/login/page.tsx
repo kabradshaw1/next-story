@@ -7,6 +7,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import Logo from '@/components/Logo/Logo';
+import InputField from '@/components/main/forms/FormInput/InputField';
 import { axiosAuthInstance } from '@/lib/axios';
 import { setAuth } from '@/lib/store/slices/authSlice';
 import { useAppDispatch } from '@/lib/store/store';
@@ -41,6 +42,7 @@ export default function Login(): JSX.Element {
 
   const formSubmit: SubmitHandler<LoginProps> = async (data) => {
     setLoading(true);
+    setMessage('Waiting...');
     try {
       setMessage('Logging in...');
       const response = await axiosAuthInstance.post('/login', data);
@@ -49,14 +51,19 @@ export default function Login(): JSX.Element {
         router.push('/');
       } else {
         setMessage('Failed to login');
-        setLoading(false);
       }
     } catch (e) {
       console.error(e);
+      if (e.response?.status === 401) {
+        setMessage('Invalid username or password');
+      } else {
+        setMessage('Internal server error');
+      }
+    } finally {
       setLoading(false);
-      setMessage('Failed to login');
     }
   };
+
   return (
     <>
       <div className="w-full max-w-lg">
@@ -68,40 +75,22 @@ export default function Login(): JSX.Element {
             void handleSubmit(formSubmit)();
           }}
         >
-          <div className="mb-4">
-            <label htmlFor="email" className="label">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Enter email"
-              {...register('email')}
-              className={`input ${errors.email !== null ? 'border-red-600' : 'border-gray-700'} bg-gray-700`}
-              onBlur={() => {
-                // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                trigger('email');
-              }}
-            />
-            <p className="error-message">{errors.email?.message}</p>
-          </div>
-          <div className="mb-6">
-            <label htmlFor="password" className="label">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Enter password"
-              {...register('password')}
-              className={`input ${errors.password !== null ? 'border-red-600' : 'border-gray-700'} bg-gray-700`}
-              onBlur={() => {
-                // eslint-disable-next-line @typescript-eslint/no-floating-promises
-                trigger('password');
-              }}
-            />
-            <p className="error-message">{errors.password?.message}</p>
-          </div>
+          <InputField<LoginProps>
+            id="email"
+            label="Email"
+            placeholder="Enter email"
+            error={errors.email?.message}
+            register={register}
+            trigger={trigger}
+          />
+          <InputField<LoginProps>
+            id="password"
+            label="Password"
+            placeholder="Enter password"
+            error={errors.password?.message}
+            register={register}
+            trigger={trigger}
+          />
           <div className="flex items-center justify-between">
             <button type="submit" className="btn" disabled={loading}>
               Submit Form

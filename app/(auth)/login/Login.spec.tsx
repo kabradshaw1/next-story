@@ -1,30 +1,40 @@
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
+import MockAdapter from 'axios-mock-adapter';
+import { useRouter } from 'next/navigation';
+import { Provider } from 'react-redux';
 
-import StoreProvider from '@/lib/StoreProvider';
+import { axiosAuthInstance } from '@/lib/axios';
+import { testStore } from '@/lib/store/store';
 
 import Login from './page';
+const mockAxios = new MockAdapter(axiosAuthInstance);
 
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn().mockReturnValue({
-    push: jest.fn(),
-  }),
+  useRouter: jest.fn(),
 }));
 
-beforeEach(() => {
-  render(
-    <StoreProvider>
-      <Login />
-    </StoreProvider>
-  );
-});
+const mockUseRouter = useRouter as jest.Mock;
+
 describe('Login', () => {
+  const pushMock = jest.fn();
+
+  beforeEach(() => {
+    mockAxios.reset();
+    render(
+      <Provider store={testStore}>
+        <Login />
+      </Provider>
+    );
+    mockUseRouter.mockReturnValue({ push: pushMock });
+  });
+
   describe('input validation', () => {
     it('givenBlankEmail_whenEmailIsEntered_thenShowRequiredMessage', async () => {
       const emailInput = screen.getByPlaceholderText('Enter email');
 
-      await userEvent.click(emailInput); // Focus on the input
-      await userEvent.tab(); // Triggers blur more reliably by tabbing out of the input
+      await userEvent.click(emailInput);
+      await userEvent.tab();
 
       await waitFor(() => {
         expect(screen.getByText(/Email is required/i)).toBeInTheDocument();
@@ -32,13 +42,10 @@ describe('Login', () => {
     });
 
     it('givenInvalidEmailFormat_whenEmailIsEntered_thenShowErrorMessage', async () => {
-      // given
       const emailInput = screen.getByPlaceholderText('Enter email');
 
-      // when
-      await userEvent.type(emailInput, 'invalidemail{tab}'); // Use {tab} to blur which triggers validation
+      await userEvent.type(emailInput, 'invalidemail{tab}');
 
-      // then
       await waitFor(() => {
         expect(
           screen.getByText(/this email is not a valid format/i)
@@ -47,15 +54,11 @@ describe('Login', () => {
     });
 
     it('givenShortPassword_whenPasswordIsEntered_thenShowErrorMessage', async () => {
-      // given
-
       const passwordInput = screen.getByLabelText(/password/i);
 
-      // when
       await userEvent.type(passwordInput, 'short');
-      fireEvent.blur(passwordInput); // Trigger validation
+      fireEvent.blur(passwordInput);
 
-      // then
       await waitFor(() => {
         expect(
           screen.getByText(/this password is too short/i)
@@ -64,7 +67,6 @@ describe('Login', () => {
     });
 
     it('givenValidForm_whenCheckingSubmitButton_thenButtonShouldBeEnabled', async () => {
-      // given
       const emailInput = screen.getByLabelText(/email/i);
       const passwordInput = screen.getByLabelText(/password/i);
       fireEvent.change(emailInput, {
@@ -74,22 +76,71 @@ describe('Login', () => {
         target: { value: 'password123' },
       });
 
-      // when
       const submitButton = screen.getByRole('button', { name: /submit form/i });
 
-      // then
       expect(submitButton).not.toBeDisabled();
     });
   });
   describe('form submission', () => {
-    describe('failed sumbission', () => {
-      it('givenError_whenFormSubmit_thenDisplayErrorMessage', async () => {
-        expect(true).toBe(true);
+    it('givenValidCredentials_whenFormSubmit_thenRedirectToHomePage', async () => {
+      mockAxios.onPost('/login').reply(200, { token: 'test-token' });
+
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/password/i);
+      const submitButton = screen.getByRole('button', { name: /submit form/i });
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+      fireEvent.change(passwordInput, { target: { value: 'password123' } });
+
+      await userEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(pushMock).toHaveBeenCalledWith('/');
+        expect(testStore.getState().auth.token).toEqual('test-token');
+      });
+    });
+
+    it('givenInvalidCredentials_whenFormSubmit_thenDisplayErrorMessage', async () => {
+      mockAxios
+        .onPost('/login')
+        .reply(401, { error: 'Invalid username or password' });
+
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/password/i);
+      const submitButton = screen.getByRole('button', { name: /submit form/i });
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+      fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+
+      await userEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(/Invalid username or password/i)
+        ).toBeInTheDocument();
+      });
+    });
+
+    it('givenServerError_whenFormSubmit_thenDisplayErrorMessage', async () => {
+      mockAxios.onPost('/login').reply(500, { error: 'Internal server error' });
+
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/password/i);
+      const submitButton = screen.getByRole('button', { name: /submit form/i });
+
+      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+      fireEvent.change(passwordInput, { target: { value: 'password123' } });
+
+      await userEvent.click(submitButton);
+
+      await waitFor(() => {
+        expect(screen.getByText(/Internal server error/i)).toBeInTheDocument();
       });
     });
   });
+
   describe('ui components', () => {
-    it('giveImage_whenPageLoads_thenDisplayImage', async () => {
+    it('givenImage_whenPageLoads_thenDisplayImage', async () => {
       const image = screen.getByAltText(/Logo Image/i);
 
       expect(image).toBeInTheDocument();

@@ -15,7 +15,7 @@ import Roles from './Roles';
 
 const validationSchema = z.object({
   title: z.string().min(1, 'Name is required'),
-  text: z.string().min(1, 'Description is required'),
+  text: z.string().optional(),
   files: z.array(z.instanceof(File)).optional(),
   roles: z.array(z.number()).optional(),
 });
@@ -76,7 +76,7 @@ export default function CharacterForm(): JSX.Element {
         onSubmit={formSubmit}
         initialFiles={[]}
       >
-        {({ register, errors }) => (
+        {({ register, trigger, errors }) => (
           <div className="mb-4">
             <InputField<CharacterProps>
               id="title"
@@ -84,6 +84,7 @@ export default function CharacterForm(): JSX.Element {
               placeholder="Name"
               error={errors.title?.message}
               register={register}
+              trigger={trigger}
             />
             <InputField<CharacterProps>
               id="text"
@@ -91,6 +92,7 @@ export default function CharacterForm(): JSX.Element {
               placeholder="Description"
               error={errors.text?.message}
               register={register}
+              trigger={trigger}
             />
             <label id="roles-label" htmlFor="roles" className="label mt-4">
               Roles
