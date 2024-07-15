@@ -26,13 +26,19 @@ const InputField = <T extends FieldValues>({
   trigger,
   readOnly = false, // Default value is false
 }: InputFieldProps<T>): JSX.Element => {
+  let type: string;
+  if (id === 'password') {
+    type = 'password';
+  } else {
+    type = 'text';
+  }
   return (
     <div className="mb-4">
       <label htmlFor={id} className="label">
         {label}
       </label>
       <input
-        type="text"
+        type={type}
         id={id}
         placeholder={placeholder}
         className="input bg-gray-700"

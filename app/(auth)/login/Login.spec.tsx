@@ -158,8 +158,22 @@ describe('Login', () => {
       });
     });
 
-    it('givenReuqestTimesOut_whenFormSubmit_theDisplayTimeOutError', async () => {
-      // implement your test case here
+    it('givenReuqestTimesOut_whenFormSubmit_thenDisplayTimeOutError', async () => {
+      mockAxios.onPost('/login').timeout();
+
+      const emailInput = screen.getByLabelText(/email/i);
+      const passwordInput = screen.getByLabelText(/password/i);
+      const submitButton = screen.getByRole('button', { name: /Submit/i });
+
+      await act(async () => {
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'password123' } });
+        await userEvent.click(submitButton);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText(/timeout/i)).toBeInTheDocument();
+      });
     });
   });
 
@@ -170,7 +184,8 @@ describe('Login', () => {
     });
 
     it('givenPasswordInput_whenPageLoads_thenHidePassword', async () => {
-      // implement your test case here
+      const passwordInput = screen.getByLabelText(/password/i);
+      expect(passwordInput).toHaveAttribute('type', 'password');
     });
   });
 });

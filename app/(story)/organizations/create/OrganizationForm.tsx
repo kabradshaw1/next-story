@@ -96,12 +96,6 @@ export default function OrganizationForm(): JSX.Element {
     >
       {({ register, trigger, setValue, errors }) => (
         <div className="mb-4">
-          <FileUploader
-            files={files}
-            setFiles={setFiles}
-            setValue={setValue}
-            error={errors.files?.message}
-          />
           <InputField<OrganizationProps>
             id="title"
             label="Name"
@@ -117,6 +111,12 @@ export default function OrganizationForm(): JSX.Element {
             register={register}
             error={errors.text?.message}
             trigger={trigger}
+          />
+          <FileUploader
+            files={files}
+            setFiles={setFiles}
+            setValue={setValue}
+            error={errors.files?.message}
           />
           <OrgClickLists
             selectedConflicts={selectedConflicts}
