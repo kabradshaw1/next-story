@@ -137,6 +137,8 @@ describe('Login', () => {
         expect(screen.getByText(/Internal server error/i)).toBeInTheDocument();
       });
     });
+
+    it('givenReuqestTimesOut_whenFormSubmit_theDisplayTimeOutError', async () => {});
   });
 
   describe('ui components', () => {
@@ -145,5 +147,6 @@ describe('Login', () => {
 
       expect(image).toBeInTheDocument();
     });
+    it('givenPasswordInput_whenPageLoads_thenHidePassword', async () => {});
   });
 });
