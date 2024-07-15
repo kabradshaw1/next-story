@@ -22,26 +22,6 @@ export const axiosClientInstance = axios.create({
   withCredentials: true,
 });
 
-axiosClientInstance.interceptors.request.use(async (config) => {
-  let token = store.getState().auth.token;
-
-  const setAuthorizationHeader = (token: string | null): void => {
-    if (token !== null) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-  };
-
-  if (token !== null && !isTokenExpired(token)) {
-    setAuthorizationHeader(token);
-  } else {
-    await handleTokenRefresh();
-    token = store.getState().auth.token;
-    setAuthorizationHeader(token);
-  }
-
-  return config;
-});
-
 const handleTokenRefresh = async (): Promise<void> => {
   try {
     const response = await axiosAuthInstance.post('/refresh');

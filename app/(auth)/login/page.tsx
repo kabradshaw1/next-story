@@ -34,7 +34,7 @@ export default function Login(): JSX.Element {
       router.push('/');
     }
   };
-
+  console.log(process.env.NEXT_PUBLIC_AUTH_URL);
   return (
     <>
       <CommonForm<LoginProps>
