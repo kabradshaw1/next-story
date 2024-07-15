@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
+import { ApolloError } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
 import {
   useForm,
   type SubmitHandler,
@@ -49,7 +51,16 @@ export default function CommonForm<T extends FieldValues>({
       await onSubmit(data);
     } catch (error) {
       console.error(error);
-      setMessage('An error occurred');
+      if (error instanceof AxiosError) {
+        setMessage(
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+          `Error: ${(error.response?.data?.error as string) || error.message}`
+        );
+      } else if (error instanceof ApolloError) {
+        setMessage(`Error: ${error.message}`);
+      } else {
+        setMessage('An unknown error occurred');
+      }
     } finally {
       setLoading(false);
     }

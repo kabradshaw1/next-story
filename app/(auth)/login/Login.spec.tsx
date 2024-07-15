@@ -1,5 +1,12 @@
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
+import {
+  render,
+  fireEvent,
+  screen,
+  waitFor,
+  act,
+} from '@testing-library/react';
+// eslint-disable-next-line import/no-named-as-default
+import userEvent from '@testing-library/user-event'; // Default import
 import MockAdapter from 'axios-mock-adapter';
 import { useRouter } from 'next/navigation';
 import { Provider } from 'react-redux';
@@ -33,8 +40,10 @@ describe('Login', () => {
     it('givenBlankEmail_whenEmailIsEntered_thenShowRequiredMessage', async () => {
       const emailInput = screen.getByPlaceholderText('Enter email');
 
-      await userEvent.click(emailInput);
-      await userEvent.tab();
+      await act(async () => {
+        await userEvent.click(emailInput);
+        await userEvent.tab();
+      });
 
       await waitFor(() => {
         expect(screen.getByText(/Email is required/i)).toBeInTheDocument();
@@ -44,7 +53,9 @@ describe('Login', () => {
     it('givenInvalidEmailFormat_whenEmailIsEntered_thenShowErrorMessage', async () => {
       const emailInput = screen.getByPlaceholderText('Enter email');
 
-      await userEvent.type(emailInput, 'invalidemail{tab}');
+      await act(async () => {
+        await userEvent.type(emailInput, 'invalidemail{tab}');
+      });
 
       await waitFor(() => {
         expect(
@@ -56,8 +67,10 @@ describe('Login', () => {
     it('givenShortPassword_whenPasswordIsEntered_thenShowErrorMessage', async () => {
       const passwordInput = screen.getByLabelText(/password/i);
 
-      await userEvent.type(passwordInput, 'short');
-      fireEvent.blur(passwordInput);
+      await act(async () => {
+        await userEvent.type(passwordInput, 'short');
+        fireEvent.blur(passwordInput);
+      });
 
       await waitFor(() => {
         expect(
@@ -69,11 +82,14 @@ describe('Login', () => {
     it('givenValidForm_whenCheckingSubmitButton_thenButtonShouldBeEnabled', async () => {
       const emailInput = screen.getByLabelText(/email/i);
       const passwordInput = screen.getByLabelText(/password/i);
-      fireEvent.change(emailInput, {
-        target: { value: 'test@example.com' },
-      });
-      fireEvent.change(passwordInput, {
-        target: { value: 'password123' },
+
+      await act(async () => {
+        fireEvent.change(emailInput, {
+          target: { value: 'test@example.com' },
+        });
+        fireEvent.change(passwordInput, {
+          target: { value: 'password123' },
+        });
       });
 
       const submitButton = screen.getByRole('button', { name: /Submit/i });
@@ -81,6 +97,7 @@ describe('Login', () => {
       expect(submitButton).not.toBeDisabled();
     });
   });
+
   describe('form submission', () => {
     it('givenValidCredentials_whenFormSubmit_thenRedirectToHomePage', async () => {
       mockAxios.onPost('/login').reply(200, { token: 'test-token' });
@@ -89,10 +106,11 @@ describe('Login', () => {
       const passwordInput = screen.getByLabelText(/password/i);
       const submitButton = screen.getByRole('button', { name: /Submit/i });
 
-      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-      fireEvent.change(passwordInput, { target: { value: 'password123' } });
-
-      await userEvent.click(submitButton);
+      await act(async () => {
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'password123' } });
+        await userEvent.click(submitButton);
+      });
 
       await waitFor(() => {
         expect(pushMock).toHaveBeenCalledWith('/');
@@ -109,10 +127,11 @@ describe('Login', () => {
       const passwordInput = screen.getByLabelText(/password/i);
       const submitButton = screen.getByRole('button', { name: /Submit/i });
 
-      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-      fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
-
-      await userEvent.click(submitButton);
+      await act(async () => {
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
+        await userEvent.click(submitButton);
+      });
 
       await waitFor(() => {
         expect(
@@ -128,25 +147,30 @@ describe('Login', () => {
       const passwordInput = screen.getByLabelText(/password/i);
       const submitButton = screen.getByRole('button', { name: /Submit/i });
 
-      fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-      fireEvent.change(passwordInput, { target: { value: 'password123' } });
-
-      await userEvent.click(submitButton);
+      await act(async () => {
+        fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+        fireEvent.change(passwordInput, { target: { value: 'password123' } });
+        await userEvent.click(submitButton);
+      });
 
       await waitFor(() => {
         expect(screen.getByText(/Internal server error/i)).toBeInTheDocument();
       });
     });
 
-    it('givenReuqestTimesOut_whenFormSubmit_theDisplayTimeOutError', async () => {});
+    it('givenReuqestTimesOut_whenFormSubmit_theDisplayTimeOutError', async () => {
+      // implement your test case here
+    });
   });
 
   describe('ui components', () => {
     it('givenImage_whenPageLoads_thenDisplayImage', async () => {
       const image = screen.getByAltText(/Logo Image/i);
-
       expect(image).toBeInTheDocument();
     });
-    it('givenPasswordInput_whenPageLoads_thenHidePassword', async () => {});
+
+    it('givenPasswordInput_whenPageLoads_thenHidePassword', async () => {
+      // implement your test case here
+    });
   });
 });
