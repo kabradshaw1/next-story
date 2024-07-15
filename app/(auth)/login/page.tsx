@@ -3,9 +3,9 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
+import CommonForm from '@/components/CommonForm/CommonForm';
 import Logo from '@/components/Logo/Logo';
 import InputField from '@/components/main/forms/FormInput/InputField';
-import CommonForm from '@/components/MainForm/CommonForm';
 import { axiosAuthInstance } from '@/lib/axios';
 import { setAuth } from '@/lib/store/slices/authSlice';
 import { useAppDispatch } from '@/lib/store/store';
@@ -34,7 +34,7 @@ export default function Login(): JSX.Element {
       router.push('/');
     }
   };
-  console.log(process.env.NEXT_PUBLIC_AUTH_URL);
+
   return (
     <>
       <CommonForm<LoginProps>

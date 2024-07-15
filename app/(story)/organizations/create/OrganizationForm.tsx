@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { type SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 
+import CommonForm from '@/components/CommonForm/CommonForm';
 import FileUploader from '@/components/main/forms/FileUploader/FileUploader';
 import InputField from '@/components/main/forms/FormInput/InputField';
-import CommonForm from '@/components/MainForm/CommonForm';
 import { useCreateOrganizationMutation } from '@/generated/graphql';
 import { addOrg } from '@/lib/store/slices/orgSlice';
 import { removeAllRoles } from '@/lib/store/slices/rolesSlice';
