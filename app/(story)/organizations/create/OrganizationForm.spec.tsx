@@ -12,8 +12,8 @@ import StoreProvider from '@/lib/StoreProvider';
 
 import OrganizationForm from './OrganizationForm';
 
-// I've tried many times to write tests error handling, but the mocks are not working as expected
-// so error tests will need to go in the e2e tests only
+// I've tried many times to write tests error handling, but the mocks
+// are not working as expected, so error tests will need to go in the e2e tests only
 
 // Mock the GraphQL mutation and query
 jest.mock('@/generated/graphql', () => ({
