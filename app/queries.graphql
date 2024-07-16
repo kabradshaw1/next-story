@@ -63,3 +63,12 @@ query character($title: String!) {
     }
   }
 }
+
+query scenes {
+  scenes {
+    title
+    startTimeline
+    endTimeline
+    downloadURLs
+  }
+}

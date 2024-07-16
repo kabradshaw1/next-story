@@ -139,12 +139,13 @@ export type MutationCreateOrganizationArgs = {
 export type MutationCreateSceneArgs = {
   characterIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   conflictIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  endTimeline: Scalars['Int']['input'];
   files?: InputMaybe<Array<InputMaybe<FileInput>>>;
   locationIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   organizationIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   population?: InputMaybe<Array<InputMaybe<ScenePopulationInput>>>;
+  startTimeline: Scalars['Int']['input'];
   text?: InputMaybe<Scalars['String']['input']>;
-  timeline?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
 };
 
@@ -242,6 +243,7 @@ export type MutationUpdateSceneArgs = {
   conflictAddIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   conflictRemoveIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   contentType?: InputMaybe<Scalars['String']['input']>;
+  endTimeline?: InputMaybe<Scalars['Int']['input']>;
   files?: InputMaybe<Array<InputMaybe<FileInput>>>;
   id: Scalars['Int']['input'];
   locationAddIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
@@ -249,6 +251,7 @@ export type MutationUpdateSceneArgs = {
   organizationAddIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   organizationRemoveIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   population?: InputMaybe<Array<InputMaybe<ScenePopulationInput>>>;
+  startTimeline?: InputMaybe<Scalars['Int']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
@@ -355,7 +358,6 @@ export type Role = {
   createdAt?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['Int']['output']>;
   organization?: Maybe<Organization>;
-  subordinates?: Maybe<Array<Maybe<Role>>>;
   superior?: Maybe<Role>;
   text?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
@@ -370,12 +372,13 @@ export type Scene = {
   conflicts?: Maybe<Array<Maybe<Conflict>>>;
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  endTimeline: Scalars['Int']['output'];
   id?: Maybe<Scalars['Int']['output']>;
   location?: Maybe<Array<Maybe<Location>>>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
   populations?: Maybe<Array<Maybe<Population>>>;
+  startTimeline: Scalars['Int']['output'];
   text?: Maybe<Scalars['String']['output']>;
-  timeline: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['String']['output']>;
   uploadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
@@ -455,6 +458,11 @@ export type CharacterQueryVariables = Exact<{
 
 
 export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string } | null> | null } | null };
+
+export type ScenesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ScenesQuery = { __typename?: 'Query', scenes?: Array<{ __typename?: 'Scene', title: string, startTimeline: number, endTimeline: number, downloadURLs?: Array<string | null> | null } | null> | null };
 
 
 export const CreateCharacterDocument = gql`
@@ -766,3 +774,45 @@ export type CharacterQueryHookResult = ReturnType<typeof useCharacterQuery>;
 export type CharacterLazyQueryHookResult = ReturnType<typeof useCharacterLazyQuery>;
 export type CharacterSuspenseQueryHookResult = ReturnType<typeof useCharacterSuspenseQuery>;
 export type CharacterQueryResult = Apollo.QueryResult<CharacterQuery, CharacterQueryVariables>;
+export const ScenesDocument = gql`
+    query scenes {
+  scenes {
+    title
+    startTimeline
+    endTimeline
+    downloadURLs
+  }
+}
+    `;
+
+/**
+ * __useScenesQuery__
+ *
+ * To run a query within a React component, call `useScenesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useScenesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useScenesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useScenesQuery(baseOptions?: Apollo.QueryHookOptions<ScenesQuery, ScenesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ScenesQuery, ScenesQueryVariables>(ScenesDocument, options);
+      }
+export function useScenesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ScenesQuery, ScenesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ScenesQuery, ScenesQueryVariables>(ScenesDocument, options);
+        }
+export function useScenesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<ScenesQuery, ScenesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ScenesQuery, ScenesQueryVariables>(ScenesDocument, options);
+        }
+export type ScenesQueryHookResult = ReturnType<typeof useScenesQuery>;
+export type ScenesLazyQueryHookResult = ReturnType<typeof useScenesLazyQuery>;
+export type ScenesSuspenseQueryHookResult = ReturnType<typeof useScenesSuspenseQuery>;
+export type ScenesQueryResult = Apollo.QueryResult<ScenesQuery, ScenesQueryVariables>;
