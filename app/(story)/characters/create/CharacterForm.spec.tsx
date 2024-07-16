@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ApolloError } from '@apollo/client';
 import { MockedProvider } from '@apollo/client/testing';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
@@ -156,6 +157,56 @@ describe('CharacterForm Component', () => {
 
     await waitFor(() => {
       expect(checkbox).toBeChecked();
+    });
+  });
+  test('handles network errors correctly', async () => {
+    mockUseOrganizationsQuery.mockReturnValue({
+      data: { organizations: [] },
+      loading: false,
+      error: null,
+    });
+    createCharacterMock.mockRejectedValue(
+      new ApolloError({
+        errorMessage: 'Network error',
+      })
+    );
+
+    render(
+      <StoreProvider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <CharacterForm />
+        </MockedProvider>
+      </StoreProvider>
+    );
+
+    fireEvent.change(screen.getByLabelText(/Name/i), {
+      target: { value: 'Test Character' },
+    });
+    fireEvent.change(screen.getByLabelText(/Back Ground/i), {
+      target: { value: 'Test Description' },
+    });
+
+    fireEvent.click(screen.getByText(/Submit/i));
+
+    await waitFor(() => {
+      expect(createCharacterMock).toHaveBeenCalled();
+      expect(screen.getByText('Error: Network error')).toBeInTheDocument();
+    });
+  });
+
+  test('displays validation errors when form is submitted with empty required fields', async () => {
+    render(
+      <StoreProvider>
+        <MockedProvider mocks={[]} addTypename={false}>
+          <CharacterForm />
+        </MockedProvider>
+      </StoreProvider>
+    );
+
+    fireEvent.click(screen.getByText(/Submit/i));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Name is required/i)).toBeInTheDocument();
     });
   });
 });

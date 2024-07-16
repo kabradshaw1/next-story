@@ -57,7 +57,7 @@ export default function CommonForm<T extends FieldValues>({
           // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           `Error: ${(error.response?.data?.error as string) || error.message}`
         );
-      } else if (error instanceof Error) {
+      } else if (error instanceof ApolloError) {
         setMessage(`Error: ${error.message}`);
       } else {
         setMessage('An unknown error occurred');
