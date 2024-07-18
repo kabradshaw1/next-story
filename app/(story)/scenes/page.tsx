@@ -1,8 +1,10 @@
-import Link from 'next/link';
+import { Suspense } from 'react';
 
 import List from '@/components/main/List';
+import ListHeader from '@/components/main/ListHeader/ListHeader';
 import ScenesTimeline from '@/components/ScenesTimeline/ScenesTimeline';
 import { ScenesDocument, type ScenesQuery } from '@/generated/graphql';
+import { mapDataToItems } from '@/lib/fetchList';
 import axiosInstance from '@/lib/serverAxios';
 
 export default async function ScenesPage(): Promise<JSX.Element> {
@@ -12,7 +14,20 @@ export default async function ScenesPage(): Promise<JSX.Element> {
     query: query.loc?.source.body,
   });
 
-  const scenes = response.data.data;
-  console.log(scenes);
-  return <ScenesTimeline {...scenes} />;
+  const scenes =
+    response.data.data.scenes?.filter(
+      (scene): scene is NonNullable<typeof scene> => scene !== null
+    ) ?? [];
+
+  const props = mapDataToItems(scenes);
+
+  return (
+    <div className="container mx-auto mt-8">
+      <ListHeader title="scene" />
+      <Suspense fallback={<div>Loading...</div>}></Suspense>
+      <div>
+        <List props={props} route="scenes" />
+      </div>
+    </div>
+  );
 }

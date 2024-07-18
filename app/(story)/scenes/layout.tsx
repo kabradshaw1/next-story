@@ -5,5 +5,5 @@ export default function ScenesLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>): JSX.Element {
-  return <StoryLayout routeName="organization">{children}</StoryLayout>;
+  return <StoryLayout routeName="scene">{children}</StoryLayout>;
 }
