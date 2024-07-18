@@ -9,9 +9,10 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
   useEffect(() => {
     if (!svgRef.current || !scenes) return;
 
-    const width = 600;
-    const height = 300;
-    const margin = { top: 20, right: 100, bottom: 30, left: 100 };
+    const width = 700;
+    const barHeight = 30; // Height of each bar including margin
+    const height = scenes.length * barHeight;
+    const margin = { top: 20, right: 120, bottom: 30, left: 120 };
 
     const svg = d3
       .select(svgRef.current)
