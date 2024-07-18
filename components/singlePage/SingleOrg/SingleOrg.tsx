@@ -4,6 +4,7 @@ import { type RoleInput } from '@/app/(story)/organizations/create/RoleForm';
 import ButtonAndPopup from '@/components/ButtonAndPopup/ButtonAndPopup';
 import ImageList from '@/components/ImageList/ImageList';
 import LinksCard from '@/components/LinksCard/LinksCard';
+import TreeSvg from '@/components/TreeSVG/TreeSVG';
 import { type OrganizationQuery } from '@/generated/graphql';
 
 export default function SingleOrg(props: OrganizationQuery): JSX.Element {
@@ -38,7 +39,9 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
       <LinksCard type="Locations" items={organization?.locations ?? []} />
       <LinksCard type="Conflicts" items={organization?.conflicts ?? []} />
       <Suspense fallback={<div>Loading...</div>}>
-        <ButtonAndPopup roles={roles} />
+        <ButtonAndPopup {...roles}>
+          <TreeSvg roles={roles} />
+        </ButtonAndPopup>
       </Suspense>
     </div>
   );

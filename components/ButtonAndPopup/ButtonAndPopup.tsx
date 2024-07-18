@@ -1,19 +1,12 @@
 'use client';
 import React, { useState, useEffect, type ReactNode } from 'react';
 
-import { type RoleInput } from '@/app/(story)/organizations/create/RoleForm';
-import TreeSvg from '@/components/TreeSVG/TreeSVG';
-
 type ButtonAndPopupProps = {
   children?: ReactNode;
-  handleNodeClick?: (d: d3.HierarchyPointNode<RoleInput>) => void;
-  roles: RoleInput[];
 };
 
 export default function ButtonAndPopup({
   children,
-  handleNodeClick,
-  roles,
 }: ButtonAndPopupProps): JSX.Element {
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -48,10 +41,7 @@ export default function ButtonAndPopup({
             >
               Done
             </button>
-            <div className="flex flex-col">
-              <TreeSvg roles={roles} onNodeClick={handleNodeClick} />
-              {children}
-            </div>
+            <div className="flex flex-col">{children}</div>
           </div>
         </div>
       )}

@@ -9,6 +9,23 @@ import { type OrganizationQuery } from '@/generated/graphql';
 
 import SingleOrg from './SingleOrg';
 
+// Mock the d3 module
+jest.mock('d3', () => {
+  return {
+    select: jest.fn(),
+    hierarchy: jest.fn(),
+    tree: jest.fn(),
+    linkHorizontal: jest.fn(),
+  };
+});
+
+// Mock the specific component that uses d3
+jest.mock('@/components/TreeSVG/TreeSVG', () => {
+  return function DummyTreeSVG() {
+    return <div data-testid="mock-tree-svg">Mock Tree SVG</div>;
+  };
+});
+
 jest.mock('@/components/ImageList/ImageList', () => jest.fn(() => null));
 jest.mock('@/components/LinksCard/LinksCard', () => jest.fn(() => null));
 jest.mock('@/components/ButtonAndPopup/ButtonAndPopup', () =>
@@ -93,28 +110,6 @@ describe('SingleOrg Component', () => {
       expect.objectContaining({
         type: 'Conflicts',
         items: mockOrganization.organization?.conflicts,
-      }),
-      {}
-    );
-  });
-
-  test('renders ButtonAndPopup component with mapped roles', () => {
-    setup(mockOrganization);
-
-    expect(ButtonAndPopup).toHaveBeenCalledWith(
-      expect.objectContaining({
-        roles: [
-          {
-            roleTitle: 'Role 1',
-            superiorTitle: 'Superior 1',
-            text: 'Role 1 Description',
-          },
-          {
-            roleTitle: 'Role 2',
-            superiorTitle: undefined,
-            text: 'Role 2 Description',
-          },
-        ],
       }),
       {}
     );

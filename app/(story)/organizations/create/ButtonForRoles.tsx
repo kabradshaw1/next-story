@@ -2,6 +2,7 @@
 import React, { useState, useCallback } from 'react';
 
 import ButtonAndPopup from '@/components/ButtonAndPopup/ButtonAndPopup';
+import TreeSvg from '@/components/TreeSVG/TreeSVG';
 import { useAppSelector } from '@/lib/store/store';
 
 import RoleForm, { type RoleInput } from './RoleForm';
@@ -19,7 +20,8 @@ export default function ButtonForRoles(): JSX.Element {
   );
 
   return (
-    <ButtonAndPopup roles={roles} handleNodeClick={handleNodeClick}>
+    <ButtonAndPopup {...roles}>
+      <TreeSvg roles={roles} onNodeClick={handleNodeClick} />
       <RoleForm superiorTitle={superiorTitle} />
     </ButtonAndPopup>
   );
