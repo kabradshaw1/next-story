@@ -67,6 +67,12 @@ export default function Dropdown(): JSX.Element {
           >
             Update Profile
           </Link>
+          <Link
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+            href="/forgot-password"
+          >
+            Forgot Password
+          </Link>
           <a
             className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
             onClick={handleLogout}

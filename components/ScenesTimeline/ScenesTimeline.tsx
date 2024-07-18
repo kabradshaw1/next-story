@@ -71,7 +71,7 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
       .attr('y', (d) => y(d!.title)! + y.bandwidth() / 2 + 5)
       .attr('text-anchor', 'middle') // Center the text anchor
       .text((d) => d!.title)
-      .attr('fill', 'white');
+      .attr('fill', 'black');
   }, [scenes]);
 
   return (
