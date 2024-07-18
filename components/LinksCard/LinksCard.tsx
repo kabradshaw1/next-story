@@ -16,7 +16,7 @@ const LinksCard: React.FC<LinksCardProps> = ({ items, type }) => {
   if (items === null || items === undefined || items.length === 0) return null;
   return (
     <div className="card">
-      <h3>{type}</h3>
+      <h3 className="label">{type}</h3>
       <div>
         {items.map(
           (item) =>

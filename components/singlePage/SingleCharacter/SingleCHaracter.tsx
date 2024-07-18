@@ -19,7 +19,9 @@ export default function SingleCharacter(props: CharacterQuery): JSX.Element {
       <p>Created by: {props.character?.user}</p>
       <p>Created at: {props.character?.createdAt}</p>
       <LinksCard type="Scenes" items={props.character?.scenes ?? []} />
-      <LinksCard type="Roles" items={props.character?.roles ?? []} />
+      <div className="card">
+        <h3 className="label">Roles</h3>
+      </div>
     </div>
   );
 }
