@@ -60,6 +60,9 @@ query character($title: String!) {
     }
     roles {
       title
+      organization {
+        title
+      }
     }
   }
 }

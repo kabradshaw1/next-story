@@ -1,4 +1,5 @@
-export const createSlug = (title: string): string => {
+export const createSlug = (title: string | undefined): string | undefined => {
+  if (title === undefined) return undefined;
   return title
     .toLowerCase()
     .trim()
