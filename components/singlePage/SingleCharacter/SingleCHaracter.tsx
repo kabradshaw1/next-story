@@ -32,9 +32,7 @@ export default function SingleCharacter(props: CharacterQuery): JSX.Element {
                   href={`/role/${createSlug(role.organization?.title)}`}
                   key={role.title}
                 >
-                  <h4>
-                    {role.title} of {role.organization?.title}
-                  </h4>
+                  {role.title} of {role.organization?.title}
                 </Link>
               )
           )}
