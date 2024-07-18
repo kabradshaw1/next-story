@@ -20,7 +20,7 @@ export default function ButtonForRoles(): JSX.Element {
   );
 
   return (
-    <ButtonAndPopup {...roles}>
+    <ButtonAndPopup {...roles} buttonLabel="Roles">
       <TreeSvg roles={roles} onNodeClick={handleNodeClick} />
       <RoleForm superiorTitle={superiorTitle} />
     </ButtonAndPopup>

@@ -24,12 +24,13 @@ export default async function ScenesPage(): Promise<JSX.Element> {
 
   return (
     <div className="container mx-auto mt-8">
-      <ListHeader title="scene" />
-      <Suspense fallback={<div>Loading...</div>}>
-        <ButtonAndPopup>
-          <ScenesTimeline {...response.data.data} />
-        </ButtonAndPopup>
-      </Suspense>
+      <ListHeader title="scene">
+        <Suspense fallback={<div>Loading...</div>}>
+          <ButtonAndPopup buttonLabel="Timeline">
+            <ScenesTimeline {...response.data.data} />
+          </ButtonAndPopup>
+        </Suspense>
+      </ListHeader>
       <div>
         <List props={props} route="scenes" />
       </div>

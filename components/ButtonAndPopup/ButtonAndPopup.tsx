@@ -3,10 +3,12 @@ import React, { useState, useEffect, type ReactNode } from 'react';
 
 type ButtonAndPopupProps = {
   children?: ReactNode;
+  buttonLabel: string;
 };
 
 export default function ButtonAndPopup({
   children,
+  buttonLabel,
 }: ButtonAndPopupProps): JSX.Element {
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -29,7 +31,7 @@ export default function ButtonAndPopup({
         className="btn glow-on-hover"
         onClick={toggleOverlay}
       >
-        Roles
+        {buttonLabel}
       </button>
       {showOverlay && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">

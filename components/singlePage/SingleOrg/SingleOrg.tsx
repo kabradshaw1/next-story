@@ -39,7 +39,7 @@ export default function SingleOrg(props: OrganizationQuery): JSX.Element {
       <LinksCard type="Locations" items={organization?.locations ?? []} />
       <LinksCard type="Conflicts" items={organization?.conflicts ?? []} />
       <Suspense fallback={<div>Loading...</div>}>
-        <ButtonAndPopup>
+        <ButtonAndPopup buttonLabel="Roles">
           <TreeSvg roles={roles} />
         </ButtonAndPopup>
       </Suspense>
