@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 
+import ButtonAndPopup from '@/components/ButtonAndPopup/ButtonAndPopup';
 import List from '@/components/main/List';
 import ListHeader from '@/components/main/ListHeader/ListHeader';
 import ScenesTimeline from '@/components/ScenesTimeline/ScenesTimeline';
@@ -24,7 +25,11 @@ export default async function ScenesPage(): Promise<JSX.Element> {
   return (
     <div className="container mx-auto mt-8">
       <ListHeader title="scene" />
-      <Suspense fallback={<div>Loading...</div>}></Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <ButtonAndPopup>
+          <ScenesTimeline {...response.data.data} />
+        </ButtonAndPopup>
+      </Suspense>
       <div>
         <List props={props} route="scenes" />
       </div>
