@@ -1,13 +1,19 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
+
 import * as d3 from 'd3';
+
 import { type ScenesQuery } from '@/generated/graphql';
+
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
-    if (!svgRef.current || !scenes) return;
+    if ((svgRef.current === null || scenes === null) ?? scenes === undefined) {
+      return;
+    }
 
     const width = 700;
     const barHeight = 30; // Height of each bar including margin
@@ -21,8 +27,9 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const startDate = d3.min(scenes, (d) => d.startTimeline) as number;
-    const endDate = d3.max(scenes, (d) => d.endTimeline) as number;
+    const startDate = d3.min(scenes, (d) => d!.startTimeline)!;
+
+    const endDate = d3.max(scenes, (d) => d!.endTimeline)!;
 
     const x = d3
       .scaleLinear()
@@ -31,7 +38,7 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
 
     const y = d3
       .scaleBand()
-      .domain(scenes.map((d) => d.title))
+      .domain(scenes.map((d) => d!.title))
       .range([0, height])
       .padding(0.1);
 
@@ -48,9 +55,9 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('x', (d) => x(d.startTimeline))
-      .attr('y', (d) => y(d.title) as number)
-      .attr('width', (d) => x(d.endTimeline) - x(d.startTimeline))
+      .attr('x', (d) => x(d!.startTimeline))
+      .attr('y', (d) => y(d!.title)!)
+      .attr('width', (d) => x(d!.endTimeline) - x(d!.startTimeline))
       .attr('height', y.bandwidth())
       .attr('fill', 'steelblue');
 
@@ -60,10 +67,10 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
       .enter()
       .append('text')
       .attr('class', 'label')
-      .attr('x', (d) => (x(d.startTimeline) + x(d.endTimeline)) / 2) // Centered text
-      .attr('y', (d) => (y(d.title) as number) + y.bandwidth() / 2 + 5)
+      .attr('x', (d) => (x(d!.startTimeline) + x(d!.endTimeline)) / 2) // Centered text
+      .attr('y', (d) => y(d!.title)! + y.bandwidth() / 2 + 5)
       .attr('text-anchor', 'middle') // Center the text anchor
-      .text((d) => d.title)
+      .text((d) => d!.title)
       .attr('fill', 'white');
   }, [scenes]);
 
