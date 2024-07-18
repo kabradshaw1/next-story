@@ -66,13 +66,13 @@ mutation createScene(
   $title: String!
   $text: String
   $files: [FileInput]
-  $startTimeline: Int
-  $endTimeline: Int
+  $startTimeline: Int!
+  $endTimeline: Int!
   $locationIds: [Int]
   $characterIds: [Int]
   $organizationIds: [Int]
   $conflictIds: [Int]
-  $population: [ScenePopulationInput]
+  $populations: [ScenePopulationInput]
 ) {
   createScene(
     title: $title
@@ -84,14 +84,14 @@ mutation createScene(
     characterIds: $characterIds
     organizationIds: $organizationIds
     conflictIds: $conflictIds
-    population: $population
+    populations: $populations
   ) {
     title
     text
     createdAt
     user
     uploadURLs
-    locations {
+    location {
       title
     }
     characters {
@@ -100,7 +100,7 @@ mutation createScene(
     organizations {
       title
     }
-    population {
+    populations {
       population
       ship {
         title

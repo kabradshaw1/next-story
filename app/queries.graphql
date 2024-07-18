@@ -19,6 +19,25 @@ query forOrganizationForm {
   }
 }
 
+query forSceneForm {
+  characters {
+    id
+    title
+  }
+  conflicts {
+    id
+    title
+  }
+  locations {
+    id
+    title
+  }
+  organizations {
+    id
+    title
+  }
+}
+
 query organization($title: String!) {
   organization(title: $title) {
     title

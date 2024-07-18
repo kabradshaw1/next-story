@@ -2,12 +2,12 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 import type { CreateOrganizationMutation } from '@/generated/graphql';
 
-type RoleState = {
+type OrgState = {
   organization: CreateOrganizationMutation['createOrganization'] | null;
   images: string[];
 };
 
-const initialState: RoleState = {
+const initialState: OrgState = {
   organization: null,
   images: [],
 };
@@ -17,7 +17,7 @@ const orgSlice = createSlice({
   initialState,
   reducers: {
     addOrg(
-      state: RoleState,
+      state: OrgState,
       action: PayloadAction<{
         organization: CreateOrganizationMutation['createOrganization'];
         images: string[];
@@ -26,7 +26,7 @@ const orgSlice = createSlice({
       state.organization = action.payload.organization;
       state.images = action.payload.images;
     },
-    removeOrg(state: RoleState) {
+    removeOrg(state: OrgState) {
       state.organization = null;
       state.images = [];
     },

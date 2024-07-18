@@ -21,6 +21,7 @@ import authSlice from './slices/authSlice';
 import charSlice from './slices/charSlice';
 import orgSlice from './slices/orgSlice';
 import rolesSlice from './slices/rolesSlice';
+import sceneSlice from './slices/sceneSlice';
 
 const createNoopStorage = (): Storage => {
   return {
@@ -47,6 +48,7 @@ const rootReducer = combineReducers({
   roles: rolesSlice.reducer,
   org: orgSlice.reducer,
   char: charSlice.reducer,
+  scene: sceneSlice.reducer,
 });
 
 const persistedReducer = persistReducer(

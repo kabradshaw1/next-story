@@ -143,7 +143,7 @@ export type MutationCreateSceneArgs = {
   files?: InputMaybe<Array<InputMaybe<FileInput>>>;
   locationIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   organizationIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  population?: InputMaybe<Array<InputMaybe<ScenePopulationInput>>>;
+  populations?: InputMaybe<Array<InputMaybe<ScenePopulationInput>>>;
   startTimeline: Scalars['Int']['input'];
   text?: InputMaybe<Scalars['String']['input']>;
   title: Scalars['String']['input'];
@@ -435,6 +435,22 @@ export type CreateOrganizationMutationVariables = Exact<{
 
 export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization?: { __typename?: 'Organization', title: string, text?: string | null, createdAt?: string | null, user: string, uploadURLs?: Array<string | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, headquarters?: { __typename?: 'Location', title: string } | null, locations?: Array<{ __typename?: 'Location', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, superior?: { __typename?: 'Role', title: string } | null } | null> | null } | null };
 
+export type CreateSceneMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  text?: InputMaybe<Scalars['String']['input']>;
+  files?: InputMaybe<Array<InputMaybe<FileInput>> | InputMaybe<FileInput>>;
+  startTimeline: Scalars['Int']['input'];
+  endTimeline: Scalars['Int']['input'];
+  locationIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>> | InputMaybe<Scalars['Int']['input']>>;
+  characterIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>> | InputMaybe<Scalars['Int']['input']>>;
+  organizationIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>> | InputMaybe<Scalars['Int']['input']>>;
+  conflictIds?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>> | InputMaybe<Scalars['Int']['input']>>;
+  populations?: InputMaybe<Array<InputMaybe<ScenePopulationInput>> | InputMaybe<ScenePopulationInput>>;
+}>;
+
+
+export type CreateSceneMutation = { __typename?: 'Mutation', createScene?: { __typename?: 'Scene', title: string, text?: string | null, createdAt?: string | null, user: string, uploadURLs?: Array<string | null> | null, location?: Array<{ __typename?: 'Location', title: string } | null> | null, characters?: Array<{ __typename?: 'Character', title: string } | null> | null, organizations?: Array<{ __typename?: 'Organization', title: string } | null> | null, populations?: Array<{ __typename?: 'Population', population: number, ship?: { __typename?: 'Ship', title: string } | null } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null } | null };
+
 export type OrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -574,6 +590,81 @@ export function useCreateOrganizationMutation(baseOptions?: Apollo.MutationHookO
 export type CreateOrganizationMutationHookResult = ReturnType<typeof useCreateOrganizationMutation>;
 export type CreateOrganizationMutationResult = Apollo.MutationResult<CreateOrganizationMutation>;
 export type CreateOrganizationMutationOptions = Apollo.BaseMutationOptions<CreateOrganizationMutation, CreateOrganizationMutationVariables>;
+export const CreateSceneDocument = gql`
+    mutation createScene($title: String!, $text: String, $files: [FileInput], $startTimeline: Int!, $endTimeline: Int!, $locationIds: [Int], $characterIds: [Int], $organizationIds: [Int], $conflictIds: [Int], $populations: [ScenePopulationInput]) {
+  createScene(
+    title: $title
+    text: $text
+    files: $files
+    startTimeline: $startTimeline
+    endTimeline: $endTimeline
+    locationIds: $locationIds
+    characterIds: $characterIds
+    organizationIds: $organizationIds
+    conflictIds: $conflictIds
+    populations: $populations
+  ) {
+    title
+    text
+    createdAt
+    user
+    uploadURLs
+    location {
+      title
+    }
+    characters {
+      title
+    }
+    organizations {
+      title
+    }
+    populations {
+      population
+      ship {
+        title
+      }
+    }
+    conflicts {
+      title
+    }
+  }
+}
+    `;
+export type CreateSceneMutationFn = Apollo.MutationFunction<CreateSceneMutation, CreateSceneMutationVariables>;
+
+/**
+ * __useCreateSceneMutation__
+ *
+ * To run a mutation, you first call `useCreateSceneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSceneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSceneMutation, { data, loading, error }] = useCreateSceneMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      text: // value for 'text'
+ *      files: // value for 'files'
+ *      startTimeline: // value for 'startTimeline'
+ *      endTimeline: // value for 'endTimeline'
+ *      locationIds: // value for 'locationIds'
+ *      characterIds: // value for 'characterIds'
+ *      organizationIds: // value for 'organizationIds'
+ *      conflictIds: // value for 'conflictIds'
+ *      populations: // value for 'populations'
+ *   },
+ * });
+ */
+export function useCreateSceneMutation(baseOptions?: Apollo.MutationHookOptions<CreateSceneMutation, CreateSceneMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSceneMutation, CreateSceneMutationVariables>(CreateSceneDocument, options);
+      }
+export type CreateSceneMutationHookResult = ReturnType<typeof useCreateSceneMutation>;
+export type CreateSceneMutationResult = Apollo.MutationResult<CreateSceneMutation>;
+export type CreateSceneMutationOptions = Apollo.BaseMutationOptions<CreateSceneMutation, CreateSceneMutationVariables>;
 export const OrganizationsDocument = gql`
     query organizations {
   organizations {
