@@ -1,8 +1,6 @@
 'use client';
 import React, { useEffect, useRef } from 'react';
-
 import * as d3 from 'd3';
-
 import { type ScenesQuery } from '@/generated/graphql';
 
 const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
@@ -11,9 +9,9 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
   useEffect(() => {
     if (!svgRef.current || !scenes) return;
 
-    const width = 800;
-    const height = 200;
-    const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+    const width = 600;
+    const height = 300;
+    const margin = { top: 20, right: 100, bottom: 30, left: 100 };
 
     const svg = d3
       .select(svgRef.current)
@@ -25,7 +23,10 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
     const startDate = d3.min(scenes, (d) => d.startTimeline) as number;
     const endDate = d3.max(scenes, (d) => d.endTimeline) as number;
 
-    const x = d3.scaleLinear().domain([startDate, endDate]).range([0, width]);
+    const x = d3
+      .scaleLinear()
+      .domain([startDate, endDate])
+      .range([0, width * 0.8]); // Adjust the range to include 20% margin
 
     const y = d3
       .scaleBand()
@@ -38,7 +39,7 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
       .attr('transform', `translate(0, ${height})`)
       .call(d3.axisBottom(x).tickFormat(d3.format('d')));
 
-    svg.append('g').call(d3.axisLeft(y));
+    // Removed y-axis labels
 
     svg
       .selectAll('.bar')
@@ -58,14 +59,15 @@ const ScenesTimeline: React.FC<ScenesQuery> = ({ scenes }) => {
       .enter()
       .append('text')
       .attr('class', 'label')
-      .attr('x', (d) => x(d.startTimeline) + 5)
+      .attr('x', (d) => (x(d.startTimeline) + x(d.endTimeline)) / 2) // Centered text
       .attr('y', (d) => (y(d.title) as number) + y.bandwidth() / 2 + 5)
+      .attr('text-anchor', 'middle') // Center the text anchor
       .text((d) => d.title)
       .attr('fill', 'white');
   }, [scenes]);
 
   return (
-    <div>
+    <div className="overflow-x-auto overflow-y-hidden w-full max-w-full">
       <svg ref={svgRef}></svg>
     </div>
   );
