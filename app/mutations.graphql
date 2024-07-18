@@ -61,3 +61,53 @@ mutation createOrganization(
     }
   }
 }
+
+mutation createScene(
+  $title: String!
+  $text: String
+  $files: [FileInput]
+  $startTimeline: Int
+  $endTimeline: Int
+  $locationIds: [Int]
+  $characterIds: [Int]
+  $organizationIds: [Int]
+  $conflictIds: [Int]
+  $population: [ScenePopulationInput]
+) {
+  createScene(
+    title: $title
+    text: $text
+    files: $files
+    startTimeline: $startTimeline
+    endTimeline: $endTimeline
+    locationIds: $locationIds
+    characterIds: $characterIds
+    organizationIds: $organizationIds
+    conflictIds: $conflictIds
+    population: $population
+  ) {
+    title
+    text
+    createdAt
+    user
+    uploadURLs
+    locations {
+      title
+    }
+    characters {
+      title
+    }
+    organizations {
+      title
+    }
+    population {
+      population
+      ship {
+        title
+      }
+    }
+    conflicts {
+      title
+    }
+  }
+}
