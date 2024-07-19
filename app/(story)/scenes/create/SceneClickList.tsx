@@ -1,5 +1,10 @@
 'use client';
-import { useState, type Dispatch, type SetStateAction } from 'react';
+import {
+  useState,
+  useCallback,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -26,7 +31,7 @@ type Props = {
   selectedConflicts: number[];
   setSelectedConflicts: Dispatch<SetStateAction<number[]>>;
   selectedShipsPopulation: PopulationChange[];
-  setSelectedShips: Dispatch<SetStateAction<number[]>>;
+  setSelectedShipsPopulation: Dispatch<SetStateAction<PopulationChange[]>>;
 };
 
 export default function SceneClickLists({
@@ -38,6 +43,8 @@ export default function SceneClickLists({
   setSelectedOrganizations,
   selectedConflicts,
   setSelectedConflicts,
+  selectedShipsPopulation,
+  setSelectedShipsPopulation,
 }: Props): JSX.Element {
   const { data, loading, error } = useForSceneFormQuery();
 
@@ -49,11 +56,18 @@ export default function SceneClickLists({
     setValue,
     reset,
     trigger,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<PopulationChange>({
     resolver: zodResolver(populationChangeSchema),
     mode: 'onChange',
   });
+
+  const handleShipClick = useCallback(
+    (shipId: number) => {
+      setValue('shipId', shipId);
+    },
+    [setValue]
+  );
 
   if (loading) return <p>Loading...</p>;
   if (error !== null && error !== undefined) {
@@ -80,19 +94,23 @@ export default function SceneClickLists({
     title: conflict?.title ?? '',
   }));
 
-  const ship = data?.ships?.map((ship) => ({
+  const ships = data?.ships?.map((ship) => ({
     id: ship?.id ?? 0,
     title: ship?.title ?? '',
   }));
 
   const formSubmit = (): void => {
     const data = getValues();
-    const population = { ...data };
+    const populationChange = { ...data };
+    setSelectedShipsPopulation((prev) => [...prev, populationChange]);
+    reset();
+    setMessage('Population added');
   };
 
   const clearState = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     setMessage('Populations Cleared and Not Submitted');
+    setSelectedShipsPopulation([]);
     reset();
   };
 
@@ -134,12 +152,25 @@ export default function SceneClickLists({
           idPrefix="conflict"
         />
       )}
+      <h3 className="label">Ships</h3>
+      <ul>
+        {ships?.map((ship) => (
+          <li
+            key={ship.id}
+            onClick={() => {
+              handleShipClick(ship.id as number);
+            }}
+          >
+            {ship.title}
+          </li>
+        ))}
+      </ul>
       <div className="w-full max-w-lg">
         <div className="card">
           <InputField<PopulationChange>
             id="shipId"
             label="Ship"
-            placeholder="Enter Ship"
+            placeholder="Select a ship"
             error={errors.shipId?.message}
             register={register}
             trigger={trigger}
@@ -153,8 +184,35 @@ export default function SceneClickLists({
             register={register}
             trigger={trigger}
           />
+          <button
+            type="button"
+            className="btn glow-on-hover mr-1"
+            onClick={(e) => {
+              e.preventDefault();
+              formSubmit();
+            }}
+            disabled={!isValid}
+          >
+            Add Population
+          </button>
+          <button
+            type="button"
+            onClick={clearState}
+            className="btn glow-on-hover"
+          >
+            Clear All Populations
+          </button>
           {message !== null && <p className="mt-2 text-center">{message}</p>}
         </div>
+        <h3 className="label">Selected Populations</h3>
+        <ul>
+          {selectedShipsPopulation.map((populationChange, index) => (
+            <li key={index}>
+              Ship ID: {populationChange.shipId}, Population:{' '}
+              {populationChange.population}
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );
