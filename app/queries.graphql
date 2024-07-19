@@ -115,3 +115,13 @@ query scenes {
     downloadURLs
   }
 }
+
+query organizations {
+  organizations {
+    title
+    roles {
+      title
+      id
+    }
+  }
+}
