@@ -1,12 +1,20 @@
 'use client';
-import type { Dispatch, SetStateAction } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import CheckBoxList from '@/components/CheckBoxList/CheckBoxList';
+import InputField from '@/components/main/forms/FormInput/InputField';
 import { useForSceneFormQuery } from '@/generated/graphql';
+
+const populationChangeSchema = z.object({
+  population: z.number().int(),
+  shipId: z.number().int(),
+});
+
+export type PopulationChange = z.infer<typeof populationChangeSchema>;
 
 type Props = {
   selectedCharacters: number[];
@@ -17,7 +25,7 @@ type Props = {
   setSelectedOrganizations: Dispatch<SetStateAction<number[]>>;
   selectedConflicts: number[];
   setSelectedConflicts: Dispatch<SetStateAction<number[]>>;
-  selectedShipsPopulation: Array<{ population: number; shipId: number }>;
+  selectedShipsPopulation: PopulationChange[];
   setSelectedShips: Dispatch<SetStateAction<number[]>>;
 };
 
@@ -32,6 +40,20 @@ export default function SceneClickLists({
   setSelectedConflicts,
 }: Props): JSX.Element {
   const { data, loading, error } = useForSceneFormQuery();
+
+  const [message, setMessage] = useState<string | null>(null);
+
+  const {
+    register,
+    getValues,
+    setValue,
+    reset,
+    trigger,
+    formState: { errors },
+  } = useForm<PopulationChange>({
+    resolver: zodResolver(populationChangeSchema),
+    mode: 'onChange',
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error !== null && error !== undefined) {
@@ -62,6 +84,17 @@ export default function SceneClickLists({
     id: ship?.id ?? 0,
     title: ship?.title ?? '',
   }));
+
+  const formSubmit = (): void => {
+    const data = getValues();
+    const population = { ...data };
+  };
+
+  const clearState = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    e.preventDefault();
+    setMessage('Populations Cleared and Not Submitted');
+    reset();
+  };
 
   return (
     <>
@@ -101,14 +134,27 @@ export default function SceneClickLists({
           idPrefix="conflict"
         />
       )}
-      <h3 className="label">Ship Population Changes</h3>
-      <div className="flex flex-col max-w-md">
-        <input
-          type="text"
-          placeholder="population"
-          className="mb-4 p-2 border rounded"
-          onChange={(e) => {}}
-        />
+      <div className="w-full max-w-lg">
+        <div className="card">
+          <InputField<PopulationChange>
+            id="shipId"
+            label="Ship"
+            placeholder="Enter Ship"
+            error={errors.shipId?.message}
+            register={register}
+            trigger={trigger}
+            readOnly={true}
+          />
+          <InputField<PopulationChange>
+            id="population"
+            label="Population"
+            placeholder="Enter Population"
+            error={errors.population?.message}
+            register={register}
+            trigger={trigger}
+          />
+          {message !== null && <p className="mt-2 text-center">{message}</p>}
+        </div>
       </div>
     </>
   );
