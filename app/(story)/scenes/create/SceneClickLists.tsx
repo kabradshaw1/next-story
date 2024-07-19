@@ -17,6 +17,7 @@ import { useForSceneFormQuery } from '@/generated/graphql';
 const populationChangeSchema = z.object({
   population: z.number().int(),
   shipId: z.number().int(),
+  shipName: z.string(),
 });
 
 export type PopulationChange = z.infer<typeof populationChangeSchema>;
@@ -63,8 +64,9 @@ export default function SceneClickLists({
   });
 
   const handleShipClick = useCallback(
-    (shipId: number) => {
+    (shipId: number, shipName: string) => {
       setValue('shipId', shipId);
+      setValue('shipName', shipName);
     },
     [setValue]
   );
@@ -158,7 +160,7 @@ export default function SceneClickLists({
           <li
             key={ship.id}
             onClick={() => {
-              handleShipClick(ship.id as number);
+              handleShipClick(ship.id, ship.title);
             }}
           >
             {ship.title}
@@ -172,6 +174,15 @@ export default function SceneClickLists({
             label="Ship"
             placeholder="Select a ship"
             error={errors.shipId?.message}
+            register={register}
+            trigger={trigger}
+            readOnly={true}
+          />
+          <InputField<PopulationChange>
+            id="shipName"
+            label="Ship Name"
+            placeholder="Ship Name"
+            error={errors.shipName?.message}
             register={register}
             trigger={trigger}
             readOnly={true}
@@ -208,7 +219,7 @@ export default function SceneClickLists({
         <ul>
           {selectedShipsPopulation.map((populationChange, index) => (
             <li key={index}>
-              Ship ID: {populationChange.shipId}, Population:{' '}
+              Ship: {populationChange.shipName}, Population:{' '}
               {populationChange.population}
             </li>
           ))}
