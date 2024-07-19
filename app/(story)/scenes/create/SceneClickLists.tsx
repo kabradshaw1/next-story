@@ -170,15 +170,6 @@ export default function SceneClickLists({
       <div className="w-full max-w-lg">
         <div className="card">
           <InputField<PopulationChange>
-            id="shipId"
-            label="Ship"
-            placeholder="Select a ship"
-            error={errors.shipId?.message}
-            register={register}
-            trigger={trigger}
-            readOnly={true}
-          />
-          <InputField<PopulationChange>
             id="shipName"
             label="Ship Name"
             placeholder="Ship Name"
@@ -204,7 +195,7 @@ export default function SceneClickLists({
             }}
             disabled={!isValid}
           >
-            Add Population
+            Add Population Change
           </button>
           <button
             type="button"
