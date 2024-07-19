@@ -154,7 +154,7 @@ export default function SceneClickLists({
           idPrefix="conflict"
         />
       )}
-      <h3 className="label">Ships</h3>
+      <h3 className="label">New Ship Population</h3>
       <ul>
         {ships?.map((ship) => (
           <li
