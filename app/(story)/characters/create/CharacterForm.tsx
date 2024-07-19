@@ -45,7 +45,6 @@ export default function CharacterForm(): JSX.Element {
         roleIds: selectedRoles,
       },
     });
-    console.log(response);
     if (
       response.data?.createCharacter?.uploadURLs !== null &&
       response.data?.createCharacter?.uploadURLs !== undefined

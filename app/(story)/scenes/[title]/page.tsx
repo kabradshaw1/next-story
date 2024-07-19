@@ -1,3 +1,5 @@
+import SingleScene from '@/components/singlePage/SingleScene/SingleScene';
+import { SceneDocument, type SceneQuery } from '@/generated/graphql';
 import { slugToTitle } from '@/lib/createSlug';
 import axiosInstance from '@/lib/serverAxios';
 import type { Params } from '@/lib/types';
