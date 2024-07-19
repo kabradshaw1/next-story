@@ -41,10 +41,11 @@ export default function RoleForm({
     getValues,
     setValue,
     reset,
+    trigger,
     formState: { errors, isValid },
   } = useForm<RoleInput>({
     resolver: zodResolver(RoleInputSchema),
-    mode: 'onChange', // Enable validation on change
+    mode: 'onChange',
   });
   const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string | null>(null);
@@ -81,14 +82,16 @@ export default function RoleForm({
           id="superiorTitle"
           label="Superior Role (Click To Select)"
           placeholder="Click A Superior"
+          trigger={trigger}
           error={errors.superiorTitle?.message}
           register={register}
-          readOnly={true} // Make this input read-only
+          readOnly={true}
         />
         <InputField<RoleInput>
           id="roleTitle"
           label="Role"
           placeholder="Role title"
+          trigger={trigger}
           error={errors.roleTitle?.message}
           register={register}
         />
@@ -96,6 +99,7 @@ export default function RoleForm({
           id="text"
           label="Role Description"
           placeholder="Role description"
+          trigger={trigger}
           error={errors.text?.message}
           register={register}
         />
@@ -106,7 +110,7 @@ export default function RoleForm({
             e.preventDefault();
             formSubmit();
           }}
-          disabled={!isValid} // Disable button if form is invalid
+          disabled={!isValid}
         >
           Add Role
         </button>

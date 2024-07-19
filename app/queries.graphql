@@ -1,13 +1,3 @@
-query organizations {
-  organizations {
-    title
-    roles {
-      id
-      title
-    }
-  }
-}
-
 query forOrganizationForm {
   conflicts {
     id
@@ -33,6 +23,10 @@ query forSceneForm {
     title
   }
   organizations {
+    id
+    title
+  }
+  ships {
     id
     title
   }
