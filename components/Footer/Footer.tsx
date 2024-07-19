@@ -1,32 +1,36 @@
 import Link from 'next/link';
-import { FaTwitter, FaFacebook, FaEnvelope, FaInstagram } from 'react-icons/fa';
+import {
+  FaXTwitter,
+  FaFacebook,
+  FaEnvelope,
+  FaInstagram,
+} from 'react-icons/fa6';
 
 export default function Footer(): JSX.Element {
   return (
-    <footer className="p-4 bg-gray-800 text-white">
-      <h1 className="text-lg font-bold">Contact Information</h1>
-      <div className="mb-4">
-        <p>Address: 123 Main Street, Anytown, USA</p>
+    <footer className="p-4 bg-gray-800 text-white flex flex-col items-center">
+      <h1 className="text-lg font-bold mb-3">GVGamers</h1>
+      <div className="mb-3 text-center">
+        <p>Address: Raleigh, NC</p>
         <p>Phone: (123) 456-7890</p>
         <p>
-          Email:{' '}
           <a href="mailto:example@example.com" className="text-blue-400">
             example@example.com
           </a>
         </p>
       </div>
-      <div className="flex justify-end space-x-4">
-        <Link href="https://twitter.com" aria-label="Twitter">
-          <FaTwitter className="text-2xl" />
+      <div className="flex space-x-4">
+        <Link href="https://x.com" aria-label="X">
+          <FaXTwitter />
         </Link>
         <Link href="https://facebook.com" aria-label="Facebook">
-          <FaFacebook className="text-2xl" />
+          <FaFacebook />
         </Link>
         <Link href="mailto:example@example.com" aria-label="Mail">
-          <FaEnvelope className="text-2xl" />
+          <FaEnvelope />
         </Link>
         <Link href="https://instagram.com" aria-label="Instagram">
-          <FaInstagram className="text-2xl" />
+          <FaInstagram />
         </Link>
       </div>
     </footer>
