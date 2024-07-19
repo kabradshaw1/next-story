@@ -34,12 +34,13 @@ export default function RootLayout({
         <StoreProvider>
           <ApolloProvider>
             <Header />
+
             <main className="flex flex-wrap justify-center items-center bg-slate-700">
               {children}
             </main>
-            <Footer />
           </ApolloProvider>
         </StoreProvider>
+        <Footer />
       </body>
     </html>
   );
