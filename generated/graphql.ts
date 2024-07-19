@@ -468,6 +468,13 @@ export type OrganizationQueryVariables = Exact<{
 
 export type OrganizationQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, headquarters?: { __typename?: 'Location', title: string } | null, locations?: Array<{ __typename?: 'Location', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, text?: string | null, superior?: { __typename?: 'Role', title: string } | null } | null> | null } | null };
 
+export type SceneQueryVariables = Exact<{
+  title: Scalars['String']['input'];
+}>;
+
+
+export type SceneQuery = { __typename?: 'Query', scene?: { __typename?: 'Scene', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, characters?: Array<{ __typename?: 'Character', title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, location?: Array<{ __typename?: 'Location', title: string } | null> | null, organizations?: Array<{ __typename?: 'Organization', title: string } | null> | null, populations?: Array<{ __typename?: 'Population', population: number, ship?: { __typename?: 'Ship', title: string } | null } | null> | null } | null };
+
 export type CharacterQueryVariables = Exact<{
   title: Scalars['String']['input'];
 }>;
@@ -828,6 +835,68 @@ export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery
 export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
 export type OrganizationSuspenseQueryHookResult = ReturnType<typeof useOrganizationSuspenseQuery>;
 export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
+export const SceneDocument = gql`
+    query scene($title: String!) {
+  scene(title: $title) {
+    title
+    text
+    createdAt
+    user
+    downloadURLs
+    characters {
+      title
+    }
+    conflicts {
+      title
+    }
+    location {
+      title
+    }
+    organizations {
+      title
+    }
+    populations {
+      population
+      ship {
+        title
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useSceneQuery__
+ *
+ * To run a query within a React component, call `useSceneQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSceneQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSceneQuery({
+ *   variables: {
+ *      title: // value for 'title'
+ *   },
+ * });
+ */
+export function useSceneQuery(baseOptions: Apollo.QueryHookOptions<SceneQuery, SceneQueryVariables> & ({ variables: SceneQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SceneQuery, SceneQueryVariables>(SceneDocument, options);
+      }
+export function useSceneLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SceneQuery, SceneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SceneQuery, SceneQueryVariables>(SceneDocument, options);
+        }
+export function useSceneSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SceneQuery, SceneQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SceneQuery, SceneQueryVariables>(SceneDocument, options);
+        }
+export type SceneQueryHookResult = ReturnType<typeof useSceneQuery>;
+export type SceneLazyQueryHookResult = ReturnType<typeof useSceneLazyQuery>;
+export type SceneSuspenseQueryHookResult = ReturnType<typeof useSceneSuspenseQuery>;
+export type SceneQueryResult = Apollo.QueryResult<SceneQuery, SceneQueryVariables>;
 export const CharacterDocument = gql`
     query character($title: String!) {
   character(title: $title) {

@@ -61,6 +61,33 @@ query organization($title: String!) {
   }
 }
 
+query scene($title: String!) {
+  scene(title: $title) {
+    title
+    text
+    createdAt
+    user
+    downloadURLs
+    characters {
+      title
+    }
+    conflicts {
+      title
+    }
+    location {
+      title
+    }
+    organizations {
+      title
+    }
+    populations {
+      population
+      ship {
+        title
+      }
+    }
+  }
+}
 query character($title: String!) {
   character(title: $title) {
     title
