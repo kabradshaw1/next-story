@@ -9,7 +9,9 @@ import type { Params } from '@/lib/types';
 export default async function singleOrganizationPage({
   params,
 }: Params): Promise<JSX.Element> {
-  const { id } = params;
+  const { id: stringId } = params;
+
+  const id = parseInt(stringId);
 
   const query = OrganizationDocument;
 

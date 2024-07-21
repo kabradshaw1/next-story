@@ -32,8 +32,8 @@ query forSceneForm {
   }
 }
 
-query organization($title: String!) {
-  organization(title: $title) {
+query organization($id: Int!) {
+  organization(id: $id) {
     title
     text
     createdAt
@@ -41,19 +41,24 @@ query organization($title: String!) {
     downloadURLs
     scenes {
       title
+      id
     }
     conflicts {
       title
+      id
     }
     headquarters {
       title
+      id
     }
     locations {
       title
+      id
     }
     roles {
       title
       text
+      id
       superior {
         title
       }
@@ -61,8 +66,8 @@ query organization($title: String!) {
   }
 }
 
-query scene($title: String!) {
-  scene(title: $title) {
+query scene($id: Int!) {
+  scene(id: $id) {
     title
     text
     createdAt
@@ -70,26 +75,32 @@ query scene($title: String!) {
     downloadURLs
     characters {
       title
+      id
     }
     conflicts {
       title
+      id
     }
     location {
       title
+      id
     }
     organizations {
       title
+      id
     }
     populations {
       population
+      id
       ship {
         title
+        id
       }
     }
   }
 }
-query character($title: String!) {
-  character(title: $title) {
+query character($id: Int!) {
+  character(id: $id) {
     title
     text
     createdAt
@@ -100,8 +111,10 @@ query character($title: String!) {
     }
     roles {
       title
+      id
       organization {
         title
+        id
       }
     }
   }

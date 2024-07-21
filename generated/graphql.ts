@@ -160,32 +160,32 @@ export type MutationCreateShipArgs = {
 
 
 export type MutationDeleteCharacterArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationDeleteConflictArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationDeleteLocationArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationDeleteOrganizationArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationDeleteSceneArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type MutationDeleteShipArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
@@ -318,37 +318,37 @@ export type Query = {
 
 
 export type QueryCharacterArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type QueryConflictArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type QueryLocationArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type QueryOrganizationArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type QueryRoleArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type QuerySceneArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 
 export type QueryShipArgs = {
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type Role = {
@@ -462,25 +462,25 @@ export type ForSceneFormQueryVariables = Exact<{ [key: string]: never; }>;
 export type ForSceneFormQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', id: number, title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', id: number, title: string } | null> | null, locations?: Array<{ __typename?: 'Location', id: number, title: string } | null> | null, organizations?: Array<{ __typename?: 'Organization', id: number, title: string } | null> | null, ships?: Array<{ __typename?: 'Ship', id: number, title: string } | null> | null };
 
 export type OrganizationQueryVariables = Exact<{
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 }>;
 
 
-export type OrganizationQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, headquarters?: { __typename?: 'Location', title: string } | null, locations?: Array<{ __typename?: 'Location', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, text?: string | null, superior?: { __typename?: 'Role', title: string } | null } | null> | null } | null };
+export type OrganizationQuery = { __typename?: 'Query', organization?: { __typename?: 'Organization', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string, id: number } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string, id: number } | null> | null, headquarters?: { __typename?: 'Location', title: string, id: number } | null, locations?: Array<{ __typename?: 'Location', title: string, id: number } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, text?: string | null, id: number, superior?: { __typename?: 'Role', title: string } | null } | null> | null } | null };
 
 export type SceneQueryVariables = Exact<{
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 }>;
 
 
-export type SceneQuery = { __typename?: 'Query', scene?: { __typename?: 'Scene', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, characters?: Array<{ __typename?: 'Character', title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string } | null> | null, location?: Array<{ __typename?: 'Location', title: string } | null> | null, organizations?: Array<{ __typename?: 'Organization', title: string } | null> | null, populations?: Array<{ __typename?: 'Population', population: number, ship?: { __typename?: 'Ship', title: string } | null } | null> | null } | null };
+export type SceneQuery = { __typename?: 'Query', scene?: { __typename?: 'Scene', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, characters?: Array<{ __typename?: 'Character', title: string, id: number } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', title: string, id: number } | null> | null, location?: Array<{ __typename?: 'Location', title: string, id: number } | null> | null, organizations?: Array<{ __typename?: 'Organization', title: string, id: number } | null> | null, populations?: Array<{ __typename?: 'Population', population: number, id?: number | null, ship?: { __typename?: 'Ship', title: string, id: number } | null } | null> | null } | null };
 
 export type CharacterQueryVariables = Exact<{
-  title: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 }>;
 
 
-export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, organization?: { __typename?: 'Organization', title: string } | null } | null> | null } | null };
+export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, id: number, organization?: { __typename?: 'Organization', title: string, id: number } | null } | null> | null } | null };
 
 export type ScenesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -778,8 +778,8 @@ export type ForSceneFormLazyQueryHookResult = ReturnType<typeof useForSceneFormL
 export type ForSceneFormSuspenseQueryHookResult = ReturnType<typeof useForSceneFormSuspenseQuery>;
 export type ForSceneFormQueryResult = Apollo.QueryResult<ForSceneFormQuery, ForSceneFormQueryVariables>;
 export const OrganizationDocument = gql`
-    query organization($title: String!) {
-  organization(title: $title) {
+    query organization($id: Int!) {
+  organization(id: $id) {
     title
     text
     createdAt
@@ -787,19 +787,24 @@ export const OrganizationDocument = gql`
     downloadURLs
     scenes {
       title
+      id
     }
     conflicts {
       title
+      id
     }
     headquarters {
       title
+      id
     }
     locations {
       title
+      id
     }
     roles {
       title
       text
+      id
       superior {
         title
       }
@@ -820,7 +825,7 @@ export const OrganizationDocument = gql`
  * @example
  * const { data, loading, error } = useOrganizationQuery({
  *   variables: {
- *      title: // value for 'title'
+ *      id: // value for 'id'
  *   },
  * });
  */
@@ -841,8 +846,8 @@ export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationL
 export type OrganizationSuspenseQueryHookResult = ReturnType<typeof useOrganizationSuspenseQuery>;
 export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
 export const SceneDocument = gql`
-    query scene($title: String!) {
-  scene(title: $title) {
+    query scene($id: Int!) {
+  scene(id: $id) {
     title
     text
     createdAt
@@ -850,20 +855,26 @@ export const SceneDocument = gql`
     downloadURLs
     characters {
       title
+      id
     }
     conflicts {
       title
+      id
     }
     location {
       title
+      id
     }
     organizations {
       title
+      id
     }
     populations {
       population
+      id
       ship {
         title
+        id
       }
     }
   }
@@ -882,7 +893,7 @@ export const SceneDocument = gql`
  * @example
  * const { data, loading, error } = useSceneQuery({
  *   variables: {
- *      title: // value for 'title'
+ *      id: // value for 'id'
  *   },
  * });
  */
@@ -903,8 +914,8 @@ export type SceneLazyQueryHookResult = ReturnType<typeof useSceneLazyQuery>;
 export type SceneSuspenseQueryHookResult = ReturnType<typeof useSceneSuspenseQuery>;
 export type SceneQueryResult = Apollo.QueryResult<SceneQuery, SceneQueryVariables>;
 export const CharacterDocument = gql`
-    query character($title: String!) {
-  character(title: $title) {
+    query character($id: Int!) {
+  character(id: $id) {
     title
     text
     createdAt
@@ -915,8 +926,10 @@ export const CharacterDocument = gql`
     }
     roles {
       title
+      id
       organization {
         title
+        id
       }
     }
   }
@@ -935,7 +948,7 @@ export const CharacterDocument = gql`
  * @example
  * const { data, loading, error } = useCharacterQuery({
  *   variables: {
- *      title: // value for 'title'
+ *      id: // value for 'id'
  *   },
  * });
  */
