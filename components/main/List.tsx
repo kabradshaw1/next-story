@@ -7,6 +7,7 @@ export type Props = {
   props: Array<{
     title: string;
     imageUrl: string | undefined;
+    id: number;
   }>;
   route: string;
 };
@@ -21,6 +22,7 @@ const List: React.FC<Props> = ({ props, route }) => {
             title={prop.title}
             imageUrl={prop.imageUrl}
             route={route}
+            id={prop.id}
           />
         ))
       ) : (
