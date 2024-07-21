@@ -1,7 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: 'http://host.docker.internal:4000/graphql',
+  schema: `${process.env.STORY_URL}/graphql`,
   documents: './**/*.graphql',
   generates: {
     './generated/graphql.ts': {

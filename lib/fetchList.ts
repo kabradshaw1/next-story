@@ -16,6 +16,7 @@ export const mapDataToItems = (
     id: number;
   }>
 ): Item[] => {
+  console.log(process.env.NEXT_PUBLIC_STORY_URL);
   return data.map((item) => {
     let imageUrl: string | undefined;
     if (
