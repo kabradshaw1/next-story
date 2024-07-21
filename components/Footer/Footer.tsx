@@ -4,14 +4,15 @@ import {
   FaFacebook,
   FaEnvelope,
   FaInstagram,
+  FaRegCopyright,
 } from 'react-icons/fa6';
 
 export default function Footer(): JSX.Element {
   return (
-    <footer className="p-6 text-blue-400 text-center flex justify-between items-start">
+    <footer className="p-10 text-blue-400 text-center flex justify-between items-start">
       <div className="flex flex-col items-center mx-auto text-center">
-        <h1 className="text-lg font-bold text-blue-500 mb-1">GVGamers</h1>
-        <div className="mb-3 text-center">
+        <h1 className="text-xl font-bold text-blue-500 mb-1">GVGamers</h1>
+        <div className="mb-3 text-center text-xl">
           <p>Raleigh, NC</p>
           <p>(123) 456-7890</p>
           <p>
@@ -19,6 +20,10 @@ export default function Footer(): JSX.Element {
               example@example.com
             </a>
           </p>
+          <div className="flex items-center justify-center mt-2">
+            <FaRegCopyright className="mr-1" />
+            <p>2024</p>
+          </div>
         </div>
         <div className="flex space-x-4 mb-3 text-center">
           <Link href="https://x.com" aria-label="X">
@@ -36,7 +41,7 @@ export default function Footer(): JSX.Element {
         </div>
       </div>
       <div className="flex flex-col space-y-2">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-3 rounded text-sm">
+        <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-3 px-3 rounded text-sm">
           Accept Cookies
         </button>
         <button className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-3 px-3 rounded text-sm">
