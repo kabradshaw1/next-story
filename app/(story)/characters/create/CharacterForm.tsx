@@ -82,7 +82,7 @@ export default function CharacterForm(): JSX.Element {
             <InputField<CharacterProps>
               id="title"
               label="Name"
-              placeholder="Name"
+              placeholder="Character Name"
               error={errors.title?.message}
               register={register}
               trigger={trigger}

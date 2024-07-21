@@ -49,36 +49,45 @@ export default function Dropdown(): JSX.Element {
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-          <Link
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            href="/login"
-          >
-            Login
-          </Link>
-          <Link
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            href="/register"
-          >
-            Register
-          </Link>
-          <Link
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            href="/update-profile"
-          >
-            Update Profile
-          </Link>
-          <Link
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            href="/forgot-password"
-          >
-            Forgot Password
-          </Link>
-          <a
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-            onClick={handleLogout}
-          >
-            Logout
-          </a>
+          {token === null || token === undefined || token === '' ? (
+            <>
+              {' '}
+              <Link
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                href="/login"
+              >
+                Login
+              </Link>
+              <Link
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                href="/register"
+              >
+                Register
+              </Link>
+              <Link
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                href="/forgot-password"
+              >
+                Forgot Password
+              </Link>
+            </>
+          ) : (
+            <>
+              {' '}
+              <Link
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                href="/update-profile"
+              >
+                Update Profile
+              </Link>
+              <a
+                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                onClick={handleLogout}
+              >
+                Logout
+              </a>
+            </>
+          )}
         </div>
       )}
     </div>

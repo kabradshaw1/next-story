@@ -8,10 +8,13 @@ const AboutSection = (): JSX.Element => {
           <Logo />
         </div>
         <div className="flex-grow">
-          <h2 className="text-white text-xl xl:text-2xl font-bold mb-4">
-            About Galaxy Voyagers
+          <h2
+            className="text-blue-400 text-l xl:text-x font-bold mb-1 tracking-wider whitespace-nowrap"
+            style={{ textTransform: 'uppercase' }}
+          >
+            <u>About Galaxy Voyagers</u>
           </h2>
-          <p className="text-gray-300 text-sm xl:text-base mb-3">
+          <p className="text-gray-300 text-sm md:text-base mb-5">
             Welcome to a revolutionary new platform for storytelling where
             imagination meets the infinite possibilities of collaboration. Our
             web application, designed for those who relish long, complex, and
@@ -27,10 +30,13 @@ const AboutSection = (): JSX.Element => {
       </div>
 
       <div className="flex-grow">
-        <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
-          Unique Features of this site
+        <h2
+          className="text-blue-400 text-l xl:text-l font-bold mb-1 tracking-wider whitespace-nowrap"
+          style={{ textTransform: 'uppercase' }}
+        >
+          <u>Unique Features of this Site</u>
         </h2>
-        <p className="text-gray-300 text-sm md:text-base mb-3">
+        <p className="text-gray-300 text-sm md:text-base mb-5">
           At its core, our application thrives on the power of collective
           creativity. Users can contribute their unique stories, characters,
           conflicts, and settings. Whether you are a novice writer or an
@@ -40,10 +46,13 @@ const AboutSection = (): JSX.Element => {
         </p>
       </div>
       <div className="flex-grow">
-        <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
-          Community Governance
+        <h2
+          className="text-blue-400 text-l xl:text-l font-bold mb-1 tracking-wider whitespace-nowrap"
+          style={{ textTransform: 'uppercase' }}
+        >
+          <u>Community Governance</u>
         </h2>
-        <p className="text-gray-300 text-sm md:text-base mb-3">
+        <p className="text-gray-300 text-sm md:text-base mb-5">
           The community plays a pivotal role in determining the course of the
           narrative. Through a democratic process, contributors can vote on
           which aspects of the story become canon. This ensures that while
@@ -52,10 +61,13 @@ const AboutSection = (): JSX.Element => {
         </p>
       </div>
       <div className="flex-grow">
-        <h2 className="text-white text-xl md:text-2xl font-bold mb-4">
-          Dynamic Setting
+        <h2
+          className="text-blue-400 text-l xl:text-l font-bold mb-1 tracking-wider whitespace-nowrap"
+          style={{ textTransform: 'uppercase' }}
+        >
+          <u>Dynamic Setting</u>
         </h2>
-        <p className="text-gray-300 text-sm md:text-base mb-3">
+        <p className="text-gray-300 text-sm md:text-base mb-5">
           Set on a fleet of 400 diverse ships, each vessel has its own unique
           culture, conflicts, and characteristics. These ships serve not just as
           settings but as characters in their own right, each contributing to

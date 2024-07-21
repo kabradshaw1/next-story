@@ -14,9 +14,11 @@ export default async function ListHeader({
   return (
     <div className="flex flex-col items-center mb-4">
       <div className="flex items-center mb-2">
-        <h2 className="text-xl font-bold mr-4">{slugToTitle(title)}s</h2>
+        <h2 className="text-xl font-bold mr-4 text-white">
+          {title.toUpperCase()}
+        </h2>
         <Link className="btn glow-on-hover mr-3" href={`/${title}s/create`}>
-          Create {slugToTitle(title)}
+          Create {title.toUpperCase()}
         </Link>
         {children}
       </div>

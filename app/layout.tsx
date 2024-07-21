@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: '',
   },
   description:
-    'A fleet of spaceships embark on a journey to reach another habitalable planet.',
+    'A fleet of spaceships embark on a journey to reach another habitable planet.',
 };
 
 export default function RootLayout({
@@ -34,12 +34,12 @@ export default function RootLayout({
         <StoreProvider>
           <ApolloProvider>
             <Header />
-            <main className="flex flex-wrap justify-center items-center bg-slate-700">
+            <main className="flex flex-wrap justify-center items-center text-amber-50">
               {children}
             </main>
-            <Footer />
           </ApolloProvider>
         </StoreProvider>
+        <Footer />
       </body>
     </html>
   );
