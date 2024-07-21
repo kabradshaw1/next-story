@@ -5,7 +5,7 @@ import { createSlug } from '@/lib/createSlug';
 type LinksCardProps = {
   items:
     | Array<{
-        id: string;
+        id: number;
         title: string;
       } | null>
     | null

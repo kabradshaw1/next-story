@@ -480,7 +480,7 @@ export type CharacterQueryVariables = Exact<{
 }>;
 
 
-export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, id: number, organization?: { __typename?: 'Organization', title: string, id: number } | null } | null> | null } | null };
+export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 'Character', title: string, text?: string | null, createdAt?: string | null, user: string, downloadURLs?: Array<string | null> | null, scenes?: Array<{ __typename?: 'Scene', title: string, id: number } | null> | null, roles?: Array<{ __typename?: 'Role', title: string, id: number, organization?: { __typename?: 'Organization', title: string, id: number } | null } | null> | null } | null };
 
 export type ScenesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -923,6 +923,7 @@ export const CharacterDocument = gql`
     downloadURLs
     scenes {
       title
+      id
     }
     roles {
       title
