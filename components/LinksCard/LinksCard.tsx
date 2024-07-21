@@ -5,6 +5,7 @@ import { createSlug } from '@/lib/createSlug';
 type LinksCardProps = {
   items:
     | Array<{
+        id: string;
         title: string;
       } | null>
     | null
@@ -23,8 +24,8 @@ const LinksCard: React.FC<LinksCardProps> = ({ items, type }) => {
             item !== null && (
               <Link
                 className="mr-1"
-                href={`/${createSlug(type)}/${createSlug(item.title)}`}
-                key={item.title}
+                href={`/${createSlug(type)}/${item.id}`}
+                key={item.id}
               >
                 {item.title}
               </Link>

@@ -22,7 +22,7 @@ export type Character = {
   cannon?: Maybe<Scalars['Boolean']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
   roles?: Maybe<Array<Maybe<Role>>>;
   scenes?: Maybe<Array<Maybe<Scene>>>;
   text?: Maybe<Scalars['String']['output']>;
@@ -37,7 +37,7 @@ export type Conflict = {
   cannon?: Maybe<Scalars['Boolean']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
   organizations?: Maybe<Array<Maybe<Organization>>>;
   scenes?: Maybe<Array<Maybe<Scene>>>;
   text?: Maybe<Scalars['String']['output']>;
@@ -64,7 +64,7 @@ export type Location = {
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   headquartersOf?: Maybe<Organization>;
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
   organizations?: Maybe<Array<Maybe<Organization>>>;
   scenes?: Maybe<Array<Maybe<Scene>>>;
   ship?: Maybe<Ship>;
@@ -275,7 +275,7 @@ export type Organization = {
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   headquarters?: Maybe<Location>;
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
   locations?: Maybe<Array<Maybe<Location>>>;
   roles?: Maybe<Array<Maybe<Role>>>;
   scenes?: Maybe<Array<Maybe<Scene>>>;
@@ -356,7 +356,7 @@ export type Role = {
   cannon?: Maybe<Scalars['Boolean']['output']>;
   characters?: Maybe<Array<Maybe<Character>>>;
   createdAt?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
   organization?: Maybe<Organization>;
   superior?: Maybe<Role>;
   text?: Maybe<Scalars['String']['output']>;
@@ -373,7 +373,7 @@ export type Scene = {
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   endTimeline: Scalars['Int']['output'];
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
   location?: Maybe<Array<Maybe<Location>>>;
   organizations?: Maybe<Array<Maybe<Organization>>>;
   populations?: Maybe<Array<Maybe<Population>>>;
@@ -395,7 +395,7 @@ export type Ship = {
   cannon?: Maybe<Scalars['Boolean']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   downloadURLs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  id?: Maybe<Scalars['Int']['output']>;
+  id: Scalars['Int']['output'];
   locations?: Maybe<Array<Maybe<Location>>>;
   populations?: Maybe<Array<Maybe<Population>>>;
   text?: Maybe<Scalars['String']['output']>;
@@ -454,12 +454,12 @@ export type CreateSceneMutation = { __typename?: 'Mutation', createScene?: { __t
 export type ForOrganizationFormQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ForOrganizationFormQuery = { __typename?: 'Query', conflicts?: Array<{ __typename?: 'Conflict', id?: number | null, title: string } | null> | null, locations?: Array<{ __typename?: 'Location', id?: number | null, title: string } | null> | null };
+export type ForOrganizationFormQuery = { __typename?: 'Query', conflicts?: Array<{ __typename?: 'Conflict', id: number, title: string } | null> | null, locations?: Array<{ __typename?: 'Location', id: number, title: string } | null> | null };
 
 export type ForSceneFormQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ForSceneFormQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', id?: number | null, title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', id?: number | null, title: string } | null> | null, locations?: Array<{ __typename?: 'Location', id?: number | null, title: string } | null> | null, organizations?: Array<{ __typename?: 'Organization', id?: number | null, title: string } | null> | null, ships?: Array<{ __typename?: 'Ship', id?: number | null, title: string } | null> | null };
+export type ForSceneFormQuery = { __typename?: 'Query', characters?: Array<{ __typename?: 'Character', id: number, title: string } | null> | null, conflicts?: Array<{ __typename?: 'Conflict', id: number, title: string } | null> | null, locations?: Array<{ __typename?: 'Location', id: number, title: string } | null> | null, organizations?: Array<{ __typename?: 'Organization', id: number, title: string } | null> | null, ships?: Array<{ __typename?: 'Ship', id: number, title: string } | null> | null };
 
 export type OrganizationQueryVariables = Exact<{
   title: Scalars['String']['input'];
@@ -485,12 +485,12 @@ export type CharacterQuery = { __typename?: 'Query', character?: { __typename?: 
 export type ScenesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ScenesQuery = { __typename?: 'Query', scenes?: Array<{ __typename?: 'Scene', title: string, startTimeline: number, endTimeline: number, downloadURLs?: Array<string | null> | null } | null> | null };
+export type ScenesQuery = { __typename?: 'Query', scenes?: Array<{ __typename?: 'Scene', title: string, startTimeline: number, endTimeline: number, downloadURLs?: Array<string | null> | null, id: number } | null> | null };
 
 export type OrganizationsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OrganizationsQuery = { __typename?: 'Query', organizations?: Array<{ __typename?: 'Organization', title: string, roles?: Array<{ __typename?: 'Role', title: string, id?: number | null } | null> | null } | null> | null };
+export type OrganizationsQuery = { __typename?: 'Query', organizations?: Array<{ __typename?: 'Organization', title: string, roles?: Array<{ __typename?: 'Role', title: string, id: number } | null> | null } | null> | null };
 
 
 export const CreateCharacterDocument = gql`
@@ -962,6 +962,7 @@ export const ScenesDocument = gql`
     startTimeline
     endTimeline
     downloadURLs
+    id
   }
 }
     `;

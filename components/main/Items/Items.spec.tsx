@@ -5,7 +5,9 @@ import Items from './Items';
 describe('Items Component', () => {
   describe('Items Component', () => {
     it('displays no image text when imageUrl is missing', () => {
-      render(<Items title="Item 1" imageUrl="/test.png" route="route" />);
+      render(
+        <Items id={1} title="Item 1" imageUrl="/test.png" route="route" />
+      );
       expect(screen.getByText('Item 1')).toBeInTheDocument();
     });
   });
@@ -14,6 +16,7 @@ describe('Items Component', () => {
       title: 'Item',
       imageUrl: '/url1',
       route: 'character',
+      id: 1,
     };
     render(<Items {...props} />);
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
@@ -31,6 +34,7 @@ describe('Items Component', () => {
       text: 'Description 2',
       imageUrl: undefined,
       route: 'character',
+      id: 1,
     };
     render(<Items {...props} />);
     expect(screen.getByText('No image available.')).toBeInTheDocument();
@@ -40,16 +44,18 @@ describe('Items Component', () => {
       title: 'Item',
       imageUrl: '/url1',
       route: 'character',
+      id: 1,
     };
     render(<Items {...props} />);
     const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', `/${props.route}/item`);
+    expect(link).toHaveAttribute('href', `/${props.route}/1`);
   });
   it('has appropriate alt text for images for accessibility', () => {
     const props = {
       title: 'Item 1',
       imageUrl: '/url1',
       route: 'character',
+      id: 1,
     };
     render(<Items {...props} />);
     const image = screen.getByRole('img');

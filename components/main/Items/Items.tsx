@@ -1,19 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { createSlug } from '@/lib/createSlug';
 export type Props = {
   title: string;
   imageUrl?: string;
   route: string;
+  id: number;
 };
 
 const Items: React.FC<Props> = (props) => {
-  const slug = createSlug(props.title);
-
   return (
     <Link
-      href={`/${props.route}/${slug}`}
+      href={`/${props.route}/${props.id}`}
       key={props.title}
       className="card link"
     >

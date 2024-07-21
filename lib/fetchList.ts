@@ -5,11 +5,16 @@ import axiosInstance from '@/lib/serverAxios';
 export type Item = {
   title: string;
   imageUrl: string | undefined;
+  id: number;
 };
 
 // Function to map data
 export const mapDataToItems = (
-  data: Array<{ title: string; downloadURLs?: Array<string | null> | null }>
+  data: Array<{
+    title: string;
+    downloadURLs?: Array<string | null> | null;
+    id: number;
+  }>
 ): Item[] => {
   return data.map((item) => {
     let imageUrl: string | undefined;
@@ -29,6 +34,7 @@ export const mapDataToItems = (
     return {
       title: item.title,
       imageUrl,
+      id: item.id,
     };
   });
 };
@@ -38,6 +44,7 @@ const fetchList = async (field: string): Promise<Item[]> => {
     query FetchList {
       ${field} {
         title
+        id
         downloadURLs
       }
     }
@@ -51,6 +58,7 @@ const fetchList = async (field: string): Promise<Item[]> => {
     const data = response.data.data[field] as Array<{
       title: string;
       downloadURLs: string[];
+      id: number;
     }>;
 
     return mapDataToItems(data);
