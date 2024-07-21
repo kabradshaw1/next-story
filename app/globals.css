@@ -1,20 +1,46 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gruppo&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Aldrich&family=Gruppo&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Global styles for body text */
 html,
 body {
   font-family: 'Gruppo', sans-serif;
-  font-size: 20px;
+  color: #D1D5DB; /* text-gray-300 */
+  font-size: 0.875rem; /* text-sm */
+  margin-bottom: 1.25rem; /* mb-5 */
 }
 
-h1, h2, h3, h4, h5, h6 {
+@media (min-width: 768px) {
+  body, p {
+    font-size: 1rem; /* md:text-base */
+  }
+}
+
+/* Global styles for headings */
+  h1, h2, h3, h4, h5, h6 {
   font-family: 'Orbitron', sans-serif;
+  color: #60A5FA; /* text-blue-400 */
+  font-size: 1.25rem; /* Apply the same font size to all headings */
+  font-weight: bold; /* font-bold */
+  margin-bottom: 0.25rem; /* mb-1 */
+  letter-spacing: 0.05em; /* tracking-wider */
+  white-space: nowrap; /* whitespace-nowrap */
+  text-transform: uppercase;
+  text-decoration: underline; /* Add underline to all headings */
 }
 
+@media (min-width: 1280px) {
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1.5rem; /* xl:text-l (optional, adjust as needed) */
+  }
+}
+
+/* Custom component styles using Tailwind CSS classes */
 .btn {
   @apply bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-md;
 }
@@ -40,7 +66,7 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 500px; /* Adjust this value as needed */
 }
 
-/* Add this in your global CSS file */
+/* Glow effect for hover states */
 .glow-on-hover {
   transition:
     background-color 0.3s,

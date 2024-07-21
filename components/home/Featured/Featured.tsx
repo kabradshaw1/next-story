@@ -31,10 +31,8 @@ const FeaturedHP: React.FC<Props> = ({ items }) => {
             width={200}
             height={200}
           />
-          <h3 className="text-blue-400 text-center font-bold p-2 tracking-wider">
-            {item.category.toUpperCase()}
-          </h3>
-          <p className="text-gray-300 text-center">{item.description}</p>
+          <h3>{item.category.toUpperCase()}</h3>
+          <p>{item.description}</p>
         </Link>
       ))}
     </>
