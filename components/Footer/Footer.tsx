@@ -11,8 +11,10 @@ export default function Footer(): JSX.Element {
   return (
     <footer className="p-10 text-blue-400 text-center flex justify-between items-start">
       <div className="flex flex-col items-center mx-auto text-center">
-        <h1 className="text-xl font-bold text-blue-500 mb-1">GVGamers</h1>
-        <div className="mb-3 text-center text-xl">
+        <h1 className="text-xl font-bold text-blue-500 mb-1 leading-tight">
+          GVGamers
+        </h1>
+        <div className="mb-1 text-center text-x leading-relaxed">
           <p>Raleigh, NC</p>
           <p>(123) 456-7890</p>
           <p>
